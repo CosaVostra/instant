@@ -1,0 +1,11 @@
+- Executer : cp app/config/parameters.yml.dist app/config/parameters.yml
+
+- Editer le app/config/parameters.yml
+
+- Executer : php composer.phar install
+
+- Editer le vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php à la ligne 77; supprimer le second param (null) -> "throw new AuthenticationException($failed->getMessage(), $failed->getCode(), $failed);"
+
+- Executer : app/console doctrine:schema:create
+
+- Executer en root : chmod -R 777 app/cache/ app/logs/
