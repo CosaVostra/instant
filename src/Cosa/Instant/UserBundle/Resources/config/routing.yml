@@ -1,0 +1,12 @@
+homepage:
+    pattern: /login
+    defaults: { _controller: CosaInstantUserBundle:Default:login }
+cosa_instant_user_login_check:
+    pattern: /login_check
+    defaults: { _controller: CosaInstantUserBundle:Default:loginCheck }
+cosa_instant_user_logout:
+    pattern: /logout
+    defaults: { _controller: CosaInstantUserBundle:Default:logout }
+connect_twitter:
+    pattern: /connectTwitter
+    defaults: { _controller: CosaInstantUserBundle:Default:connectTwitter }

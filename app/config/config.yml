@@ -63,3 +63,20 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+fos_user:
+    db_driver:     orm                        # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
+    firewall_name: secured_area                       # Le nom du firewall derrière lequel on utilisera ces utilisateurs
+    user_class:    Cosa\Instant\UserBundle\Entity\User # La classe de l'entité User que nous utilisons
+fos_twitter:
+    file: %kernel.root_dir%/../vendor/twitteroauth/twitteroauth/twitteroauth.php
+    consumer_key: vEuuUtMeVP5TAErglQISJw
+    consumer_secret: ObGMkwIgFBNAgpYPRmdERN5JtaDZbg1l9Ao67BCFJ0
+    callback_url: http://instant.linterweb.fr/app_dev.php/login_check
+services:
+    my.twitter.user:
+        class: Cosa\Instant\UserBundle\Security\User\Provider\TwitterUserProvider
+        arguments:
+            twitter_oauth: "@fos_twitter.api"
+            userManager: "@fos_user.user_manager"
+            validator: "@validator"
+            session: "@session" 

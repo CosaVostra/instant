@@ -1,0 +1,3 @@
+cosa_instant_user:
+    resource: "@CosaInstantUserBundle/Resources/config/routing.yml"
+    prefix:   /

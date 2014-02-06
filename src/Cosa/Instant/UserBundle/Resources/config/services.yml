@@ -1,0 +1,7 @@
+parameters:
+#    cosa_instant_user.example.class: Cosa\Instant\UserBundle\Example
+
+services:
+#    cosa_instant_user.example:
+#        class: %cosa_instant_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

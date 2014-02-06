@@ -4,39 +4,33 @@ jms_security_extra:
 
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Cosa\Instant\UserBundle\Entity\User: sha512
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        my_fos_twitter_provider:
+            id: my.twitter.user
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
+        login_firewall:
+            pattern:    ^/login$
+            anonymous:  true
+        # Firewall principal pour le reste de notre site
         secured_area:
-            pattern:    ^/demo/secured/
-            form_login:
-                check_path: _security_check
-                login_path: _demo_login
-            logout:
-                path:   _demo_logout
-                target: _demo
+            pattern: /.*
             #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
-
+            fos_twitter:
+                login_path: /login
+                check_path: /login_check
+                default_target_path: /login
+                provider: my_fos_twitter_provider
+            logout:
+                path: /logout
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: /.*, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
