@@ -71,7 +71,7 @@ fos_twitter:
     file: %kernel.root_dir%/../vendor/twitteroauth/twitteroauth/twitteroauth.php
     consumer_key: vEuuUtMeVP5TAErglQISJw
     consumer_secret: ObGMkwIgFBNAgpYPRmdERN5JtaDZbg1l9Ao67BCFJ0
-    callback_url: http://instant.linterweb.fr/app_dev.php/login_check
+    callback_url: http://localhost/instant/web/app_dev.php/login_check
 services:
     my.twitter.user:
         class: Cosa\Instant\UserBundle\Security\User\Provider\TwitterUserProvider
