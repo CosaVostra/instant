@@ -1,0 +1,6 @@
+cosa_instant_timeline_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CosaInstantTimelineBundle:Default:index }
+CosaInstantTimelineBundle_instant:
+    resource: "@CosaInstantTimelineBundle/Resources/config/routing/instant.yml"
+    prefix:   /instant

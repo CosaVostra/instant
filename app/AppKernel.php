@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\TwitterBundle\FOSTwitterBundle(),
             new Cosa\Instant\UserBundle\CosaInstantUserBundle(),
+            new Cosa\Instant\TimelineBundle\CosaInstantTimelineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

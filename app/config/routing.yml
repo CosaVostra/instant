@@ -1,3 +1,7 @@
+cosa_instant_timeline:
+    resource: "@CosaInstantTimelineBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cosa_instant_user:
     resource: "@CosaInstantUserBundle/Resources/config/routing.yml"
     prefix:   /

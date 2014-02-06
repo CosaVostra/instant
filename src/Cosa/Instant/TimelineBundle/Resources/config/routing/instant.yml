@@ -1,0 +1,30 @@
+instant:
+    pattern:  /
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:index" }
+
+instant_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:show" }
+
+instant_new:
+    pattern:  /new
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:new" }
+
+instant_create:
+    pattern:  /create
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:create" }
+    requirements: { _method: post }
+
+instant_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:edit" }
+
+instant_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:update" }
+    requirements: { _method: post|put }
+
+instant_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CosaInstantTimelineBundle:Instant:delete" }
+    requirements: { _method: post|delete }
