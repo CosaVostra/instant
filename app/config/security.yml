@@ -18,13 +18,13 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login_firewall:
-            pattern:    ^/login$
-            anonymous:  true
+        #login_firewall:
+        #    pattern:    ^/login$
+        #    anonymous:  true
         # Firewall principal pour le reste de notre site
         secured_area:
-            pattern: /.*
-            #anonymous: ~
+            pattern: ^/
+            anonymous: ~
             fos_twitter:
                 login_path: /login
                 check_path: /login_check
@@ -32,5 +32,9 @@ security:
                 provider: my_fos_twitter_provider
             logout:
                 path: /logout
+                target: /login
     access_control:
-        - { path: /.*, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/login, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/login_check, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/connectTwitter, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/.*, role: [ROLE_USER] }

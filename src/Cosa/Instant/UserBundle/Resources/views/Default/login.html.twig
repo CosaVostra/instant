@@ -1,5 +1,10 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-  <a href="{{ path ('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>
+  {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
+    <a href="{{ path('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>
+  {% else %}
+    welcome {{app.security.token.user}}
+    <a href="{{ path('cosa_instant_user_logout') }}">Déconnexion</a>
+  {% endif %}
 {% endblock %}
