@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Instant
 {
     /**
-     * @ORM\ManyToMany(targetEntity="Cosa\Instant\TimelineBundle\Entity\Tweet", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Cosa\Instant\TimelineBundle\Entity\Tweet", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $tweets;
 
@@ -347,7 +348,8 @@ class Instant
         $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->created_at = new \Datetime();
         $this->updated_at = new \Datetime();
-        $this->finish_at = new \Datetime()->modify('+5 day');
+        $this->finish_at = new \Datetime();
+        $this->finish_at->modify('+5 day');
     }
 
     /**

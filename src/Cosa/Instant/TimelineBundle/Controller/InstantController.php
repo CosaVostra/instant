@@ -24,8 +24,14 @@ class InstantController extends Controller
 
         $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findAll();
 
+        $deleteForms = array();
+        foreach ($entities as $entity) {
+            $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+        }
+
         return $this->render('CosaInstantTimelineBundle:Instant:index.html.twig', array(
             'entities' => $entities,
+            'deleteForms' => $deleteForms,
         ));
     }
 
@@ -86,6 +92,7 @@ class InstantController extends Controller
 
         return $this->render('CosaInstantTimelineBundle:Instant:show.html.twig', array(
             'entity'      => $entity,
+            'tweets'      => $entity->getTweets(),
             'delete_form' => $deleteForm->createView(),        ));
     }
 
