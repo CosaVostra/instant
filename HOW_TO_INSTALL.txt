@@ -8,4 +8,13 @@
 
 - Executer : app/console doctrine:schema:create
 
+(optionnel)
 - Executer en root : chmod -R 777 app/cache/ app/logs/
+
+
+Chapitre 140dev (Framework pour Twitter Streaming API) :
+
+- Editer le 140dev/db/140dev-config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs
+
+- Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de données
+
