@@ -56,6 +56,15 @@ class Tweet
      */
     private $media_url;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $is_rt;
 
     /**
      * Get id
@@ -249,5 +258,51 @@ class Tweet
     public function getMediaUrl()
     {
         return $this->media_url;
+    }
+
+    /**
+     * Set created_at
+     *
+     * @param \DateTime $createdAt
+     * @return Tweet
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set is_rt
+     *
+     * @param boolean $isRt
+     * @return Tweet
+     */
+    public function setIsRt($isRt)
+    {
+        $this->is_rt = $isRt;
+
+        return $this;
+    }
+
+    /**
+     * Get is_rt
+     *
+     * @return boolean 
+     */
+    public function getIsRt()
+    {
+        return $this->is_rt;
     }
 }

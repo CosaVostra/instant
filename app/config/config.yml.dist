@@ -69,9 +69,9 @@ fos_user:
     user_class:    Cosa\Instant\UserBundle\Entity\User # La classe de l'entité User que nous utilisons
 fos_twitter:
     file: %kernel.root_dir%/../vendor/twitteroauth/twitteroauth/twitteroauth.php
-    consumer_key: vEuuUtMeVP5TAErglQISJw
-    consumer_secret: ObGMkwIgFBNAgpYPRmdERN5JtaDZbg1l9Ao67BCFJ0
-    callback_url: http://localhost/instant/web/app_dev.php/login_check
+    consumer_key: **********
+    consumer_secret: *******
+    callback_url: **************/login_check
 services:
     my.twitter.user:
         class: Cosa\Instant\UserBundle\Security\User\Provider\TwitterUserProvider

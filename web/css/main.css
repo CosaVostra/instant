@@ -1,0 +1,99 @@
+/**
+* default.css
+*
+* @author Adam Green <140dev@gmail.com>
+* @license GNU Public License
+* @version BETA 0.30
+*/
+.hidden {
+  display: none;
+}
+#tweet_column {
+  width: 500px;
+  height: 100%;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.tweet {
+  width: 100%;
+  display:inline-block;
+  padding: 3px;
+}
+.tweet_image {
+  float: left;
+  width: 48px;
+  height: 48px;
+  padding: 8px 0 0 5px;
+}
+.tweet_image img {
+  border: none;
+}
+
+.tweet_right {
+  float: right;
+  width: 430px;
+  overflow: hidden;
+  padding-right: 5px;
+}
+.tweet_screen_name a {
+  font-size: 110%;
+  font-weight: bold;
+  text-align:center;
+  color:#2EB2E9;
+  text-decoration: none;
+}
+.tweet_screen_name a:hover {
+  text-decoration: underline;
+}
+.tweet_name {
+  font-size: 100%;
+  color: #808080;
+  padding-left: 10px;
+}
+.tweet_text {
+  font-size: 100%;
+}
+.tweet_text a {
+  text-decoration: none;
+}
+.tweet_text a:hover {
+  text-decoration: underline;
+}
+.tweet_date a {
+  font-size: 80%;
+  color: #808080;
+  margin-top: 2px;
+  float: left;
+  text-decoration: none;
+}
+.tweet_date a:hover {
+  text-decoration: underline;
+}
+#new_tweet_count {
+  background-color: #cae4ff;
+  cursor: pointer;
+  width: 97%;
+  text-align: center;
+  padding: 10px 0 10px 10px;
+  margin-bottom: 10px;
+  -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+}
+#more_tweets_button {
+  background-color: #0080ff;
+  color:#FFFFFF;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  border: 1px solid #A6D5EC;
+  padding: 10px 0 10px 0;
+  margin-top:10px;
+  background:#2F8DB7;
+  margin-top:10px;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  -khtml-border-radius:6px;
+  border-radius:6px;
+} 

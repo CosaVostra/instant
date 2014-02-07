@@ -19,3 +19,6 @@
 /140dev/db/140dev_config.php
 /140dev/db/db_config.php
 *~
+/140dev/db/error_log.txt
+/app/config/config.yml
+

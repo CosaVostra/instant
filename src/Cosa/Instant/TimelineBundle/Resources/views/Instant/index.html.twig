@@ -42,6 +42,13 @@
                     <li>
                         <a href="{{ path('instant_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
+                    <li>
+                        <form action="{{ path('instant_delete', { 'id': entity.id }) }}" method="post">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            {{ form_widget(deleteForms[entity.id]) }}
+                            <button type="submit" onclik="return confirm('Are you sure ?');">Delete</button>
+                        </form>
+                    </li>
                 </ul>
                 </td>
             </tr>

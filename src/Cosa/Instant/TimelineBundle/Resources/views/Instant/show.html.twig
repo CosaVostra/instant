@@ -1,5 +1,10 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+{% endblock %}
+
+
 {% block body -%}
     <h1>Instant</h1>
 
@@ -51,6 +56,33 @@
             </tr>
         </tbody>
     </table>
+<div id="tweet_column">
+<div id="tweet_list"> 
+    {% for tweet in tweets %}
+<div class="tweet">
+  <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
+  <div class="tweet_image">
+    <a href="http://twitter.com/{{ tweet.screenName }}" 
+    title="{{ tweet.name }}">
+    <img src="{{ tweet.profileImageUrl }}" width="48" height="48"></a>    
+  </div>
+  <div class="tweet_right">
+    <div class="tweet_screen_name">
+      <a href="http://twitter.com/{{ tweet.screenName }}" 
+        title="{{ tweet.name }}">{{ tweet.screenName }}</a>
+      <span class="tweet_name">{{ tweet.name }}</span>
+    </div>
+    <div class="tweet_text">{{ tweet.text }}
+      <div class="tweet_date">
+        <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" 
+          title="our id = {{ tweet.id }}">{{ tweet.createdAt|date("m/d/Y H:i:s", "Europe/Paris") }}</a>
+      </div>
+    </div>
+  </div>
+</div><hr>
+    {% endfor %}
+  </div>
+  </div>
 
         <ul class="record_actions">
     <li>
