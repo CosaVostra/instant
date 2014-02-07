@@ -12,7 +12,7 @@ require_once('db_lib.php');
 $oDB = new db;
 
 // This should run continuously as a background process
-while (true) {
+//while (true) {
 
   // Process all new tweets
   $query = 'SELECT cache_id, raw_tweet FROM json_cache';
@@ -154,7 +154,7 @@ while (true) {
 		
   // You can adjust the sleep interval to handle the tweet flow and 
   // server load you experience
-  sleep(1);
-}
+//  sleep(1);
+//}
 
 ?>
