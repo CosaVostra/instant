@@ -16,4 +16,6 @@
 /vendor/swiftmailer/
 /vendor/symfony/
 /vendor/twig/
+/140dev/db/140dev_config.php
+/140dev/db/db_config.php
 
