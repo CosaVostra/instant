@@ -22,12 +22,12 @@ class Twittos
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cosa\Instant\UserBundle\Entity\User", cascade={"remove","persist"}, inversedBy="Twittos")
+     * @ORM\ManyToOne(targetEntity="Cosa\Instant\UserBundle\Entity\User", cascade={"remove","persist"})
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cosa\Instant\TimelineBundle\Entity\Instant", cascade={"remove","persist"}, inversedBy="twittos")
+     * @ORM\ManyToOne(targetEntity="Cosa\Instant\TimelineBundle\Entity\Instant", cascade={"remove","persist"})
      */
     private $instant;
 

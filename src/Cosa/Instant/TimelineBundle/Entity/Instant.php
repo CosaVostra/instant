@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Instant
 {
     /**
+     * @ORM\ManyToMany(targetEntity="Cosa\Instant\TimelineBundle\Entity\Tweet", cascade={"persist", "remove"})
+     */
+    private $tweets;
+
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -333,5 +338,45 @@ class Instant
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add tweets
+     *
+     * @param \Cosa\Instant\TimelineBundle\Entity\Tweet $tweets
+     * @return Instant
+     */
+    public function addTweet(\Cosa\Instant\TimelineBundle\Entity\Tweet $tweets)
+    {
+        $this->tweets[] = $tweets;
+
+        return $this;
+    }
+
+    /**
+     * Remove tweets
+     *
+     * @param \Cosa\Instant\TimelineBundle\Entity\Tweet $tweets
+     */
+    public function removeTweet(\Cosa\Instant\TimelineBundle\Entity\Tweet $tweets)
+    {
+        $this->tweets->removeElement($tweets);
+    }
+
+    /**
+     * Get tweets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTweets()
+    {
+        return $this->tweets;
     }
 }
