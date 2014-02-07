@@ -15,27 +15,27 @@ $oDB = new db;
 while (true) {
 
   // Process all new tweets
-  $query = 'SELECT cache_id, raw_tweet ' .
-    'FROM json_cache';
+  $query = 'SELECT cache_id, raw_tweet FROM json_cache';
   $result = $oDB->select($query);
+//var_dump($result);exit;
   while($row = mysqli_fetch_assoc($result)) {
 		
     $cache_id = $row['cache_id'];
     // Each JSON payload for a tweet from the API was stored in the database  
     // by serializing it as text and saving it as base64 raw data
     $tweet_object = unserialize(base64_decode($row['raw_tweet']));
-		
+//var_dump($tweet_object);exit;	
     // Delete cached copy of tweet
     $oDB->select("DELETE FROM json_cache WHERE cache_id = $cache_id");
 		
 		// Limit tweets tgo a single language,
 		// such as 'en' for English
-		if ($tweet_object->lang <> 'en') {continue;}
+//		if ($tweet_object->lang <> 'en') {continue;}
 		
 		// The streaming API sometimes sends duplicates, 
     // Test the tweet_id before inserting
     $tweet_id = $tweet_object->id_str;
-    if ($oDB->in_table('tweets','tweet_id=' . $tweet_id )) {continue;}
+    if ($oDB->in_table('Tweet','twitter_id=' . $tweet_id )) {continue;}
 		
     // Gather tweet data from the JSON object
     // $oDB->escape() escapes ' and " characters, and blocks characters that
@@ -67,7 +67,7 @@ while (true) {
 
 		
     // Add a new user row or update an existing one
-    $field_values = 'screen_name = "' . $screen_name . '", ' .
+/*    $field_values = 'screen_name = "' . $screen_name . '", ' .
       'profile_image_url = "' . $profile_image_url . '", ' .
       'user_id = ' . $user_id . ', ' .
       'name = "' . $name . '", ' .
@@ -85,26 +85,26 @@ while (true) {
       $oDB->update('users',$field_values,'user_id = "' .$user_id . '"');
     } else {			
       $oDB->insert('users',$field_values);
-    }
+    }*/
 		
     // Add the new tweet
 	
-    $field_values = 'tweet_id = ' . $tweet_id . ', ' .
-        'tweet_text = "' . $tweet_text . '", ' .
+    $field_values = 'twitter_id = "' . $tweet_id . '", ' .
+        'text = "' . $tweet_text . '", ' .
         'created_at = "' . $created_at . '", ' .
-        'geo_lat = ' . $geo_lat . ', ' .
-        'geo_long = ' . $geo_long . ', ' .
-        'user_id = ' . $user_id . ', ' .				
+        'location = "' . $geo_lat . '|' . $geo_long . '",' .
+        'user_id = "' . $user_id . '", ' .				
         'screen_name = "' . $screen_name . '", ' .
         'name = "' . $name . '", ' .
         'profile_image_url = "' . $profile_image_url . '", ' .
-        'is_rt = ' . $is_rt;
-			
-    $oDB->insert('tweets',$field_values);
-		
+        'is_rt = ' . $is_rt . ',' .
+        'media_url = ""';// . $twitter_object->media[0]->media_url ;
+			echo $field_values;
+    echo $oDB->insert('Tweet',$field_values);
+	//exit;	
     // The mentions, tags, and URLs from the entities object are also
     // parsed into separate tables so they can be data mined later
-    foreach ($entities->user_mentions as $user_mention) {
+/*    foreach ($entities->user_mentions as $user_mention) {
 		
       $where = 'tweet_id=' . $tweet_id . ' ' .
         'AND source_user_id=' . $user_id . ' ' .
@@ -149,8 +149,8 @@ while (true) {
 				
         $oDB->insert('tweet_urls',$field_values);
       }
-    }		
-  } 
+    }*/		
+  }
 		
   // You can adjust the sleep interval to handle the tweet flow and 
   // server load you experience
