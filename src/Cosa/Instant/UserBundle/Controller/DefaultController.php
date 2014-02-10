@@ -20,18 +20,18 @@ class DefaultController extends Controller
     public function logoutAction(Request $request)
     {var_dump($this->get('session'));exit;
         $request->getSession()->clear();
-        return $this->redirect($this->generateUrl('homepage'));
+        return $this->redirect($this->generateUrl('login'));
     }
 
     public function loginCheckAction(Request $request)
     {
-        return $this->redirect($this->generateUrl('homepage'));
+        return $this->redirect($this->generateUrl('login'));
     }
 
     public function connectTwitterAction()
     {
         if($this->get('security.context')->isGranted('ROLE_USER'))
-            return $this->redirect($this->generateUrl('homepage'));
+            return $this->redirect($this->generateUrl('login'));
         $request = $this->get('request');
         $twitter = $this->get('fos_twitter.service');
         $authURL = $twitter->getLoginUrl($request);

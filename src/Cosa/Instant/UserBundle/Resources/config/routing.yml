@@ -1,4 +1,4 @@
-homepage:
+login:
     pattern: /login
     defaults: { _controller: CosaInstantUserBundle:Default:login }
 cosa_instant_user_login_check:
