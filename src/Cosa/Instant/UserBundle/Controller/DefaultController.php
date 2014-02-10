@@ -35,4 +35,31 @@ var_dump($this->get('security.context')->getToken());//->getUser());
         $response = new RedirectResponse($authURL);
         return $response;
     }
+
+    public function setEmailTmpAction(Request $request)
+    {
+        // On crée le FormBuilder grâce à la méthode du contrôleur
+        $formBuilder = $this->createFormBuilder($this->get('security.context')->getToken()->getUser());
+        $formBuilder->add('email', 'email');
+        $form = $formBuilder->getForm();
+
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') {
+          $form->bind($request);
+
+          if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($this->get('security.context')->getToken()->getUser());
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('about'));
+          }
+        }
+
+        return $this->render('CosaInstantUserBundle:Default:setEmail.html.twig', array(
+            'form' => $form->createView(),
+        ));
+        
+    }
 }

@@ -18,3 +18,5 @@ Chapitre 140dev (Framework pour Twitter Streaming API) :
 
 - Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de données
 
+- Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)
+

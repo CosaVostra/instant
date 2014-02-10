@@ -190,4 +190,46 @@ class InstantController extends Controller
             ->getForm()
         ;
     }
+
+    public function alertTwittosTmpAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CosaInstantTimelineBundle:Instant')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Instant entity.');
+        }
+
+        // On crée le FormBuilder grâce à la méthode du contrôleur
+        $formBuilder = $this->createFormBuilder($entity);
+        $formBuilder->add('messageType', 'text');
+        $form = $formBuilder->getForm();
+
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') {
+          $form->bind($request);
+
+          if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->findByInstant($id);
+            foreach ($twittos as $twitto) {
+              // ATTENTION : Une requête SQL à chaque itération !!
+              $user = $twitto->getUser();
+            }
+
+            return $this->redirect($this->generateUrl('about'));
+          }
+        }
+
+        return $this->render('CosaInstantTimelineBundle:Instant:alertTwittos.html.twig', array(
+            'form' => $form->createView(),
+        ));
+        
+    }
+
 }
