@@ -10,7 +10,10 @@ class DefaultController extends Controller
 {
     public function loginAction()
     {//var_dump($this->get('session'));
-var_dump($this->get('security.context')->getToken());//->getUser());
+//var_dump($this->get('security.context')->getToken());//->getUser());
+        if($this->get('security.context')->isGranted('ROLE_USER')){
+            return $this->redirect($this->generateUrl('instant_list',array('username'=>$this->get('security.context')->getToken()->getUser()->getUsername())));
+        }
         return $this->render('CosaInstantUserBundle:Default:login.html.twig');
     }
 

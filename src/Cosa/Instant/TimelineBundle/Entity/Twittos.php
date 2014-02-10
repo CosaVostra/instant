@@ -22,6 +22,11 @@ class Twittos
     private $description;
 
     /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $alerted;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Cosa\Instant\UserBundle\Entity\User", cascade={"remove","persist"})
      */
     private $user;
@@ -109,5 +114,28 @@ class Twittos
     public function getInstant()
     {
         return $this->instant;
+    }
+
+    /**
+     * Set alerted
+     *
+     * @param boolean $alerted
+     * @return Twittos
+     */
+    public function setAlerted($alerted)
+    {
+        $this->alerted = $alerted;
+
+        return $this;
+    }
+
+    /**
+     * Get alerted
+     *
+     * @return boolean 
+     */
+    public function getAlerted()
+    {
+        return $this->alerted;
     }
 }

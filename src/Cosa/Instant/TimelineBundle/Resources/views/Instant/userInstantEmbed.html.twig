@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Instant "{{ instant.title }}" embed</h1>
+
+    <a href="{{ path('instant_list' , {'username':user.username}) }}">Back</A>
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block body -%}
     <h1>Instant creation</h1>
 
-    <form action="{{ path('instant_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('instant_create' , { 'username':user.username}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
             <button type="submit">Create</button>
@@ -12,7 +12,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('instant') }}">
+        <a href="{{ path('instant_list' , { 'username':user.username }) }}">
             Back to the list
         </a>
     </li>

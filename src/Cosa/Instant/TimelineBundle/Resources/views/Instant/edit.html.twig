@@ -3,26 +3,37 @@
 {% block body -%}
     <h1>Instant edit</h1>
 
-    <form action="{{ path('instant_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Edit</button>
+            <button name="bsubmit" type="submit" value="save">Save</button>
+            {% if entity.status!='publish' %}
+              <button name="bsubmit" type="submit" value="publish" onclick="showPopups();">Publish</button>
+            {% endif %}
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('instant') }}">
+    <ul class="record_actions">
+      <li>
+        <a href="{{ path('instant_list', { 'username':user.username } ) }}">
             Back to the list
         </a>
-    </li>
-    <li>
-        <form action="{{ path('instant_delete', { 'id': entity.id }) }}" method="post">
+      </li>
+      <!--<li>
+        <form action="{{ path('instant_delete', { 'username':user.username, 'instant_title': entity.title }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
+            {#{ form_widget(delete_form) }#}
             <button type="submit">Delete</button>
         </form>
-    </li>
-</ul>
+      </li>-->
+    </ul>
+
+    {% block javascripts %}
+      <script type="text/javascript">
+        function showPopups(){
+
+        }
+      </script>
+    {% endblock %}
 {% endblock %}

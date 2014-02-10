@@ -1,6 +1,42 @@
-cosa_instant_timeline_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CosaInstantTimelineBundle:Default:index }
-CosaInstantTimelineBundle_instant:
-    resource: "@CosaInstantTimelineBundle/Resources/config/routing/instant.yml"
-    prefix:   /instant
+#cosa_instant_timeline_homepage:
+#    pattern:  /hello/{name}
+#    defaults: { _controller: CosaInstantTimelineBundle:Default:index }
+#CosaInstantTimelineBundle_instant:
+#    resource: "@CosaInstantTimelineBundle/Resources/config/routing/instant.yml"
+#    prefix:   /instant
+instant_list:
+    pattern:  /{username}/instants
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantList }
+instant_new:
+    pattern:  /{username}/instant/new
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:new }
+instant_create:
+    pattern:  /{username}/instant/create
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:create }
+instant_edit:
+    pattern:  /{username}/{instant_title}/edit
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:edit }
+instant_update:
+    pattern: /{username}/{instant_title}/update
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:update }
+insant_save:
+    pattern:  /{username}/{instant_title}/save
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:save }
+instant_publish:
+    pattern:  /{username}/{instant_title}/publish
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:update }
+instant_view:
+    pattern:  /{username}/{instant_title}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
+instant_webview:
+    pattern:  /{username}/{instant_title}/webview
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantWebview }
+instant_preview:
+    pattern:  /{username}/{instant_title}/preview
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantPreview }
+instant_embed:
+    pattern:  /{username}/{instant_title}/embed
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantEmbed }
+instant_delete:
+    pattern:  /{username}/{instant_title}/delete
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:delete }
