@@ -63,12 +63,12 @@ class Instant
     private $last_view;
 
     /**
-     * @ORM\Column(type="string", length=4)
+     * @ORM\Column(type="string", length=4, nullable=true)
      */
     private $lang;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, options={"default":"Dear @EXPERT, ....."})
      */
     private $message_type;
 

@@ -3,5 +3,5 @@
 {% block body -%}
     <h1>Instant "{{ instant.title }}" embed</h1>
 
-    <a href="{{ path('CosaInstantTimelineBundle_user_instant' , {'username':user.username}) }}">Back</A>
+    {{ user.name }}
 {% endblock %}
