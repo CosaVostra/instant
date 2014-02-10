@@ -246,6 +246,7 @@ class InstantController extends Controller
         return $this->render('CosaInstantTimelineBundle:Instant:alertTwittos.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
         
    /**
     * check user
