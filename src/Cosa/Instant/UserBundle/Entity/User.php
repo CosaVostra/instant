@@ -54,7 +54,7 @@ class User extends BaseUser
     protected $twitter_location;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     protected $optin;
 
@@ -69,7 +69,7 @@ class User extends BaseUser
     protected $updated_at;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default":0})
      */
     protected $login_count;
 

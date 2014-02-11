@@ -1,22 +1,29 @@
-- Executer : cp app/config/parameters.yml.dist app/config/parameters.yml
+I) Chapitre Symfony
 
-- Editer le app/config/parameters.yml
+I-1 Executer : cp app/config/parameters.yml.dist app/config/parameters.yml
 
-- Executer : php composer.phar install
+I-2 Editer le app/config/parameters.yml
 
-- Editer le vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php à la ligne 77; supprimer le second param (null) -> "throw new AuthenticationException($failed->getMessage(), $failed->getCode(), $failed);"
+I-3 Executer : php composer.phar install
 
-- Executer : app/console doctrine:schema:create
+I-4 Editer le vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php à la ligne 77; supprimer le second param (null) -> "throw new AuthenticationException($failed->getMessage(), $failed->getCode(), $failed);"
+
+I-5 Editer le vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php à la ligne 108; ajouter les lignes suivantes (avant le return) :
+
+| $user->setLoginCount($user->getLoginCount()+1);
+| $this->userProvider->updateUser($user);
+
+I-6 Executer : app/console doctrine:schema:create
 
 (optionnel)
-- Executer en root : chmod -R 777 app/cache/ app/logs/
+I-101 Executer en root : chmod -R 777 app/cache/ app/logs/
 
 
-Chapitre 140dev (Framework pour Twitter Streaming API) :
+II) Chapitre 140dev (Framework pour Twitter Streaming API) :
 
-- Editer le 140dev/db/140dev-config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs
+II-1 Editer le 140dev/db/140dev-config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs
 
-- Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de données
+II-2 Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de données
 
-- Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)
+II-3 Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)
 

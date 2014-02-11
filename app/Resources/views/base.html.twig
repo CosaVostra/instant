@@ -2,17 +2,19 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>!nstant | {% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
       <header>
         {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
-          <a href="{{ path('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>
+          <!--<a href="{{ path('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>-->
         {% else %}
-          welcome {{app.security.token.user}}
-          <a href="{{ path('cosa_instant_user_logout') }}">Déconnexion</a>
+          <div class="tweet_image">
+            <a href="http://twitter.com/{{ app.security.token.user }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
+          </div>
+          <a href="#">{{app.security.token.user}} ({{app.security.token.user.twitterRealname}})</a> | <a href="{{ path('cosa_instant_user_logout') }}">Déconnexion</a>
         {% endif %}
       </header>
         {% block body %}{% endblock %}

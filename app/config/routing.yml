@@ -1,14 +1,10 @@
-cosa_instant_timeline:
-    resource: "@CosaInstantTimelineBundle/Resources/config/routing.yml"
-    prefix:   /
-
 cosa_instant_user:
     resource: "@CosaInstantUserBundle/Resources/config/routing.yml"
     prefix:   /
 
-homepage:
-    pattern:  /
-    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
+#homepage:
+#    pattern:  /
+#    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
 
 about:
     pattern:  /about
@@ -26,3 +22,6 @@ alert_twittos_tmp:
     pattern:  /alert_twittos_tmp/{id}
     defaults: { _controller: CosaInstantTimelineBundle:Instant:alertTwittosTmp }
 
+cosa_instant_timeline:
+    resource: "@CosaInstantTimelineBundle/Resources/config/routing.yml"
+    prefix:   /

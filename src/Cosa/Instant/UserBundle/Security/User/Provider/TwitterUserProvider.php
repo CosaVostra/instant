@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Session;//JOHAN
 use \TwitterOAuth;
 use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Component\Validator\Validator;
+use Doctrine\ORM\EntityManager;
 
 class TwitterUserProvider implements UserProviderInterface
 {
@@ -22,14 +23,22 @@ class TwitterUserProvider implements UserProviderInterface
     protected $userManager;
     protected $validator;
     protected $session;
+    protected $em;
 
-    public function __construct(TwitterOAuth $twitter_oauth, UserManager $userManager,Validator $validator, Session $session)
+    public function __construct(TwitterOAuth $twitter_oauth, UserManager $userManager,Validator $validator, Session $session, EntityManager $entityManager)
     {   
         $this->twitter_oauth = $twitter_oauth;
         $this->userManager = $userManager;
         $this->validator = $validator;
         $this->session = $session;
+        $this->em = $entityManager;
     }   
+
+    public function updateUser($user)
+    {
+        $this->em->persist($user);
+        $this->em->flush();
+    }
 
     public function supportsClass($class)
     {   
@@ -58,22 +67,51 @@ class TwitterUserProvider implements UserProviderInterface
         } catch (Exception $e) {
             $info = null;
         }
+
         if (!empty($info)) {
+            $updated = false;
             if (empty($user)) {
                 $user = $this->userManager->createUser();
                 $user->setEnabled(true);
                 $user->setPassword('');
             //    $user->setAlgorithm('');
-              $username = $info->screen_name;
-              $user->setTwitterID($info->id);
-              $user->setTwitterUsername($username);
-              $user->setEmail('');
-              $user->setUsername($username);
+                $username = $info->screen_name;
+                $user->setTwitterID($info->id);
+                $user->setTwitterUsername($username);
+                $user->setEmail('');
+                $user->setUsername($username);
+                $user->setCreatedAt(new \Datetime());
+            }
+            if($user->getTwitterAccessToken()!=$this->session->get('access_token')){
+              $user->setTwitterAccessToken($this->session->get('access_token'));
+              $updated = true;
+            }
+            if($user->getTwitterAccessTokenSecret()!=$this->session->get('access_token_secret')){
+              $user->setTwitterAccessTokenSecret($this->session->get('access_token_secret'));
+              $updated = true;
+            }
+            if($user->getTwitterRealname()!=$info->name){
+              $user->setTwitterRealname($info->name);
+              $updated = true;
+            }
+            if($user->getProfileImageUrl()!=$info->profile_image_url){
+              $user->setProfileImageUrl($info->profile_image_url);
+              $updated = true;
+            }
+            if($user->getTwitterLocation()!=$info->location){
+              $user->setTwitterLocation($info->location);
+              $updated = true;
+            }
+            if($user->getLang()!=$info->lang){
+              $user->setLang($info->lang);
+              $updated = true;
             }
 
-            $user->setTwitterAccessToken($this->session->get('access_token'));
-            $user->setTwitterAccessTokenSecret($this->session->get('access_token_secret'));
-            $this->userManager->updateUser($user,true);
+            //$user->setLoginCount($user->getLoginCount()+1);
+            if($updated){
+              $user->setUpdatedAt(new \Datetime());
+              $this->userManager->updateUser($user,true);
+            }
         }
 
         if (empty($user)) {
