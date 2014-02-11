@@ -90,6 +90,7 @@ class TwitterUserProvider implements UserProviderInterface
               $user->setTwitterAccessTokenSecret($this->session->get('access_token_secret'));
               $updated = true;
             }
+            if(!isset($info->name)){var_dump($info);exit;}
             if($user->getTwitterRealname()!=$info->name){
               $user->setTwitterRealname($info->name);
               $updated = true;

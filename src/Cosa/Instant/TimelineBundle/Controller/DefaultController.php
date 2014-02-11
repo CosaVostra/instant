@@ -11,6 +11,12 @@ class DefaultController extends Controller
         return $this->render('CosaInstantTimelineBundle:Default:index.html.twig', array('name' => $name));
     }
 
+    public function homepageAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        return $this->redirect($this->generateUrl('instant_list', array('username' => $user->getUsername())));
+    }
+
     public function aboutAction()
     {
         return $this->render('CosaInstantTimelineBundle:Default:about.html.twig');

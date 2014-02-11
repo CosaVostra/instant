@@ -25,10 +25,12 @@ security:
         secured_area:
             pattern: ^/
             anonymous: ~
+            form_login: true
             fos_twitter:
                 login_path: /login
                 check_path: /login_check
-                default_target_path: /login
+                default_target_path: /
+                always_use_default_target_path: true
                 provider: my_fos_twitter_provider
             logout:
                 path: /logout

@@ -1,15 +1,27 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Instant edit</h1>
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+{% endblock %}
 
+{% block body -%}
+    <div id="fade">
+      {% if email_needed %}
+        <div id="popup_email">{{ render(controller('CosaInstantUserBundle:Default:setEmailTmp')) }}</div>
+      {% endif %}
+      {% if twittos_to_alert %}
+        <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
+      {% endif %}
+    </div>
+    <h1>Instant edit</h1>
+    <a href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
     <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button name="bsubmit" type="submit" value="save">Save</button>
+            <button name="bsubmit" id="save" type="submit" value="save">Save</button>
             {% if entity.status!='publish' %}
-              <button name="bsubmit" type="submit" value="publish" onclick="showPopups();">Publish</button>
+              <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
             {% endif %}
         </p>
     </form>
@@ -28,12 +40,66 @@
         </form>
       </li>-->
     </ul>
+{% endblock %}
 
-    {% block javascripts %}
-      <script type="text/javascript">
-        function showPopups(){
-
+{% block javascripts %}
+  <script type="text/javascript">
+    var controles = false;
+    function showPopups(){
+      {% if email_needed %}
+        $('#fade').fadeIn();
+        $('#popup_email').fadeIn();
+      {% elseif twittos_to_alert %}
+        $('#fade').fadeIn();
+        $('#popup_alert').fadeIn();
+      {% else %}
+        controles = true;
+        $('#publish').click();
+      {% endif %}
+    }
+    function postEmail(){
+      $.ajax({
+        type: "POST",
+        url: "{{path('set_email_tmp')}}",
+        data: {
+          'form[email]': $('#form_email').val(),
+          'form[_token]': $('#form__token').val()
         }
-      </script>
-    {% endblock %}
+      })
+      .done(function( retour ) {
+        if(retour['retour']){
+          $('#popup_email').fadeOut();
+          {% if twittos_to_alert %}
+            $('#popup_alert').fadeIn();
+          {% else %}
+            $('#fade').fadeOut();
+            controles = true;
+            $('#publish').click();
+          {% endif %}
+        }else{
+          alert('un problème est survenu');
+        }
+      });
+    }
+    function postTwittosMsg(){
+      $.ajax({
+        type: "POST",
+        url: "{{path('alert_twittos_tmp',{id:entity.id})}}",
+        data: {
+          'form[messageType]': $('#form_messageType').val(),
+          'form[_token]': $('#form__token').val()
+        }
+      })
+      .done(function( retour ) {
+        if(retour['retour']){
+          $('#popup_alert').fadeOut();
+          $('#fade').fadeOut();
+          controles = true;
+          $('#publish').click();
+        }else{
+          alert('un problème est survenu');
+        }
+      });
+    }
+  </script>
 {% endblock %}

@@ -11,20 +11,30 @@
         {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
           <!--<a href="{{ path('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>-->
         {% else %}
-          <div class="tweet_image">
-            <a href="http://twitter.com/{{ app.security.token.user }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
+          <div id="user_info">
+            <div class="tweet_image">
+              <a href="http://twitter.com/{{ app.security.token.user }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
+            </div>
+            <a href="#">{{app.security.token.user}} ({{app.security.token.user.twitterRealname}})</a> | <a href="{{ path('cosa_instant_user_logout') }}">Déconnexion</a>
+            <div id="email_edit">{# render(controller('CosaInstantUserBundle:Default:setEmailSmall')) #}</div>
           </div>
-          <a href="#">{{app.security.token.user}} ({{app.security.token.user.twitterRealname}})</a> | <a href="{{ path('cosa_instant_user_logout') }}">Déconnexion</a>
         {% endif %}
       </header>
         {% block body %}{% endblock %}
         <div id=footer>
           <ul>
-            <li><a href="{{ path('login') }}">{% trans %} Home {% endtrans %}</a></li>
+            <li><a href="{{ path('homepage') }}">{% trans %} Home {% endtrans %}</a></li>
             <li><a href="{{ path('about') }}">{% trans %} About {% endtrans %}</a></li>
             <li><a href="{{ path('who_we_are') }}">{% trans %} Who we are {% endtrans %}</a></li>
           </ul> 
-        </div> 
+        </div>
+        <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+        <script type="text/javascript">
+          function postEmailSmall()
+          {
+            
+          }
+        </script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

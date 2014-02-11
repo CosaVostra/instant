@@ -5,6 +5,7 @@ namespace Cosa\Instant\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -39,24 +40,40 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function setEmailTmpAction(Request $request)
+/*    public function setEmailSmallAction()
     {
+        $user = $this->get('security.context')->getToken()->getUser();
         // On crée le FormBuilder grâce à la méthode du contrôleur
-        $formBuilder = $this->createFormBuilder($this->get('security.context')->getToken()->getUser());
+        $formBuilder = $this->get('form.factory')->createNamedBuilder('form_email_small', $user);
         $formBuilder->add('email', 'email');
         $form = $formBuilder->getForm();
+        return $this->render('CosaInstantUserBundle:Default:setEmailSmall.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }*/
 
-        $request = $this->get('request');
+    public function setEmailTmpAction(Request $request)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        // On crée le FormBuilder grâce à la méthode du contrôleur
+        $formBuilder = $this->createFormBuilder($user);
+        $formBuilder->add('email', 'email');
+        $form = $formBuilder->getForm();
 
         if ($request->getMethod() == 'POST') {
           $form->bind($request);
 
           if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($this->get('security.context')->getToken()->getUser());
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('about'));
+            try{
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($user);
+              $em->flush();
+              return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+            }catch(\Exception $e){
+              return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+            }
+          }else{
+            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
           }
         }
 

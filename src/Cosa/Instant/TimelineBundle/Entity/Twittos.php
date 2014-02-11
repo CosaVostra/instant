@@ -5,7 +5,7 @@ namespace Cosa\Instant\TimelineBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cosa\Instant\TimelineBundle\Entity\TwittosRepository")
  */
 class Twittos
 {

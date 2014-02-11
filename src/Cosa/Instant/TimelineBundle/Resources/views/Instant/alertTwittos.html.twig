@@ -1,9 +1,9 @@
-{% extends "::base.html.twig" %}
-{% block body %}
 <div class="well">
+  {% for twitto in twittos %}
+    <span class="twittos">{{ twitto.user.username }}</span>
+  {% endfor %}
   <form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary" />
+    <input type="submit" class="btn btn-primary" onclick="postTwittosMsg();return false;" />
   </form>
 </div>
-{% endblock %}

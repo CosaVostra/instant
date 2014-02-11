@@ -2,9 +2,9 @@ cosa_instant_user:
     resource: "@CosaInstantUserBundle/Resources/config/routing.yml"
     prefix:   /
 
-#homepage:
-#    pattern:  /
-#    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
+homepage:
+    pattern:  /
+    defaults: { _controller: CosaInstantTimelineBundle:Default:homepage }
 
 about:
     pattern:  /about

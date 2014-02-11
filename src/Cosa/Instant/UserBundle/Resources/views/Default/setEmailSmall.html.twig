@@ -1,0 +1,7 @@
+<div class="well">
+  <form action="{{ path('set_email_tmp') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" class="btn btn-primary" onclick="postEmailSmall();return false;" />
+  </form>
+</div>
+

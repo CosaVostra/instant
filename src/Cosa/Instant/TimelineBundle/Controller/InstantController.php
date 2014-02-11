@@ -5,6 +5,7 @@ namespace Cosa\Instant\TimelineBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Cosa\Instant\TimelineBundle\Entity\Instant;
 use Cosa\Instant\TimelineBundle\Form\InstantType;
@@ -112,13 +113,17 @@ class InstantController extends Controller
     {
         $user = $this->checkUser($username);
         $entity = $this->checkInstant($user,$instant_title);
+        $em = $this->getDoctrine()->getManager();
+        $twittos_to_alert = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getTwittosToAlert($entity->getId());
         $editForm = $this->createForm(new InstantType(), $entity);
         //$deleteForm = $this->createDeleteForm($id);
         return $this->render('CosaInstantTimelineBundle:Instant:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity'           => $entity,
+            'edit_form'        => $editForm->createView(),
         //    'delete_form' => $deleteForm->createView(),
-            'user'        => $user,
+            'user'             => $user,
+            'email_needed'     => ($user->getEmail()=='')?true:false,
+            'twittos_to_alert' => (!empty($twittos_to_alert))?$twittos_to_alert:false,
         ));
     }
 
@@ -218,33 +223,41 @@ class InstantController extends Controller
             throw $this->createNotFoundException('Unable to find Instant entity.');
         }
 
+        if($entity->getUser()!=$this->get('security.context')->getToken()->getUser()){
+            throw new AccessDeniedException();
+        }
+
         // On crée le FormBuilder grâce à la méthode du contrôleur
         $formBuilder = $this->createFormBuilder($entity);
-        $formBuilder->add('messageType', 'text');
+        $formBuilder->add('messageType', 'textarea');
         $form = $formBuilder->getForm();
-
-        $request = $this->get('request');
-
+        $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getTwittosToAlert($entity->getId());
         if ($request->getMethod() == 'POST') {
           $form->bind($request);
-
           if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->findByInstant($id);
-            foreach ($twittos as $twitto) {
-              // ATTENTION : Une requête SQL à chaque itération !!
-              $user = $twitto->getUser();
+            try{
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($entity);
+              $em->flush();
+            }catch(\Exception $e){
+              return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
             }
-
-            return $this->redirect($this->generateUrl('about'));
+            foreach ($twittos as $twitto) {
+              $twitto->setAlerted(true);
+              $em->persist($twitto);
+              $em->flush();
+              $user = $twitto->getUser();
+              // api twitter to send msg
+            }
+            return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+          }else{
+            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
           }
         }
 
         return $this->render('CosaInstantTimelineBundle:Instant:alertTwittos.html.twig', array(
             'form' => $form->createView(),
+            'twittos' => $twittos,
         ));
     }
         
@@ -317,6 +330,10 @@ class InstantController extends Controller
         if (!$instant) {
             throw $this->createNotFoundException('This instant does not exist');
         }
+        $instant->setNbViews($instant->getNbViews()+1);
+        $instant->setLastView(new \Datetime());
+        $em->persist($instant);
+        $em->flush();
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantWebview.html.twig', array(
             'instant' => $instant
         ));

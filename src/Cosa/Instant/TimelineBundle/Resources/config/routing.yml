@@ -19,15 +19,15 @@ instant_edit:
 instant_update:
     pattern: /{username}/{instant_title}/update
     defaults: { _controller: CosaInstantTimelineBundle:Instant:update }
-insant_save:
-    pattern:  /{username}/{instant_title}/save
-    defaults: { _controller: CosaInstantTimelineBundle:Instant:save }
-instant_publish:
-    pattern:  /{username}/{instant_title}/publish
-    defaults: { _controller: CosaInstantTimelineBundle:Instant:update }
-instant_view:
-    pattern:  /{username}/{instant_title}
-    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
+#insant_save:
+#    pattern:  /{username}/{instant_title}/save
+#    defaults: { _controller: CosaInstantTimelineBundle:Instant:save }
+#instant_publish:
+#    pattern:  /{username}/{instant_title}/publish
+#    defaults: { _controller: CosaInstantTimelineBundle:Instant:update }
+#instant_view:
+#    pattern:  /{username}/{instant_title}
+#    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
 instant_webview:
     pattern:  /{username}/{instant_title}/webview
     defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantWebview }

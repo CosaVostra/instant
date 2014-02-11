@@ -96,4 +96,36 @@
   -webkit-border-radius:6px;
   -khtml-border-radius:6px;
   border-radius:6px;
-} 
+}
+
+#fade { /*--Masque opaque noir de fond--*/
+  display: none; /*--masqué par défaut--*/
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .80;
+  z-index: 9999;
+}
+
+#popup_email {
+  display: none; /*--masqué par défaut--*/
+  position: relative;
+  background: #fff;
+  width: 50%; 
+  height: 50%;
+  margin: 200px auto 0px auto;
+  z-index: 10000;
+}
+
+#popup_alert {
+  display: none; /*--masqué par défaut--*/
+  position: relative;
+  background: #fff;
+  width: 50%; 
+  height: 50%;
+  margin: 200px auto 0px auto;
+  z-index: 10000;
+}

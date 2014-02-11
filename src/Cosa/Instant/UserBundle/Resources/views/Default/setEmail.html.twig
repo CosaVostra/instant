@@ -1,9 +1,7 @@
-{% extends "::base.html.twig" %}
-{% block body %}
 <div class="well">
   <form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary" />
+    <input type="submit" class="btn btn-primary" onclick="postEmail();return false;" />
   </form>
 </div>
-{% endblock %}
+
