@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Cosa\Instant\TimelineBundle\Entity\Instant;
 use Cosa\Instant\TimelineBundle\Form\InstantType;
+use Cosa\Instant\TimelineBundle\Entity\Keyword;
+use Cosa\Instant\TimelineBundle\Entity\Twittos;
 
 /**
  * Instant controller.
@@ -434,5 +436,52 @@ class InstantController extends Controller
         return $this->render('CosaInstantTimelineBundle:Instant:twitterSearch.html.twig', array(
             'reply' => $reply
         ));
+    }
+
+    public function addKeywordAction(Request $request, $instant_title)
+    {
+        $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
+        $keyword = new Keyword();
+        $keyword->setKeyword($request->request->get('keyword')); 
+        $keyword->setInstant($instant);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($keyword);
+            $em->flush();
+        } catch(\Exception $e) {
+            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+        }
+        return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+    }
+
+    public function addTwittosAction(Request $request, $instant_title)
+    {
+        $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
+        $twittos_id = $request->request->get('twittos_id');
+
+        $repository = $this->getDoctrine()
+                   ->getManager()
+                   ->getRepository('CosaInstantUserBundle:User');
+
+        $twittos_user = $repository->findOneByTwitterID($twittos_id);
+
+        if ($twittos_user == null) {
+          // A compléter !! (récupérer les données du twittos $request->request->get(...) )
+        }
+
+        $twittos = new Twittos();
+        $twittos->setUser($twittos_user);
+        $twittos->setInstant($instant);
+        $twittos->setAlerted(0);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($twittos);
+            $em->flush();
+        } catch(\Exception $e) {
+            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+        }
+        return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
     }
 }

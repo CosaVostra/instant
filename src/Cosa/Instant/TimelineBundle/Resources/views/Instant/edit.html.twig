@@ -16,6 +16,10 @@
     <input type="button" value="Rechercher" onClick="js_twitter_search();" />
     <div id="twitter_result">
     </div>
+    <input type="text" id="keyword" />
+    <input type="button" value="Ajouter" onClick="js_add_keyword();" />
+    <input type="text" id="twittos_id" />
+    <input type="button" value="Ajouter" onClick="js_add_twittos();" />
     <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
@@ -86,7 +90,30 @@
       .done(function( retour ) {
         $('#twitter_result').html(retour);
       });
-      
+    }
+    function js_add_keyword() {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_add_keyword',{instant_title:entity.title})}}",
+        data: {
+          'keyword': encodeURIComponent($('#keyword').val())
+        }
+      })
+      .done(function( retour ) {
+        $('#twitter_result').html(retour);
+      });
+    }
+    function js_add_twittos() {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_add_twittos',{instant_title:entity.title})}}",
+        data: {
+          'twittos_id': encodeURIComponent($('#twittos_id').val())
+        }
+      })
+      .done(function( retour ) {
+        $('#twitter_result').html(retour);
+      });
     }
   </script>
 {% endblock %}
