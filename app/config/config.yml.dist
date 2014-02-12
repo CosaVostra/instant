@@ -79,4 +79,5 @@ services:
             twitter_oauth: "@fos_twitter.api"
             userManager: "@fos_user.user_manager"
             validator: "@validator"
-            session: "@session" 
+            session: "@session"
+            entityManager: "@doctrine.orm.entity_manager"

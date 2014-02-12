@@ -66,8 +66,15 @@ class DefaultController extends Controller
           if ($form->isValid()) {
             try{
               $em = $this->getDoctrine()->getManager();
+              $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
               $em->persist($user);
               $em->flush();
+              $to = $user->getEmail();
+              $subject = 'Email validation';
+              $message = "Bonjour !\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
+              $headers = "From: instant@cosavostra.com\r\nX-Mailer: PHP/" . phpversion();
+
+              mail($to, $subject, $message, $headers);
               return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
             }catch(\Exception $e){
               return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
@@ -81,5 +88,19 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ));
         
+    }
+
+    public function emailValidationAction($token)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneByConfirmationToken($token);
+        if(!$user){
+          throw $this->createNotFoundException('This token does not exist');
+        }
+        $user->setConfirmationToken('confirmed');
+        $em->persist($user);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('notice', 'Your email has been confirmed !');
+        return $this->redirect($this->generateUrl('homepage'));
     }
 }

@@ -10,3 +10,6 @@ cosa_instant_user_logout:
 connect_twitter:
     pattern: /connectTwitter
     defaults: { _controller: CosaInstantUserBundle:Default:connectTwitter }
+email_validation:
+    pattern: /email/validation/{token}
+    defaults: { _controller: CosaInstantUserBundle:Default:emailValidation }

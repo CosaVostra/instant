@@ -67,6 +67,16 @@ class Tweet
     private $is_rt;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $rt_by_twitter_realname;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $rt_by_twitterID;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -304,5 +314,74 @@ class Tweet
     public function getIsRt()
     {
         return $this->is_rt;
+    }
+
+    /**
+     * Set twitter_realname
+     *
+     * @param string $twitterRealname
+     * @return Tweet
+     */
+    public function setTwitterRealname($twitterRealname)
+    {
+        $this->twitter_realname = $twitterRealname;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter_realname
+     *
+     * @return string 
+     */
+    public function getTwitterRealname()
+    {
+        return $this->twitter_realname;
+    }
+
+    /**
+     * Set rt_by_twitterID
+     *
+     * @param string $rtByTwitterID
+     * @return Tweet
+     */
+    public function setRtByTwitterID($rtByTwitterID)
+    {
+        $this->rt_by_twitterID = $rtByTwitterID;
+
+        return $this;
+    }
+
+    /**
+     * Get rt_by_twitterID
+     *
+     * @return string 
+     */
+    public function getRtByTwitterID()
+    {
+        return $this->rt_by_twitterID;
+    }
+
+    /**
+     * Set rt_by_twitter_realname
+     *
+     * @param string $rtByTwitterRealname
+     * @return Tweet
+     */
+    public function setRtByTwitterRealname($rtByTwitterRealname)
+    {
+        $this->rt_by_twitter_realname = $rtByTwitterRealname;
+
+        return $this;
+    }
+
+    /**
+     * Get rt_by_twitter_realname
+     *
+     * @return string 
+     */
+    public function getRtByTwitterRealname()
+    {
+        return $this->rt_by_twitter_realname;
     }
 }

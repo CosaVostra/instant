@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+{% block body %}
+  {% if app.security.token.user.email != '' %}
+    <a href="#" onclick="$('#email_form').slideToggle();">Edit your email</a>
+  {% endif %}
+  <div id="email_form" style="display:{% if app.security.token.user.email == '' %}block{% else %}none{% endif %};"
+    <h1>Please set your email</h1>
+    {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.username})) }}
+    <h2>Then</h2>
+  </div>
+  <h1>Confirm it</h1>
+  <span>Check your email box and open the confirmation link...</span>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+    function postEmail(){
+      $.ajax({
+        type: "POST",
+        url: "{{path('set_email_tmp')}}",
+        data: {
+          'form[email]': $('#form_email').val(),
+          'form[_token]': $('#form__token').val()
+        }
+      })
+      .done(function( retour ) {
+        if(retour['retour']){
+          alert('update successfull');
+        }else{
+          alert('un problème est survenu');
+        }
+      });
+    }
+  </script>
+{% endblock %}

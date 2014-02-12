@@ -20,6 +20,12 @@
           </div>
         {% endif %}
       </header>
+      {% if app.session.hasFlash('notice') %}
+        <div class="flash-message flash-notice" style="display:none;">
+          {{ app.session.flash('notice') |nl2br }}
+          <div class="close-button">X</div>
+        </div>
+      {% endif %}
         {% block body %}{% endblock %}
         <div id=footer>
           <ul>

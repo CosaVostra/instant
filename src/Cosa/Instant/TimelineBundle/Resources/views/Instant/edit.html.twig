@@ -6,9 +6,6 @@
 
 {% block body -%}
     <div id="fade">
-      {% if email_needed %}
-        <div id="popup_email">{{ render(controller('CosaInstantUserBundle:Default:setEmailTmp')) }}</div>
-      {% endif %}
       {% if twittos_to_alert %}
         <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
       {% endif %}
@@ -19,7 +16,7 @@
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button name="bsubmit" id="save" type="submit" value="save">Save</button>
+            <button name="bsubmit" id="save" value="save">Save</button>
             {% if entity.status!='publish' %}
               <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
             {% endif %}
@@ -46,40 +43,13 @@
   <script type="text/javascript">
     var controles = false;
     function showPopups(){
-      {% if email_needed %}
-        $('#fade').fadeIn();
-        $('#popup_email').fadeIn();
-      {% elseif twittos_to_alert %}
+      {% if twittos_to_alert %}
         $('#fade').fadeIn();
         $('#popup_alert').fadeIn();
       {% else %}
         controles = true;
         $('#publish').click();
       {% endif %}
-    }
-    function postEmail(){
-      $.ajax({
-        type: "POST",
-        url: "{{path('set_email_tmp')}}",
-        data: {
-          'form[email]': $('#form_email').val(),
-          'form[_token]': $('#form__token').val()
-        }
-      })
-      .done(function( retour ) {
-        if(retour['retour']){
-          $('#popup_email').fadeOut();
-          {% if twittos_to_alert %}
-            $('#popup_alert').fadeIn();
-          {% else %}
-            $('#fade').fadeOut();
-            controles = true;
-            $('#publish').click();
-          {% endif %}
-        }else{
-          alert('un problème est survenu');
-        }
-      });
     }
     function postTwittosMsg(){
       $.ajax({

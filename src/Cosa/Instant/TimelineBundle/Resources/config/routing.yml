@@ -4,6 +4,9 @@
 #CosaInstantTimelineBundle_instant:
 #    resource: "@CosaInstantTimelineBundle/Resources/config/routing/instant.yml"
 #    prefix:   /instant
+please_confirm_email:
+    pattern:  /{username}/please/confirm/your/email
+    defaults: { _controller: CosaInstantTimelineBundle:Default:pleaseConfirmEmail }
 instant_list:
     pattern:  /{username}/instants
     defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantList }

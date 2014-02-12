@@ -2,7 +2,7 @@ I) Chapitre Symfony
 
 I-1 Executer : cp app/config/parameters.yml.dist app/config/parameters.yml
 
-I-2 Editer le app/config/parameters.yml
+I-2 Editer le app/config/parameters.yml ainsi que le app/config/config.yml
 
 I-3 Executer : php composer.phar install
 

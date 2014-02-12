@@ -43,6 +43,9 @@ class InstantController extends Controller
      */
     public function createAction(Request $request, $username)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $user = $this->checkUser($username);
         $entity  = new Instant();
         $form = $this->createForm(new InstantType(), $entity);
@@ -71,6 +74,9 @@ class InstantController extends Controller
      */
     public function newAction()
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $user = $this->get('security.context')->getToken()->getUser();
         $entity = new Instant();
         $entity->setUser($user);
@@ -111,6 +117,9 @@ class InstantController extends Controller
      */
     public function editAction($username,$instant_title)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $user = $this->checkUser($username);
         $entity = $this->checkInstant($user,$instant_title);
         $em = $this->getDoctrine()->getManager();
@@ -158,13 +167,19 @@ class InstantController extends Controller
      */
     public function updateAction(Request $request, $username, $instant_title)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         if($request->request->get('bsubmit')=='publish'){
             $editForm = $this->save($request, $username, $instant_title, true);
+            if ($editForm === true) {
+              return $this->redirect($this->generateUrl('instant_embed', array('username' => $username, 'instant_title' => $instant_title)));
+            }
         }else{
             $editForm = $this->save($request, $username, $instant_title);
+            if ($editForm === true) {
+              return $this->redirect($this->generateUrl('instant_edit', array('username' => $username, 'instant_title' => $instant_title)));
         }
-        if ($editForm === true) {
-            return $this->redirect($this->generateUrl('instant_edit', array('username' => $username, 'instant_title' => $instant_title)));
         }
         return $this->render('CosaInstantTimelineBundle:Instant:edit.html.twig', array(
             'entity'      => $entity,
@@ -180,6 +195,9 @@ class InstantController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -215,6 +233,9 @@ class InstantController extends Controller
 
     public function alertTwittosTmpAction(Request $request, $id)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CosaInstantTimelineBundle:Instant')->find($id);
@@ -299,6 +320,9 @@ class InstantController extends Controller
     */
     public function userInstantListAction($username)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $em = $this->getDoctrine()->getManager();
         $user = $this->checkUser($username);
         $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findByUser($user->getId());
@@ -347,6 +371,9 @@ class InstantController extends Controller
     */
     public function userInstantPreviewAction($username,$instant_title)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $em = $this->getDoctrine()->getManager();
         $user = $this->checkUser($username);
         $instant = $this->checkInstant($user,$instant_title);
@@ -364,6 +391,9 @@ class InstantController extends Controller
     */
     public function userInstantEmbedAction($username,$instant_title)
     {
+        if(($tmp=$this->userEmailIsConfirmed())!==true){
+            return $tmp;
+        }
         $em = $this->getDoctrine()->getManager();
         $user = $this->checkUser($username);
         $instant = $this->checkInstant($user,$instant_title);
@@ -371,6 +401,15 @@ class InstantController extends Controller
             'instant' => $instant,
             'user' => $user
         ));
+    }
+
+    private function userEmailIsConfirmed()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        if($user->getConfirmationToken()!='confirmed'){
+            return $this->redirect($this->generateUrl('please_confirm_email',array('username'=>$user->getUsername())));
+        }
+        return true;
     }
 
 }

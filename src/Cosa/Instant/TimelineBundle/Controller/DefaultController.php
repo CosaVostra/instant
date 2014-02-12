@@ -11,6 +11,11 @@ class DefaultController extends Controller
         return $this->render('CosaInstantTimelineBundle:Default:index.html.twig', array('name' => $name));
     }
 
+    public function pleaseConfirmEmailAction()
+    {
+        return $this->render('CosaInstantTimelineBundle:Default:please_confirm_email.html.twig');
+    }
+
     public function homepageAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
