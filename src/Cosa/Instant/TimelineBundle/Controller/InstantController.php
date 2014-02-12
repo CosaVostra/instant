@@ -412,4 +412,27 @@ class InstantController extends Controller
         return true;
     }
 
+    public function twitterSearchAction(Request $request)
+    {
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        require_once ('codebird.php');
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+
+        //$cb = \Codebird\Codebird::getInstance(); // singleton
+        $cb = new \Codebird\Codebird;
+        //$cb->setConsumerKey('vEuuUtMeVP5TAErglQISJw', 'ObGMkwIgFBNAgpYPRmdERN5JtaDZbg1l9Ao67BCFJ0'); // static, see 'Using multiple Codebird instances'
+        $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
+//'12510322-GeTDxwl5lXmwwH1ioL5YFGmmNw44TypDxYcO4QoYy', 'ZzKUfXMrxuEBNQLXXCJ9mYnD6sB6eyQ73pLlshapmNFoP');
+        //print_r($cb); 
+        $reply = $cb->search_tweets('q='.$request->request->get('q'));
+        //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
+        //print_r($reply);
+        //echo $request->request->get('q');
+        //echo $this->container->parameters["fos_twitter.consumer_key"];
+        //var_dump($this->container->parameters);
+        return $this->render('CosaInstantTimelineBundle:Instant:twitterSearch.html.twig', array(
+            'reply' => $reply
+        ));
+    }
 }

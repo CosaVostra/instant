@@ -43,3 +43,6 @@ instant_embed:
 instant_delete:
     pattern:  /{username}/{instant_title}/delete
     defaults: { _controller: CosaInstantTimelineBundle:Instant:delete }
+instant_twitter_search:
+    pattern:  /twitter-search
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:twitterSearch }

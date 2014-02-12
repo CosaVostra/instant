@@ -12,6 +12,10 @@
     </div>
     <h1>Instant edit</h1>
     <a href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
+    <input type="text" id="twitter_search" />
+    <input type="button" value="Rechercher" onClick="js_twitter_search();" />
+    <div id="twitter_result">
+    </div>
     <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
@@ -70,6 +74,19 @@
           alert('un problème est survenu');
         }
       });
+    }
+    function js_twitter_search() {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_twitter_search')}}",
+        data: {
+          'q': encodeURIComponent($('#twitter_search').val())
+        }
+      })
+      .done(function( retour ) {
+        $('#twitter_result').html(retour);
+      });
+      
     }
   </script>
 {% endblock %}
