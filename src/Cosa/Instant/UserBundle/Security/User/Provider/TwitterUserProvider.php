@@ -55,20 +55,21 @@ class TwitterUserProvider implements UserProviderInterface
         return $this->userManager->findUserBy(array('twitter_username' => $username));
     }
 
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username,$updateInfo=true)
     {
         //$user = $this->findUserByTwitterID($username);
         //echo "findUserByUsername($username)";var_dump(debug_backtrace());exit;
         $user = $this->findUserByUsername($username);
 
         $this->twitter_oauth->setOAuthToken($this->session->get('access_token'), $this->session->get('access_token_secret'));
-        try {
+        if($updateInfo){
+          try {
             $info = $this->twitter_oauth->get('account/verify_credentials');
-        } catch (Exception $e) {
+          } catch (Exception $e) {
             $info = null;
-        }
+          }
 
-        if (!empty($info)) {
+          if (!empty($info)) {
             $updated = false;
             if (empty($user)) {
                 $user = $this->userManager->createUser();
@@ -113,6 +114,7 @@ class TwitterUserProvider implements UserProviderInterface
               $user->setUpdatedAt(new \Datetime());
               $this->userManager->updateUser($user,true);
             }
+          }
         }
 
         if (empty($user)) {
@@ -128,6 +130,6 @@ class TwitterUserProvider implements UserProviderInterface
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
 
-        return $this->loadUserByUsername($user->getUsername());//TwitterID());
+        return $this->loadUserByUsername($user->getUsername(),false);//TwitterID());
     }
 }
