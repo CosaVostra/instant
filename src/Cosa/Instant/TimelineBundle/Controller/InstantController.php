@@ -11,6 +11,7 @@ use Cosa\Instant\TimelineBundle\Entity\Instant;
 use Cosa\Instant\TimelineBundle\Form\InstantType;
 use Cosa\Instant\TimelineBundle\Entity\Keyword;
 use Cosa\Instant\TimelineBundle\Entity\Twittos;
+use Cosa\Instant\UserBundle\Entity\User;
 
 /**
  * Instant controller.
@@ -458,22 +459,39 @@ class InstantController extends Controller
     public function addTwittosAction(Request $request, $instant_title)
     {
         $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
-        $twittos_id = $request->request->get('twittos_id');
+        $twittos_username = $request->request->get('twittos_username');
 
         $repository = $this->getDoctrine()
                    ->getManager()
                    ->getRepository('CosaInstantUserBundle:User');
 
-        $twittos_user = $repository->findOneByTwitterID($twittos_id);
-
-        if ($twittos_user == null) {
-          // A compléter !! (récupérer les données du twittos $request->request->get(...) )
-        }
+        $twittos_user = $repository->findOneByUsername($twittos_username);
 
         $twittos = new Twittos();
         $twittos->setUser($twittos_user);
         $twittos->setInstant($instant);
         $twittos->setAlerted(0);
+
+        if ($twittos_user == null) {
+            $user = new User();
+            $user->setTwitterID($request->request->get('twittos_id'));
+            $user->setTwitterUsername($request->request->get('twittos_username'));
+            $user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
+            $user->setTwitterRealname($request->request->get('twittos_realname'));
+            $user->setEmail($request->request->get('twittos_id'));
+            $user->setPassword('');
+            $user->setTwitterAccessToken('');
+            $user->setTwitterAccessTokenSecret('');
+            $user->setTwitterLocation('');
+            $user->setOptin(0);
+            $user->setCreatedAt(new \DateTime('now'));
+            $user->setUpdatedAt(new \DateTime('now'));
+            $user->setLoginCount(0);
+            $user->setLang('');
+            $user->setUsername($request->request->get('twittos_username'));
+
+            $twittos->setUser($user);
+        }
 
         try {
             $em = $this->getDoctrine()->getManager();

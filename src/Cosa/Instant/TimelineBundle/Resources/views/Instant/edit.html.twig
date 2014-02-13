@@ -12,13 +12,16 @@
     </div>
     <h1>Instant edit</h1>
     <a href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
-    <input type="text" id="twitter_search" />
+    <input type="text" id="twitter_search" placeholder="twitter search" />
     <input type="button" value="Rechercher" onClick="js_twitter_search();" />
     <div id="twitter_result">
     </div>
-    <input type="text" id="keyword" />
+    <input type="text" id="keyword" placeholder="keyword" />
     <input type="button" value="Ajouter" onClick="js_add_keyword();" />
-    <input type="text" id="twittos_id" />
+    <input type="text" id="twittos_id" placeholder="twittos_id" />
+    <input type="text" id="twittos_username" placeholder="twittos_username" />
+    <input type="text" id="twittos_realname" placeholder="twittos_realname" />
+    <input type="text" id="twittos_profile_image_url" placeholder="twittos_profile_image_url" />
     <input type="button" value="Ajouter" onClick="js_add_twittos();" />
     <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
@@ -108,7 +111,10 @@
         type: "POST",
         url: "{{path('instant_add_twittos',{instant_title:entity.title})}}",
         data: {
-          'twittos_id': encodeURIComponent($('#twittos_id').val())
+          'twittos_id': $('#twittos_id').val(),
+          'twittos_username': encodeURIComponent($('#twittos_username').val()),
+          'twittos_realname': $('#twittos_realname').val(),
+          'twittos_profile_image_url': $('#twittos_profile_image_url').val()
         }
       })
       .done(function( retour ) {
