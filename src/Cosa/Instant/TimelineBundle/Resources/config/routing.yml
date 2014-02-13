@@ -49,7 +49,12 @@ instant_twitter_search:
 instant_add_keyword:
     pattern:  /{instant_title}/add-keyword
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addKeyword }
+instant_rm_keyword:
+    pattern:  /remove/keyword/{keyword_id}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:rmKeyword }
 instant_add_twittos:
     pattern:  /{instant_title}/add-twittos
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addTwittos }
-
+instant_rm_twittos:
+    pattern:  /remove/twittos/{twittos_id}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:rmTwittos }

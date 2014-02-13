@@ -5,6 +5,10 @@
 * @license GNU Public License
 * @version BETA 0.30
 */
+body {
+  margin-top: 0px;
+}
+
 .hidden {
   display: none;
 }
@@ -152,6 +156,61 @@ body .twitter_result_item {
   margin: 22px 0px;
 }
 
+.keyword {
+  border: 1px solid grey;
+  margin: 2px;
+  padding: 2px 5px;
+}
+
 .clearb {
   clear: both;
+}
+
+#flash-messages {
+  width: 400px;
+  position: absolute;
+  left: 50%;
+  margin-left: -200px;
+}
+
+.flash-message {
+  border: 1px solid;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.flash-notice
+{
+  border-color: green;
+  margin: 3px 0;
+  padding: 7px;
+  background-color: #cfc;
+}
+
+.flash-error
+{
+  border-color: red;
+  margin: 3px 0;
+  padding: 7px;
+  background-color: #f33;
+  color: #fff;
+}
+
+#user_info {
+  background: #cdcdcd;
+  padding: 0px 8px 8px 3px;
+  width: 400px;
+  float: right;
+}
+
+#user_info .text {
+  margin: 22px 0px 0px 70px;
+}
+
+#user_info .logout, #user_info .logout:hover, #user_info .logout:visited {
+  float: right;
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
 }

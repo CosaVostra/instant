@@ -15,17 +15,34 @@
             <div class="tweet_image">
               <a href="http://twitter.com/{{ app.security.token.user }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
             </div>
-            <a href="#">{{app.security.token.user}} ({{app.security.token.user.twitterRealname}})</a> | <a href="{{ path('cosa_instant_user_logout') }}">Déconnexion</a>
+            <div class="text">
+              <a href="#">{{app.security.token.user}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="logout">Déconnexion</a>
+            </div>
             <div id="email_edit">{# render(controller('CosaInstantUserBundle:Default:setEmailSmall')) #}</div>
+            <span class="clearb"></span>
           </div>
         {% endif %}
       </header>
-      {% if app.session.hasFlash('notice') %}
-        <div class="flash-message flash-notice" style="display:none;">
-          {{ app.session.flash('notice') |nl2br }}
+      <div id="flash-messages">
+       {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message flash-notice">
+          {{ flashMessage }}
           <div class="close-button">X</div>
         </div>
-      {% endif %}
+       {% endfor %}
+       {% for flashMessage in app.session.flashbag.get('warning') %}
+        <div class="flash-message flash-warning">
+          {{ flashMessage }}
+          <div class="close-button">X</div>
+        </div>
+       {% endfor %}
+       {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="flash-message flash-error">
+          {{ flashMessage }}
+          <div class="close-button">X</div>
+        </div>
+       {% endfor %}
+      </div>
         {% block body %}{% endblock %}
         <div id=footer>
           <ul>

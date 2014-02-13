@@ -445,6 +445,19 @@ class InstantController extends Controller
         ));
     }
 
+    public function rmKeywordAction($keyword_id)
+    {
+        try{
+          $keyword = $this->checkKeyword($keyword_id);
+          $em = $this->getDoctrine()->getManager();
+          $em->remove($keyword);
+          $em->flush();
+          return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+        }catch(\Exception $e){
+          return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
+    }
+
     public function addKeywordAction(Request $request, $instant_title)
     {
         $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
@@ -457,9 +470,52 @@ class InstantController extends Controller
             $em->persist($keyword);
             $em->flush();
         } catch(\Exception $e) {
-            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
         }
-        return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+        return new JsonResponse(array('retour'=>true,'id'=>$keyword->getId()),200,array('Content-Type', 'application/json'));
+    }
+
+    /**
+    * check keyword
+    */
+    private function checkKeyword($keyword_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $keyword = $em->getRepository('CosaInstantTimelineBundle:Keyword')->find($keyword_id);
+        if (!$keyword) {
+            throw $this->createNotFoundException('This keyword does not exist');
+        } else if ($keyword->getInstant()->getUser()!=$this->get('security.context')->getToken()->getuser()) {
+            throw new AccessDeniedException();
+        }
+        return $keyword;
+    }
+
+    /**
+    * check twittos
+    */
+    private function checkTwittos($twittos_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->find($twittos_id);
+        if (!$twittos) {
+            throw $this->createNotFoundException('This twittos does not exist');
+        } else if ($twittos->getInstant()->getUser()!=$this->get('security.context')->getToken()->getuser()) {
+            throw new AccessDeniedException();
+        }
+        return $twittos;
+    }
+
+    public function rmTwittosAction($twittos_id)
+    {
+        try{
+          $twittos = $this->checkTwittos($twittos_id);
+          $em = $this->getDoctrine()->getManager();
+          $em->remove($twittos);
+          $em->flush();
+          return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+        }catch(\Exception $e){
+          return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
     }
 
     public function addTwittosAction(Request $request, $instant_title)
@@ -506,6 +562,6 @@ class InstantController extends Controller
         } catch(\Exception $e) {
             return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
         }
-        return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+        return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId()),200,array('Content-Type', 'application/json'));
     }
 }

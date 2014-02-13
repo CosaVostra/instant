@@ -22,7 +22,7 @@ class Keyword
     private $keyword;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cosa\Instant\TimelineBundle\Entity\Instant", cascade={"remove","persist"})
+     * @ORM\ManyToOne(targetEntity="Cosa\Instant\TimelineBundle\Entity\Instant", cascade={"persist"})
      */
     private $instant;
 

@@ -19,15 +19,22 @@
       <div id="twitter_result" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;overflow-x:visible;"></div>
       <div id="twittos" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;">
         {% for twitto in twittos %}
-
+          <div class="twitto">
+            <a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos({{twitto.id}},$(this).parent());">X</a>
+            <div class="tweet_image">
+              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
+            </div>
+            <div class="tweet_screen_name">
+              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">{{ twitto.user.twitterUsername }}</a>
+              <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
+            </div>
+          </div>
         {% endfor %}
       </div>
       <div id="keywords" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;">
-        <ul id="keywords_ul">
           {% for keyword in keywords %}
-            <li>{{ keyword.keyword }}</li>
+            <div class="keyword"><a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent());">X</a>{{ keyword.keyword }}</div>
           {% endfor %}
-        </ul>
       </div>
       <div id="tweet_column2" style="float:left;width:24%;height:400px;border:1px solid black;overflow-y:auto;">
         <div id="tweet_list2">
@@ -106,7 +113,6 @@
       });
     }
     function js_twitter_search() {
-      $( "<li></li>" ).text( $('#twitter_search').val() ).appendTo($('#keywords_ul'));
       $.ajax({
         type: "POST",
         url: "{{path('instant_twitter_search')}}",
@@ -116,6 +122,7 @@
       })
       .done(function( retour ) {
         $('#twitter_result').html(retour);
+        add_keyword($('#twitter_search').val());
         $( ".twitter_result_item" ).draggable({
           revert: true,
           appendTo: 'body',
@@ -126,40 +133,102 @@
                     width: $(event.target).width()
                 });},
           cursor: 'move',
-  start: function(event, ui) {
-    ui.position.top -= $(window).scrollTop();
-  },
-  drag: function(event, ui) {
-    ui.position.top -= $(window).scrollTop();
-  }
+          start: function(event, ui) {
+            ui.position.top -= $(window).scrollTop();
+          },
+          drag: function(event, ui) {
+            ui.position.top -= $(window).scrollTop();
+          }
         });
       });
     }
+    function js_rm_keyword(keyword_id,elt)
+    {
+      if(!confirm('Sure ?'))
+        return false;
+      $.ajax({
+        type: "GET",
+        url: "{{path('instant_rm_keyword',{keyword_id:0})}}"+keyword_id,
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Keyword removed !</div>');
+          $(elt).remove();
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return true;
+    }
     function js_add_keyword() {
+      add_keyword($('#keyword').val());
+    }
+    function add_keyword(keyword)
+    {
       $.ajax({
         type: "POST",
         url: "{{path('instant_add_keyword',{instant_title:entity.title})}}",
         data: {
-          'keyword': encodeURIComponent($('#keyword').val())
+          'keyword': encodeURIComponent(keyword)
         }
       })
       .done(function( retour ) {
-        $('#twitter_result').html(retour);
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Keyword saved !</div>');
+          $('#keywords').append($('<div class="keyword"><a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_keyword('+retour.id+',$(this).parent());">X</a>'+keyword+'</div>'));
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
       });
     }
     function js_add_twittos() {
+      add_twittos($('#twittos_id').val(),encodeURIComponent($('#twittos_username').val()),encodeURIComponent($('#twittos_realname').val()),$('#twittos_profile_image_url').val());
+    }
+    function js_rm_twittos(twittos_id,elt)
+    {
+      if(!confirm('Sure ?'))
+        return false;
+      $.ajax({
+        type: "GET",
+        url: "{{path('instant_rm_twittos',{twittos_id:0})}}"+twittos_id,
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Twittos removed !</div>');
+          $(elt).remove();
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return true;
+    }
+    function add_twittos(twitterID,username,name,profile_image_url,elt)
+    {
       $.ajax({
         type: "POST",
         url: "{{path('instant_add_twittos',{instant_title:entity.title})}}",
         data: {
-          'twittos_id': $('#twittos_id').val(),
-          'twittos_username': encodeURIComponent($('#twittos_username').val()),
-          'twittos_realname': $('#twittos_realname').val(),
-          'twittos_profile_image_url': $('#twittos_profile_image_url').val()
+          'twittos_id': twitterID,
+          'twittos_username': encodeURIComponent(username),
+          'twittos_realname': encodeURIComponent(name),
+          'twittos_profile_image_url': profile_image_url
         }
       })
       .done(function( retour ) {
-        $('#twitter_result').html(retour);
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
+          $(elt).prepend('<a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent());">X</a>');
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
       });
     }
     $( "#twittos" ).droppable({
@@ -171,6 +240,7 @@
         $('.tweet_image',ui.draggable).clone().appendTo(twitto);
         $('.tweet_screen_name',ui.draggable).clone().appendTo(twitto);
         twitto.appendTo($(this));
+        add_twittos($('.twitterID',ui.draggable).val(),$('.twitter_username',ui.draggable).val(),$('.twitter_realname',ui.draggable).val(),$('.twitter_profile_image_url',ui.draggable).val(),twitto);
       //  $( this )
       //    .addClass( "ui-state-highlight" )
       //    .find( "p" )
