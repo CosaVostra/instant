@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
   <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
 {% endblock %}
 
 {% block body -%}
@@ -14,7 +15,28 @@
     <a href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
     <input type="text" id="twitter_search" placeholder="twitter search" />
     <input type="button" value="Rechercher" onClick="js_twitter_search();" />
-    <div id="twitter_result">
+    <div>
+      <div id="twitter_result" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;overflow-x:visible;"></div>
+      <div id="twittos" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;">
+        {% for twitto in twittos %}
+
+        {% endfor %}
+      </div>
+      <div id="keywords" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;">
+        <ul id="keywords_ul">
+          {% for keyword in keywords %}
+            <li>{{ keyword.keyword }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="tweet_column2" style="float:left;width:24%;height:400px;border:1px solid black;overflow-y:auto;">
+        <div id="tweet_list2">
+          {% for tweet in tweets %}
+            {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false} %}
+          {% endfor %}
+        </div>
+      </div>
+      <span class="clearb"></span>
     </div>
     <input type="text" id="keyword" placeholder="keyword" />
     <input type="button" value="Ajouter" onClick="js_add_keyword();" />
@@ -51,6 +73,7 @@
 {% endblock %}
 
 {% block javascripts %}
+  <script src="{{  asset('js/jquery-ui.js') }}"></script>
   <script type="text/javascript">
     var controles = false;
     function showPopups(){
@@ -83,6 +106,7 @@
       });
     }
     function js_twitter_search() {
+      $( "<li></li>" ).text( $('#twitter_search').val() ).appendTo($('#keywords_ul'));
       $.ajax({
         type: "POST",
         url: "{{path('instant_twitter_search')}}",
@@ -92,6 +116,23 @@
       })
       .done(function( retour ) {
         $('#twitter_result').html(retour);
+        $( ".twitter_result_item" ).draggable({
+          revert: true,
+          appendTo: 'body',
+          containment: 'window',
+          scroll: false,
+          helper: function(event) {
+                return $(event.target).clone().css({
+                    width: $(event.target).width()
+                });},
+          cursor: 'move',
+  start: function(event, ui) {
+    ui.position.top -= $(window).scrollTop();
+  },
+  drag: function(event, ui) {
+    ui.position.top -= $(window).scrollTop();
+  }
+        });
       });
     }
     function js_add_keyword() {
@@ -121,5 +162,31 @@
         $('#twitter_result').html(retour);
       });
     }
+    $( "#twittos" ).droppable({
+      activeClass: "ui-state-default",
+      hoverClass: "ui-state-hover",
+      drop: function( event, ui ) {
+        var twitto = $('<div>');
+        twitto.addClass('twitto');
+        $('.tweet_image',ui.draggable).clone().appendTo(twitto);
+        $('.tweet_screen_name',ui.draggable).clone().appendTo(twitto);
+        twitto.appendTo($(this));
+      //  $( this )
+      //    .addClass( "ui-state-highlight" )
+      //    .find( "p" )
+      //      .html( "Dropped!" );
+      }
+    });
+    $( "#tweet_column2" ).droppable({
+      activeClass: "ui-state-default",
+      hoverClass: "ui-state-hover",
+      drop: function( event, ui ) {
+        $('.tweet_content',ui.draggable).clone().appendTo($('#tweet_list2'));
+      //  $( this )
+      //    .addClass( "ui-state-highlight" )
+      //    .find( "p" )
+      //      .html( "Dropped!" );
+      }
+    });
   </script>
 {% endblock %}

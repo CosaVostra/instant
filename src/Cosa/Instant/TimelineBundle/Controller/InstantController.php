@@ -126,7 +126,10 @@ class InstantController extends Controller
         $user = $this->checkUser($username);
         $entity = $this->checkInstant($user,$instant_title);
         $em = $this->getDoctrine()->getManager();
+        $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getComplete($entity->getId());
         $twittos_to_alert = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getTwittosToAlert($entity->getId());
+        $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($entity->getId());
+        $tweets = $entity->getTweets();
         $editForm = $this->createForm(new InstantType(), $entity);
         //$deleteForm = $this->createDeleteForm($id);
         return $this->render('CosaInstantTimelineBundle:Instant:edit.html.twig', array(
@@ -134,8 +137,11 @@ class InstantController extends Controller
             'edit_form'        => $editForm->createView(),
         //    'delete_form' => $deleteForm->createView(),
             'user'             => $user,
-            'email_needed'     => ($user->getEmail()=='')?true:false,
+        //    'email_needed'     => ($user->getEmail()=='')?true:false,
             'twittos_to_alert' => (!empty($twittos_to_alert))?$twittos_to_alert:false,
+            'twittos'          => $twittos,
+            'keywords'          => $keywords,
+            'tweets'           => $tweets,
         ));
     }
 

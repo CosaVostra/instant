@@ -1,28 +1,7 @@
 <div id="tweet_column">
-<div id="tweet_list"> 
+  <div id="tweet_list"> 
     {% for tweet in reply.statuses %}
-<div class="tweet">
-  <div class="tweet_id hidden">{{ tweet.id_str }}</div>
-  <div class="tweet_image">
-    <a href="http://twitter.com/{{ tweet.user.screen_name }}" 
-    title="{{ tweet.user.name }}">
-    <img src="{{ tweet.user.profile_image_url }}" width="48" height="48"></a>    
-  </div>
-  <div class="tweet_right">
-    <div class="tweet_screen_name">
-      <a href="http://twitter.com/{{ tweet.user.screen_name }}" 
-        title="{{ tweet.user.name }}">{{ tweet.user.screen_name }}</a>
-      <span class="tweet_name">{{ tweet.user.name }}</span>
-    </div>
-    <div class="tweet_text">{{ tweet.text }}
-      <div class="tweet_date">
-        <a href="http://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" 
-          >{{ tweet.created_at|date("m/d/Y H:i:s", "Europe/Paris") }}</a>
-      </div>
-    </div>
-  </div>
-</div><hr>
+      {% include 'CosaInstantTimelineBundle:Instant:tweet_json.html.twig' with {'tweet': tweet, 'draggable': true} %}
     {% endfor %}
   </div>
-  </div>
-
+</div>
