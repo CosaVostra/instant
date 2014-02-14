@@ -11,6 +11,7 @@ class Instant
 {
     /**
      * @ORM\ManyToMany(targetEntity="Cosa\Instant\TimelineBundle\Entity\Tweet", cascade={"persist"})
+     * @ORM\OrderBy({"created_at" = "DESC"})
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $tweets;

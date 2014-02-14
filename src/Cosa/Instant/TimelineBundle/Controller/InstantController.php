@@ -406,12 +406,17 @@ private function checkTweet($tweet_id)
     * @param string $username The user name
     * @param string $instant_title The instant title
     */
-    public function userInstantPreviewAction($username,$instant_title)
+    public function userInstantPreviewAction($instant_id)
     {
         if(($tmp=$this->userEmailIsConfirmed())!==true){
             return $tmp;
         }
-        $em = $this->getDoctrine()->getManager();
+        $instant = $this->checkInstant2($instant_id);
+        return $this->redirect($this->generateUrl('instant_preview2',array('username'=>$this->get('security.context')->getToken()->getUser()->getUsername(),'instant_title'=>$instant->getTitle())));
+    }
+
+    public function instantPreviewAction($username,$instant_title)
+    {
         $user = $this->checkUser($username);
         $instant = $this->checkInstant($user,$instant_title);
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantPreview.html.twig', array(
@@ -431,7 +436,6 @@ private function checkTweet($tweet_id)
         if(($tmp=$this->userEmailIsConfirmed())!==true){
             return $tmp;
         }
-        $em = $this->getDoctrine()->getManager();
         $user = $this->checkUser($username);
         $instant = $this->checkInstant($user,$instant_title);
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantEmbed.html.twig', array(
@@ -486,9 +490,9 @@ private function checkTweet($tweet_id)
         }
     }
 
-    public function addKeywordAction(Request $request, $instant_title)
+    public function addKeywordAction(Request $request, $instant_id)
     {
-        $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
+        $instant = $this->checkInstant2($instant_id);
         $keyword = new Keyword();
         $keyword->setKeyword($request->request->get('keyword')); 
         $keyword->setInstant($instant);
@@ -575,9 +579,65 @@ private function checkTweet($tweet_id)
         return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
     }
 
-    public function addTwittosAction(Request $request, $instant_title)
+    public function addTwittos2Action(Request $request, $instant_id)
     {
-        $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
+        $instant = $this->checkInstant2($instant_id);
+        $user = $this->get('security.context')->getToken()->getUser();
+        $twittos_username = $request->request->get('twittos_username');
+        $em = $this->getDoctrine()->getManager();
+        $tuser = $em->getRepository('CosaInstantUserBundle:User')->findOneByUsername($twittos_username);
+        if(!$tuser){ // on cherche chez twitter
+          try{
+            require_once ('codebird.php');
+            \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+            $cb = new \Codebird\Codebird;
+            $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
+            $reply = $cb->users_search('q='.$twittos_username);
+            var_dump($reply->get('0'));exit;
+            if(isset($reply->0)>1){
+              return new JsonResponse(array('retour'=>true,'msg'=>$reply),200,array('Content-Type', 'application/json'));
+            }else if(count(get_object_vars($reply))==1){
+              $user = $users[0];
+              $tuser = new User();
+              $tuser->setTwitterID($request->request->get('twittos_id'));
+              $tuser->setTwitterUsername($request->request->get('twittos_username'));
+              $tuser->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
+              $tuser->setTwitterRealname($request->request->get('twittos_realname'));
+              $tuser->setEmail($request->request->get('twittos_id'));
+              $tuser->setPassword('');
+              $tuser->setTwitterAccessToken('');
+              $tuser->setTwitterAccessTokenSecret('');
+              $tuser->setTwitterLocation('');
+              $tuser->setOptin(0);
+              $tuser->setCreatedAt(new \DateTime('now'));
+              $tuser->setUpdatedAt(new \DateTime('now'));
+              $tuser->setLoginCount(0);
+              $tuser->setLang('');
+              $tuser->setUsername($request->request->get('twittos_username'));
+            }else{
+              return new JsonResponse(array('retour'=>false,'msg'=>'no user found'),200,array('Content-Type', 'application/json'));
+            }
+          }catch(\Exception $e){
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+          }
+        }
+        $twittos = new Twittos();
+        $twittos->setUser($tuser);
+        $twittos->setInstant($instant);
+        $twittos->setAlerted(0);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($twittos);
+            $em->flush();
+        } catch(\Exception $e) {
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
+        return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId(),'username'=>$tuser->getUsername(),'name'=>$tuser->getTwitterRealname(),'profile_image_url'=>$tuser->getProfileImageUrl()),200,array('Content-Type', 'application/json'));
+    }
+
+    public function addTwittosAction(Request $request, $instant_id)
+    {
+        $instant = $this->checkInstant2($instant_id);
         $twittos_username = $request->request->get('twittos_username');
 
         $repository = $this->getDoctrine()
@@ -622,9 +682,9 @@ private function checkTweet($tweet_id)
         return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId()),200,array('Content-Type', 'application/json'));
     }
 
-    public function addTweetAction(Request $request, $instant_title)
+    public function addTweetAction(Request $request, $instant_id)
     {
-        $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
+        $instant = $this->checkInstant2($instant_id);
 
         $repository = $this->getDoctrine()
                    ->getManager()

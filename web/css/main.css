@@ -148,11 +148,12 @@ body .twitter_result_item {
 
 #popup_alert {
   display: none; /*--masqué par défaut--*/
-  position: relative;
+  position: fixed;
   background: #fff;
-  width: 50%; 
+  width: 500px; 
   height: 50%;
-  margin: 200px auto 0px auto;
+  left: 50%;
+  margin: 200px 0 0 -200px;
   z-index: 10000;
 }
 
@@ -262,6 +263,7 @@ body .twitter_result_item {
   padding:2px;
   color: white;
   height: 25px;
+  overflow: hidden;
 }
 
 #publish {

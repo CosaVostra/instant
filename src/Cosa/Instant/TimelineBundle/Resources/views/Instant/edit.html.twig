@@ -5,11 +5,10 @@
 {% endblock %}
 
 {% block body -%}
-    <div id="fade">
-      {% if twittos_to_alert %}
-        <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
-      {% endif %}
-    </div>
+    {% if twittos_to_alert %}
+      <div id="fade"></div>
+      <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
+    {% endif %}
     <h1>Instant edit</h1>
     <form>
       <label>Title</label>
@@ -18,7 +17,7 @@
       <input id="description" type="text" value="{{ entity.description }}" onFocusOut="js_cr_instant();"/>
       <input style="visibility:hidden;" type="submit" value="Save" onclick="return js_cr_instant();"/>
     </form>
-    <a style="float:right;" href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
+    <button style="float:right" onclick="document.location.href='{{ path('instant_preview', { 'instant_id': entity.id }) }}';">Preview</button>
     <div class="clearb"></div>
     <div class="grid4">
       <div id="block-search" class="block">
@@ -64,7 +63,8 @@
           {% endfor %}
         </div>
         <div class="block-footer">
-          <form>
+          <button onclick="$(this).hide();$('#addtw').fadeIn();">ADD A TWITTOS</button>
+          <form id="addtw" style="display:none;">
             <input type="text" id="twittos_username" placeholder="add a twittos" />
             <input type="submit" value="ADD" onClick="return js_add_twittos();" />
           </form>
@@ -83,7 +83,8 @@
           {% endfor %}
         </div>
         <div class="block-footer">
-          <form>
+          <button onclick="$(this).hide();$('#addkw').fadeIn();">ADD A KEYWORD</button>
+          <form id="addkw" style="display:none;">
             <input type="text" id="keyword" placeholder="add a keyword" />
             <input type="submit" value="ADD" onClick="return js_add_keyword();" />
           </form>
@@ -208,7 +209,7 @@
     {
       $.ajax({
         type: "POST",
-        url: "{{path('instant_add_keyword',{instant_title:entity.title})}}",
+        url: "{{path('instant_add_keyword',{instant_id:entity.id})}}",
         data: {
           'keyword': encodeURIComponent(keyword)
         }
@@ -226,7 +227,7 @@
       return false;
     }
     function js_add_twittos() {
-      return add_twittos($('#twittos_id').val(),encodeURIComponent($('#twittos_username').val()),encodeURIComponent($('#twittos_realname').val()),$('#twittos_profile_image_url').val());
+      return add_twittos2($('#twittos_username').val());
     }
     function js_rm_twittos(twittos_id,elt)
     {
@@ -248,15 +249,37 @@
       });
       return false;
     }
+    function add_twittos2(username)
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_add_twittos2',{instant_id:entity.id})}}",
+        data: {
+          'twittos_username': username
+        }
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
+          var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent());">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+        $('#').append(elt);
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return false;
+    }
     function add_twittos(twitterID,username,name,profile_image_url,elt)
     {
       $.ajax({
         type: "POST",
-        url: "{{path('instant_add_twittos',{instant_title:entity.title})}}",
+        url: "{{path('instant_add_twittos',{instant_id:entity.id})}}",
         data: {
           'twittos_id': twitterID,
-          'twittos_username': encodeURIComponent(username),
-          'twittos_realname': encodeURIComponent(name),
+          'twittos_username': username,
+          'twittos_realname': name,
           'twittos_profile_image_url': profile_image_url
         }
       })
@@ -318,7 +341,7 @@
     {
       $.ajax({
         type: "POST",
-        url: "{{path('instant_add_tweet',{instant_title:entity.title})}}",
+        url: "{{path('instant_add_tweet',{instant_id:entity.id})}}",
         data: {
           'twitter_id': twitter_id,
           'text': text,

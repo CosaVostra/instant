@@ -35,8 +35,11 @@ instant_webview:
     pattern:  /{username}/{instant_title}/webview
     defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantWebview }
 instant_preview:
-    pattern:  /{username}/{instant_title}/preview
+    pattern:  /{instant_id}/preview
     defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantPreview }
+instant_preview2:
+    pattern:  /{username}/{instant_title}/preview
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:instantPreview }
 instant_embed:
     pattern:  /{username}/{instant_title}/embed
     defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantEmbed }
@@ -47,19 +50,22 @@ instant_twitter_search:
     pattern:  /twitter-search
     defaults: { _controller: CosaInstantTimelineBundle:Instant:twitterSearch }
 instant_add_keyword:
-    pattern:  /{instant_title}/add-keyword
+    pattern:  /{instant_id}/add-keyword
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addKeyword }
 instant_rm_keyword:
     pattern:  /remove/keyword/{keyword_id}
     defaults: { _controller: CosaInstantTimelineBundle:Instant:rmKeyword }
 instant_add_twittos:
-    pattern:  /{instant_title}/add-twittos
+    pattern:  /{instant_id}/add-twittos
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addTwittos }
+instant_add_twittos2:
+    pattern:  /{instant_id}/add-twittos/byUsername
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:addTwittos2 }
 instant_rm_twittos:
     pattern:  /remove/twittos/{twittos_id}
     defaults: { _controller: CosaInstantTimelineBundle:Instant:rmTwittos }
 instant_add_tweet:
-    pattern:  /{instant_title}/add-tweet
+    pattern:  /{instant_id}/add-tweet
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addTweet }
 instant_rm_tweet:
     pattern:  /remove/from/{instant_id}/tweet/{tweet_id}
