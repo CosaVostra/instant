@@ -52,6 +52,17 @@
     <input type="text" id="twittos_realname" placeholder="twittos_realname" />
     <input type="text" id="twittos_profile_image_url" placeholder="twittos_profile_image_url" />
     <input type="button" value="Ajouter" onClick="js_add_twittos();" />
+    <br/>
+    <input type="text" id="tweet_twitter_id" placeholder="tweet id" />
+    <input type="text" id="tweet_text" placeholder="text" />
+    <input type="text" id="tweet_name" placeholder="name" />
+    <input type="text" id="tweet_screen_name" placeholder="screen name" />
+    <input type="text" id="tweet_user_id" placeholder="user id" />
+    <input type="text" id="tweet_profile_image_url" placeholder="profile image url" />
+    <input type="text" id="tweet_location" placeholder="location" />
+    <input type="text" id="tweet_media_url" placeholder="media url" />
+    <input type="text" id="tweet_created_at" placeholder="created at (mm/dd/yyyy hh:mi:ss)" />
+    <input type="button" value="Ajouter" onClick="js_add_tweet();" />
     <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
@@ -258,5 +269,36 @@
       //      .html( "Dropped!" );
       }
     });
+    function js_add_tweet() {
+      add_tweet($('#tweet_twitter_id').val(),$('#tweet_text').val(),encodeURIComponent($('#tweet_name').val()),$('#tweet_screen_name').val(),$('#tweet_user_id').val(),$('#tweet_profile_image_url').val(),$('#tweet_location').val(),$('#tweet_media_url').val(),$('#tweet_created_at').val());
+    }
+    function add_tweet(twitter_id,text,name,screen_name,user_id,profile_image_url,location,media_url,created_at,elt)
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_add_tweet',{instant_title:entity.title})}}",
+        data: {
+          'twitter_id': twitter_id,
+          'text': text,
+          'name': name,
+          'screen_name': screen_name,
+          'user_id': user_id,
+          'profile_image_url': profile_image_url,
+          'location': location,
+          'media_url': media_url,
+          'created_at': created_at
+        }
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Tweet saved !</div>');
+          $(elt).prepend('<a href="#" style="float:right;color:red;font-weight:bold;" title="Remove">X</a>');
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+    }
   </script>
 {% endblock %}

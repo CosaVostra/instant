@@ -12,6 +12,7 @@ use Cosa\Instant\TimelineBundle\Form\InstantType;
 use Cosa\Instant\TimelineBundle\Entity\Keyword;
 use Cosa\Instant\TimelineBundle\Entity\Twittos;
 use Cosa\Instant\UserBundle\Entity\User;
+use Cosa\Instant\TimelineBundle\Entity\Tweet;
 
 /**
  * Instant controller.
@@ -563,5 +564,41 @@ class InstantController extends Controller
             return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
         }
         return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId()),200,array('Content-Type', 'application/json'));
+    }
+
+    public function addTweetAction(Request $request, $instant_title)
+    {
+        $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
+
+        $repository = $this->getDoctrine()
+                   ->getManager()
+                   ->getRepository('CosaInstantTimelineBundle:Tweet');
+
+        $tweet = $repository->findOneBy(array('twitter_id' =>$request->request->get('twitter_id')));
+
+        if ($tweet == null) {
+            $tweet = new Tweet();
+            $tweet->setTwitterId($request->request->get('twitter_id'));
+            $tweet->setText($request->request->get('text'));
+            $tweet->setName($request->request->get('name'));
+            $tweet->setScreenName($request->request->get('screen_name'));
+            $tweet->setUserId($request->request->get('user_id'));
+            $tweet->setProfileImageUrl($request->request->get('profile_image_url'));
+            $tweet->setLocation($request->request->get('location'));
+            $tweet->setMediaUrl($request->request->get('media_url'));
+            $tweet->setCreatedAt(new \DateTime($request->request->get('created_at')));
+            $tweet->setIsRt(0);
+        }
+
+        $instant->addTweet($tweet);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($instant);
+            $em->flush();
+        } catch(\Exception $e) {
+            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+        }
+        return new JsonResponse(array('retour'=>true,'id'=>$tweet->getId()),200,array('Content-Type', 'application/json'));
     }
 }
