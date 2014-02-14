@@ -593,10 +593,10 @@ private function checkTweet($tweet_id)
             $cb = new \Codebird\Codebird;
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             $reply = $cb->users_search('q='.$twittos_username);
-            var_dump($reply->get('0'));exit;
-            if(isset($reply->0)>1){
+            var_dump($reply);exit;
+            if(isset($reply)>1){
               return new JsonResponse(array('retour'=>true,'msg'=>$reply),200,array('Content-Type', 'application/json'));
-            }else if(count(get_object_vars($reply))==1){
+            }else if(count($reply)==1){
               $user = $users[0];
               $tuser = new User();
               $tuser->setTwitterID($request->request->get('twittos_id'));
