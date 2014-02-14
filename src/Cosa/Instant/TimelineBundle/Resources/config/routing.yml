@@ -61,3 +61,9 @@ instant_rm_twittos:
 instant_add_tweet:
     pattern:  /{instant_title}/add-tweet
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addTweet }
+instant_up_twittos:
+    pattern:  /update/twittos/{twittos_id}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:upTwittos }
+instant_cr:
+    pattern: /update/instant/{instant_id}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:upInstant }

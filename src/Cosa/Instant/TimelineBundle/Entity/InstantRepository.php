@@ -13,6 +13,18 @@ use Doctrine\ORM\EntityRepository;
 class InstantRepository extends EntityRepository
 {
 
+    public function getLastId()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT i.id
+                 FROM CosaInstantTimelineBundle:Instant i
+                 ORDER BY i.id DESC'
+            )
+            ->setMaxResults(1)
+            ->getSingleResult();
+    }
+
     public function findByUserNTitle($user_id,$title)
     {
         return $this->getEntityManager()

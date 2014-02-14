@@ -28,7 +28,7 @@ class Instant
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=1000)
+     * @ORM\Column(type="string", length=1000, nullable=true)
      */
     private $description;
 
@@ -48,14 +48,14 @@ class Instant
     private $finish_at;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default":"draft"})
      */
-    private $status;
+    private $status = "draft";
 
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", nullable=true, options={"default":0})
      */
-    private $nb_views;
+    private $nb_views = 0;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -68,9 +68,9 @@ class Instant
     private $lang;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default":"Dear @EXPERT, ....."})
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default":"Dear @EXPERT, ....."})
      */
-    private $message_type;
+    private $message_type = "Dear @EXPERT, .....";
 
     /**
      * @ORM\ManyToOne(targetEntity="Cosa\Instant\UserBundle\Entity\User")

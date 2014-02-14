@@ -3,11 +3,13 @@
     <head>
         <meta charset="UTF-8" />
         <title>!nstant | {% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-      <header>
+     <div id="container">
+      <div id="header">
         {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
           <!--<a href="{{ path('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>-->
         {% else %}
@@ -22,42 +24,45 @@
             <span class="clearb"></span>
           </div>
         {% endif %}
-      </header>
-      <div id="flash-messages">
-       {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="flash-message flash-notice">
-          {{ flashMessage }}
-          <div class="close-button">X</div>
-        </div>
-       {% endfor %}
-       {% for flashMessage in app.session.flashbag.get('warning') %}
-        <div class="flash-message flash-warning">
-          {{ flashMessage }}
-          <div class="close-button">X</div>
-        </div>
-       {% endfor %}
-       {% for flashMessage in app.session.flashbag.get('error') %}
-        <div class="flash-message flash-error">
-          {{ flashMessage }}
-          <div class="close-button">X</div>
-        </div>
-       {% endfor %}
       </div>
-        {% block body %}{% endblock %}
-        <div id=footer>
-          <ul>
-            <li><a href="{{ path('homepage') }}">{% trans %} Home {% endtrans %}</a></li>
-            <li><a href="{{ path('about') }}">{% trans %} About {% endtrans %}</a></li>
-            <li><a href="{{ path('who_we_are') }}">{% trans %} Who we are {% endtrans %}</a></li>
-          </ul> 
-        </div>
-        <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
-        <script type="text/javascript">
-          function postEmailSmall()
-          {
+      <div id="body">
+        <div id="flash-messages">
+          {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="flash-message flash-notice">
+              {{ flashMessage }}
+              <div class="close-button">X</div>
+            </div>
+          {% endfor %}
+          {% for flashMessage in app.session.flashbag.get('warning') %}
+            <div class="flash-message flash-warning">
+              {{ flashMessage }}
+              <div class="close-button">X</div>
+            </div>
+          {% endfor %}
+          {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="flash-message flash-error">
+              {{ flashMessage }}
+              <div class="close-button">X</div>
+            </div>
+           {% endfor %}
+         </div>
+         {% block body %}{% endblock %}
+       </div>
+       <div id="footer">
+         <ul>
+           <li><a href="{{ path('homepage') }}">{% trans %} Home {% endtrans %}</a></li>
+           <li><a href="{{ path('about') }}">{% trans %} About {% endtrans %}</a></li>
+           <li><a href="{{ path('who_we_are') }}">{% trans %} Who we are {% endtrans %}</a></li>
+         </ul> 
+       </div>
+       <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+       <script type="text/javascript">
+         function postEmailSmall()
+         {
             
-          }
-        </script>
-        {% block javascripts %}{% endblock %}
+         }
+       </script>
+       {% block javascripts %}{% endblock %}
+     </div>
     </body>
 </html>

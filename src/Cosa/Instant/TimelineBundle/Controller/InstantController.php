@@ -82,15 +82,24 @@ class InstantController extends Controller
             return $tmp;
         }
         $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
         $entity = new Instant();
         $entity->setUser($user);
-        $form   = $this->createForm(new InstantType(), $entity);
+        $last_id = $em->getRepository('CosaInstantTimelineBundle:Instant')->getLastId();
+        if(empty($last_id) || !isset($last_id['id']))
+          $last_id['id'] = 1;
+        $entity->setTitle("Draft - {$last_id['id']}");
+        $em->persist($entity);
+        $em->flush();
+        return $this->redirect($this->generateUrl('instant_edit',array('username'=>$user->getUsername(),'instant_title'=>$entity->getTitle())));
+
+      /*  $form   = $this->createForm(new InstantType(), $entity);
 
         return $this->render('CosaInstantTimelineBundle:Instant:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'user'   => $user,
-        ));
+        ));*/
     }
 
     /**
@@ -203,27 +212,23 @@ class InstantController extends Controller
      * Deletes a Instant entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request,$username,$instant_title)
     {
         if(($tmp=$this->userEmailIsConfirmed())!==true){
             return $tmp;
         }
-        $form = $this->createDeleteForm($id);
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->checkUser($username);
+        $entity = $this->checkInstant($user,$instant_title);
+        $form = $this->createDeleteForm($entity->getId());
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CosaInstantTimelineBundle:Instant')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Instant entity.');
-            }
-
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('instant'));
+        return $this->redirect($this->generateUrl('homepage'));
     }
 
     /**
@@ -305,6 +310,18 @@ class InstantController extends Controller
             throw new AccessDeniedException();
         }
         return $user;
+    }
+
+    private function checkInstant2($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->find($id);
+        if (!$instant) {
+            throw $this->createNotFoundException('This instant does not exist');
+        } else if ($instant->getUser()!=$this->get('security.context')->getToken()->getUser()) {
+            throw new AccessDeniedException();
+        }
+        return $instant;
     }
 
    /**
@@ -435,7 +452,7 @@ class InstantController extends Controller
         $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
 //'12510322-GeTDxwl5lXmwwH1ioL5YFGmmNw44TypDxYcO4QoYy', 'ZzKUfXMrxuEBNQLXXCJ9mYnD6sB6eyQ73pLlshapmNFoP');
         //print_r($cb); 
-        $reply = $cb->search_tweets('q='.$request->request->get('q'));
+        $reply = $cb->search_tweets('result_type=recent&count=100&q='.$request->request->get('q'));
         //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
         //print_r($reply);
         //echo $request->request->get('q');
@@ -519,6 +536,35 @@ class InstantController extends Controller
         }
     }
 
+    public function upInstantAction(Request $request, $instant_id)
+    {
+        $instant = $this->checkInstant2($instant_id);
+        $instant->setTitle($request->request->get('title'));
+        $instant->setDescription($request->request->get('description'));
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($instant);
+            $em->flush();
+        } catch(\Exception $e) {
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
+        return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+    }
+
+    public function upTwittosAction(Request $request, $twittos_id)
+    {
+        $twittos = $this->checkTwittos($twittos_id);
+        $twittos->setDescription($request->request->get('description'));
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($twittos);
+            $em->flush();
+        } catch(\Exception $e) {
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
+        return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+    }
+
     public function addTwittosAction(Request $request, $instant_title)
     {
         $instant = $this->checkInstant($this->get('security.context')->getToken()->getUser(), $instant_title);
@@ -561,7 +607,7 @@ class InstantController extends Controller
             $em->persist($twittos);
             $em->flush();
         } catch(\Exception $e) {
-            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
         }
         return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId()),200,array('Content-Type', 'application/json'));
     }

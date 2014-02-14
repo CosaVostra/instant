@@ -1,7 +1,6 @@
 {% extends '::base.html.twig' %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
 {% endblock %}
 
@@ -12,32 +11,89 @@
       {% endif %}
     </div>
     <h1>Instant edit</h1>
-    <a href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
-    <input type="text" id="twitter_search" placeholder="twitter search" />
-    <input type="button" value="Rechercher" onClick="js_twitter_search();" />
-    <div>
-      <div id="twitter_result" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;overflow-x:visible;"></div>
-      <div id="twittos" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;">
-        {% for twitto in twittos %}
-          <div class="twitto">
-            <a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos({{twitto.id}},$(this).parent());">X</a>
-            <div class="tweet_image">
-              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
-            </div>
-            <div class="tweet_screen_name">
-              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">{{ twitto.user.twitterUsername }}</a>
-              <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
-            </div>
-          </div>
-        {% endfor %}
+    <form>
+      <label>Title</label>
+      <input id="title" type="text" value="{{ entity.title }}" onFocusOut="js_cr_instant();"/>
+      <label>Description</label>
+      <input id="description" type="text" value="{{ entity.description }}" onFocusOut="js_cr_instant();"/>
+      <input style="visibility:hidden;" type="submit" value="Save" onclick="return js_cr_instant();"/>
+    </form>
+    <a style="float:right;" href="{{ path('instant_preview', { 'username':user.username, 'instant_title': entity.title }) }}">Preview</a>
+    <div class="clearb"></div>
+    <div class="grid4">
+      <div id="block-search" class="block">
+        <div class="block-title">
+          <form>
+            <input type="text" id="twitter_search" placeholder="twitter search" />
+            <input type="submit" value="Rechercher" onClick="return js_twitter_search();" />
+          </form>
+        </div>
+        <div id="twitter_result" style="overflow-y:auto;overflow-x:visible;height:371px;" class="block-content">
+        </div>
       </div>
-      <div id="keywords" style="float:left;width:24%;height:400px;border:1px solid black;margin-right:1%;overflow-y:auto;">
-          {% for keyword in keywords %}
-            <div class="keyword"><a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent());">X</a>{{ keyword.keyword }}</div>
+      <div id="block-twittos" class="block">
+        <div class="block-title">
+          Who To Follow
+        </div>
+        <div id="twittos" style="overflow-y:auto;" class="block-content">
+          {% for twitto in twittos %}
+            <div class="twitto">
+              <button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos({{twitto.id}},$(this).parent());">X</button>
+              <div class="tweet_image">
+                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
+              </div>
+              <div class="tweet_screen_name">
+                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">{{ twitto.user.twitterUsername }}</a>
+                <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
+              </div>
+              <div class="description">
+                <button onclick="$('#p_tw_{{ twitto.id }}').slideToggle();$('#edit_tw_{{ twitto.id }}').slideToggle();return false;">Edit description</button>
+                <div id="p_tw_{{ twitto.id }}">
+                  {{ twitto.description }}
+                </div>
+                <div id="edit_tw_{{ twitto.id }}" style="display:none;">
+                  <form>
+                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;">
+                      {{ twitto.description }}
+                    </textarea>
+                    <input type="submit" value="Save" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
+                  </form>
+                </div>
+              </div>
+            </div>
           {% endfor %}
+        </div>
+        <div class="block-footer">
+          <form>
+            <input type="text" id="twittos_username" placeholder="add a twittos" />
+            <input type="submit" value="ADD" onClick="return js_add_twittos();" />
+          </form>
+        </div>
       </div>
-      <div id="tweet_column2" style="float:left;width:24%;height:400px;border:1px solid black;overflow-y:auto;">
-        <div id="tweet_list2">
+      <div id="block-keyword" class="block">
+        <div class="block-title">
+          Keyword
+        </div>
+        <div id="keywords" style="overflow-y:auto;" class="block-content">
+          {% for keyword in keywords %}
+            <div class="keyword">
+              <button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="Remove" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent());">X</button>
+              {{ keyword.keyword }}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="block-footer">
+          <form>
+            <input type="text" id="keyword" placeholder="add a keyword" />
+            <input type="submit" value="ADD" onClick="return js_add_keyword();" />
+          </form>
+        </div>
+      </div>
+      <div id="tweet_column2" class="block last">
+        <div class="block-title">
+          Timeline
+        </div>
+        <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:visible;">
           {% for tweet in tweets %}
             {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false} %}
           {% endfor %}
@@ -45,13 +101,6 @@
       </div>
       <span class="clearb"></span>
     </div>
-    <input type="text" id="keyword" placeholder="keyword" />
-    <input type="button" value="Ajouter" onClick="js_add_keyword();" />
-    <input type="text" id="twittos_id" placeholder="twittos_id" />
-    <input type="text" id="twittos_username" placeholder="twittos_username" />
-    <input type="text" id="twittos_realname" placeholder="twittos_realname" />
-    <input type="text" id="twittos_profile_image_url" placeholder="twittos_profile_image_url" />
-    <input type="button" value="Ajouter" onClick="js_add_twittos();" />
     <br/>
     <input type="text" id="tweet_twitter_id" placeholder="tweet id" />
     <input type="text" id="tweet_text" placeholder="text" />
@@ -63,31 +112,19 @@
     <input type="text" id="tweet_media_url" placeholder="media url" />
     <input type="text" id="tweet_created_at" placeholder="created at (mm/dd/yyyy hh:mi:ss)" />
     <input type="button" value="Ajouter" onClick="js_add_tweet();" />
-    <form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <!--<form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
+>>>>>>> some style, modif create new instant, modif entity Instant (schema to update)
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
             <button name="bsubmit" id="save" value="save">Save</button>
             {% if entity.status!='publish' %}
-              <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
             {% endif %}
         </p>
-    </form>
+    </form>-->
 
-    <ul class="record_actions">
-      <li>
-        <a href="{{ path('instant_list', { 'username':user.username } ) }}">
-            Back to the list
-        </a>
-      </li>
-      <!--<li>
-        <form action="{{ path('instant_delete', { 'username':user.username, 'instant_title': entity.title }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {#{ form_widget(delete_form) }#}
-            <button type="submit">Delete</button>
-        </form>
-      </li>-->
-    </ul>
+    <a href="{{ path('instant_list', { 'username':user.username } ) }}">Cancel</a>
+    <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
 {% endblock %}
 
 {% block javascripts %}
@@ -152,6 +189,7 @@
           }
         });
       });
+      return false;
     }
     function js_rm_keyword(keyword_id,elt)
     {
@@ -171,10 +209,10 @@
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);
       });
-      return true;
+      return false;
     }
     function js_add_keyword() {
-      add_keyword($('#keyword').val());
+      return add_keyword($('#keyword').val());
     }
     function add_keyword(keyword)
     {
@@ -188,16 +226,17 @@
       .done(function( retour ) {
         if(retour.retour){
           var msg = $('<div class="flash-message flash-notice">Keyword saved !</div>');
-          $('#keywords').append($('<div class="keyword"><a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_keyword('+retour.id+',$(this).parent());">X</a>'+keyword+'</div>'));
+          $('#keywords').append($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="Remove" onclick="return js_rm_keyword('+retour.id+',$(this).parent());">X</button>'+keyword+'</div>'));
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);
       });
+      return false;
     }
     function js_add_twittos() {
-      add_twittos($('#twittos_id').val(),encodeURIComponent($('#twittos_username').val()),encodeURIComponent($('#twittos_realname').val()),$('#twittos_profile_image_url').val());
+      return add_twittos($('#twittos_id').val(),encodeURIComponent($('#twittos_username').val()),encodeURIComponent($('#twittos_realname').val()),$('#twittos_profile_image_url').val());
     }
     function js_rm_twittos(twittos_id,elt)
     {
@@ -217,7 +256,7 @@
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);
       });
-      return true;
+      return false;
     }
     function add_twittos(twitterID,username,name,profile_image_url,elt)
     {
@@ -234,13 +273,15 @@
       .done(function( retour ) {
         if(retour.retour){
           var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
-          $(elt).prepend('<a href="#" style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent());">X</a>');
+          $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent());">X</button>');
+          $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);
       });
+      return false;
     }
     $( "#twittos" ).droppable({
       activeClass: "ui-state-default",
@@ -252,10 +293,6 @@
         $('.tweet_screen_name',ui.draggable).clone().appendTo(twitto);
         twitto.appendTo($(this));
         add_twittos($('.twitterID',ui.draggable).val(),$('.twitter_username',ui.draggable).val(),$('.twitter_realname',ui.draggable).val(),$('.twitter_profile_image_url',ui.draggable).val(),twitto);
-      //  $( this )
-      //    .addClass( "ui-state-highlight" )
-      //    .find( "p" )
-      //      .html( "Dropped!" );
       }
     });
     $( "#tweet_column2" ).droppable({
@@ -263,10 +300,6 @@
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {
         $('.tweet_content',ui.draggable).clone().appendTo($('#tweet_list2'));
-      //  $( this )
-      //    .addClass( "ui-state-highlight" )
-      //    .find( "p" )
-      //      .html( "Dropped!" );
       }
     });
     function js_add_tweet() {
@@ -287,18 +320,49 @@
           'location': location,
           'media_url': media_url,
           'created_at': created_at
+    function js_save_twittos_desc(twitto_id)
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_up_twittos',{twittos_id:0})}}"+twitto_id,
+        data: {
+          'description': $('#txta_'+twitto_id).val()
         }
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Tweet saved !</div>');
-          $(elt).prepend('<a href="#" style="float:right;color:red;font-weight:bold;" title="Remove">X</a>');
+          var msg = $('<div class="flash-message flash-notice">Description saved !</div>');
+          $('#p_tw_'+twitto_id).html($('#txta_'+twitto_id).val());
+          $('#p_tw_'+twitto_id).slideToggle();
+          $('#edit_tw_'+twitto_id).slideToggle();
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);
       });
+      return false;
+    }
+    function js_cr_instant()
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_cr',{instant_id:entity.id})}}",
+        data: {
+          'title': $('#title').val(),
+          'description': $('#description').val()
+        }
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Instant saved !</div>');
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return false;
     }
   </script>
 {% endblock %}
