@@ -55,6 +55,8 @@ class DefaultController extends Controller
     public function setEmailTmpAction(Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        if($user->getEmail()==$user->getTwitterID())
+          $user->setEmail('');
         // On crée le FormBuilder grâce à la méthode du contrôleur
         $formBuilder = $this->createFormBuilder($user);
         $formBuilder->add('email', 'email');
@@ -63,7 +65,7 @@ class DefaultController extends Controller
         if ($request->getMethod() == 'POST') {
           $form->bind($request);
 
-          if ($form->isValid()) {
+          if ($form->isValid() && $user->getEmail()!=''){
             try{
               $em = $this->getDoctrine()->getManager();
               $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));

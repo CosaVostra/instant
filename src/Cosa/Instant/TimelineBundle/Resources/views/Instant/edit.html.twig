@@ -28,7 +28,7 @@
             <input type="submit" value="Rechercher" onClick="return js_twitter_search();" />
           </form>
         </div>
-        <div id="twitter_result" style="overflow-y:auto;overflow-x:visible;height:371px;" class="block-content">
+        <div id="twitter_result" style="overflow-y:auto;overflow-x:hidden;height:371px;" class="block-content">
         </div>
       </div>
       <div id="block-twittos" class="block">
@@ -93,7 +93,7 @@
         <div class="block-title">
           Timeline
         </div>
-        <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:visible;">
+        <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
           {% for tweet in tweets %}
             {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false} %}
           {% endfor %}
@@ -102,16 +102,6 @@
       <span class="clearb"></span>
     </div>
     <br/>
-    <input type="text" id="tweet_twitter_id" placeholder="tweet id" />
-    <input type="text" id="tweet_text" placeholder="text" />
-    <input type="text" id="tweet_name" placeholder="name" />
-    <input type="text" id="tweet_screen_name" placeholder="screen name" />
-    <input type="text" id="tweet_user_id" placeholder="user id" />
-    <input type="text" id="tweet_profile_image_url" placeholder="profile image url" />
-    <input type="text" id="tweet_location" placeholder="location" />
-    <input type="text" id="tweet_media_url" placeholder="media url" />
-    <input type="text" id="tweet_created_at" placeholder="created at (mm/dd/yyyy hh:mi:ss)" />
-    <input type="button" value="Ajouter" onClick="js_add_tweet();" />
     <!--<form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
 >>>>>>> some style, modif create new instant, modif entity Instant (schema to update)
         <input type="hidden" name="_method" value="PUT" />
@@ -177,7 +167,7 @@
           containment: 'window',
           scroll: false,
           helper: function(event) {
-                return $(event.target).clone().css({
+                return $(event.target).closest(".ui-draggable").clone().css({
                     width: $(event.target).width()
                 });},
           cursor: 'move',
@@ -292,18 +282,37 @@
         $('.tweet_image',ui.draggable).clone().appendTo(twitto);
         $('.tweet_screen_name',ui.draggable).clone().appendTo(twitto);
         twitto.appendTo($(this));
-        add_twittos($('.twitterID',ui.draggable).val(),$('.twitter_username',ui.draggable).val(),$('.twitter_realname',ui.draggable).val(),$('.twitter_profile_image_url',ui.draggable).val(),twitto);
+        add_twittos(
+          $('.twitterID',ui.draggable).val(),
+          $('.twitter_username',ui.draggable).val(),
+          $('.twitter_realname',ui.draggable).val(),
+          $('.twitter_profile_image_url',ui.draggable).val(),
+          twitto
+        );
       }
     });
     $( "#tweet_column2" ).droppable({
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {
-        $('.tweet_content',ui.draggable).clone().appendTo($('#tweet_list2'));
+        var tweet = $('.tweet',ui.draggable).clone();
+        tweet.appendTo($('#tweet_list2'));
+        add_tweet(
+          $('.twitter_id_str',ui.draggable).val(),
+          $('.twitter_text',ui.draggable).val(),
+          $('.twitter_realname',ui.draggable).val(),
+          $('.twitter_username',ui.draggable).val(),
+          $('.twitterID',ui.draggable).val(),
+          $('.twitter_profile_image_url',ui.draggable).val(),
+          $('.twitter_location',ui.draggable).val(),
+          $('.twitter_media_url',ui.draggable).val(),
+          $('.twitter_created_at',ui.draggable).val(),
+          tweet
+        );
       }
     });
     function js_add_tweet() {
-      add_tweet($('#tweet_twitter_id').val(),$('#tweet_text').val(),encodeURIComponent($('#tweet_name').val()),$('#tweet_screen_name').val(),$('#tweet_user_id').val(),$('#tweet_profile_image_url').val(),$('#tweet_location').val(),$('#tweet_media_url').val(),$('#tweet_created_at').val());
+      add_tweet($('#tweet_twitter_id').val(),$('#tweet_text').val(),$('#tweet_name').val(),$('#tweet_screen_name').val(),$('#tweet_user_id').val(),$('#tweet_profile_image_url').val(),$('#tweet_location').val(),$('#tweet_media_url').val(),$('#tweet_created_at').val());
     }
     function add_tweet(twitter_id,text,name,screen_name,user_id,profile_image_url,location,media_url,created_at,elt)
     {
@@ -320,6 +329,20 @@
           'location': location,
           'media_url': media_url,
           'created_at': created_at
+        }
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Timeline saved !</div>');
+          $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet('+retour.id+',$(this).parent());">X</button>');
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return false;
+    }
     function js_save_twittos_desc(twitto_id)
     {
       $.ajax({
@@ -337,6 +360,26 @@
           $('#edit_tw_'+twitto_id).slideToggle();
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return false;
+    }
+    function js_rm_tweet(tweet_id,elt)
+    {
+      if(!confirm('Sure ?'))
+        return false;
+      $.ajax({
+        type: "GET",
+        url: "{{path('instant_rm_tweet',{instant_id:entity.id,tweet_id:0})}}"+tweet_id,
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Tweet removed !</div>');
+          $(elt).remove();
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);

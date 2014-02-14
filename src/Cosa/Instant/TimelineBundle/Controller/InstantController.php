@@ -312,6 +312,16 @@ class InstantController extends Controller
         return $user;
     }
 
+private function checkTweet($tweet_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tweet = $em->getRepository('CosaInstantTimelineBundle:Tweet')->find($tweet_id);
+        if (!$tweet) {
+            throw $this->createNotFoundException('This tweet does not exist');
+        }
+        return $tweet;
+    }
+
     private function checkInstant2($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -643,8 +653,23 @@ class InstantController extends Controller
             $em->persist($instant);
             $em->flush();
         } catch(\Exception $e) {
-            return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
         }
         return new JsonResponse(array('retour'=>true,'id'=>$tweet->getId()),200,array('Content-Type', 'application/json'));
+    }
+
+    public function rmTweetAction($tweet_id,$instant_id)
+    {
+        try{
+          $tweet = $this->checkTweet($tweet_id);
+          $instant = $this->checkInstant2($instant_id);
+          $instant->removeTweet($tweet);
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($instant);
+          $em->flush();
+          return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+        }catch(\Exception $e){
+          return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
     }
 }

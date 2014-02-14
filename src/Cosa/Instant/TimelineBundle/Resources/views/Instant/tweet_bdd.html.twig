@@ -1,5 +1,6 @@
 {% if draggable %}<div class="twitter_result_item ui-widget-content">{% endif %}
   <div class="tweet">
+    <button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent());">X</button>
     <div class="tweet_content">
       <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
       <div class="tweet_image">
@@ -15,6 +16,11 @@
             <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|date("m/d/Y H:i:s", "Europe/Paris") }}</a>
           </div>
         </div>
+        {% if tweet.mediaUrl!='' %}
+          <div class="tweet_media">
+            <a href="{{ tweet.mediaUrl }}" target="_blank"><img src="{{ tweet.mediaUrl }}" width="100%" height="auto"/></a>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

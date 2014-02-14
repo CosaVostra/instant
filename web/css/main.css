@@ -20,12 +20,14 @@ body {
   margin-bottom:10px;*/
 }
 .tweet {
+  width: 100%;
   display:inline-block;
+  border: 1px solid #cdcdcd;
 }
 .tweet_content {
   width: 100%;
-  display:inline-block;
-/*  padding: 3px;*/
+/*  display:inline-block;
+  padding: 3px;*/
 }
 .tweet_image {
   float: left;
@@ -79,6 +81,11 @@ body {
 .tweet_date a:hover {
   text-decoration: underline;
 }
+.tweet_media{
+  width: 20%;
+  margin: auto;
+  clear: both;
+}
 #new_tweet_count {
   background-color: #cae4ff;
   cursor: pointer;
@@ -110,7 +117,9 @@ body {
 
 body .twitter_result_item {
   width: 23%;
+  border: 0px white;
 }
+
 #twitter_result .twitter_result_item {
   width: auto;
 }

@@ -47,12 +47,12 @@ class Tweet
     private $profile_image_url;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $location;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $media_url;
 
@@ -64,7 +64,7 @@ class Tweet
     /**
      * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $is_rt;
+    private $is_rt = false;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)

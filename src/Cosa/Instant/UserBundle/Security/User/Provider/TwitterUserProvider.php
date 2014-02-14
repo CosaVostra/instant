@@ -79,7 +79,7 @@ class TwitterUserProvider implements UserProviderInterface
                 $username = $info->screen_name;
                 $user->setTwitterID($info->id);
                 $user->setTwitterUsername($username);
-                $user->setEmail('');
+                $user->setEmail($info->id);
                 $user->setUsername($username);
                 $user->setCreatedAt(new \Datetime());
             }

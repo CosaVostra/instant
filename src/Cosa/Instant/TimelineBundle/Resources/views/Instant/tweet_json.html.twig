@@ -19,7 +19,17 @@
             <a href="http://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" >{{ tweet.created_at|date("m/d/Y H:i:s", "Europe/Paris") }}</a>
           </div>
         </div>
+        {% if tweet.entities.media is defined %}
+          <div class="tweet_media">
+            <a href="{{ tweet.entities.media.0.media_url }}" target="_blank"><img src="{{ tweet.entities.media.0.media_url }}" width="100%" height="auto"/></a>
+          </div>
+          <input type="hidden" class="twitter_media_url" value="{{ tweet.entities.media.0.media_url }}"/>
+        {% endif %}
       </div>
     </div>
+    <input type="hidden" class="twitter_id_str" value="{{ tweet.id_str }}"/>
+    <input type="hidden" class="twitter_text" value="{{ tweet.text }}"/>
+    <input type="hidden" class="twitter_location" value=""/>
+    <input type="hidden" class="twitter_created_at" value="{{ tweet.created_at|date("m/d/Y H:i:s", "Europe/Paris") }}"/>
   </div>
 {% if draggable %}</div>{% endif %}
