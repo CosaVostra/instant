@@ -24,6 +24,11 @@ class Tweet
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $twitter_id_ori;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $text;
 
     /**
@@ -383,5 +388,28 @@ class Tweet
     public function getRtByTwitterRealname()
     {
         return $this->rt_by_twitter_realname;
+    }
+
+    /**
+     * Set twitter_id_ori
+     *
+     * @param string $twitterIdOri
+     * @return Tweet
+     */
+    public function setTwitterIdOri($twitterIdOri)
+    {
+        $this->twitter_id_ori = $twitterIdOri;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter_id_ori
+     *
+     * @return string 
+     */
+    public function getTwitterIdOri()
+    {
+        return $this->twitter_id_ori;
     }
 }
