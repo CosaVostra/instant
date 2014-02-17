@@ -56,7 +56,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="boolean", options={"default":0})
      */
-    protected $optin;
+    protected $optin=false;
 
     /**
      * @ORM\Column(type="datetime")
@@ -71,7 +71,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="integer", options={"default":0})
      */
-    protected $login_count;
+    protected $login_count=0;
 
     /**
      * @ORM\Column(type="string", length=4)

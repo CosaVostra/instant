@@ -401,7 +401,6 @@ abstract class Phirehose
   {
     // Persist connection?
     $this->reconnect = $reconnect;
-    $time_r = time();
     
     // Loop indefinitely based on reconnect
     do {
@@ -421,7 +420,6 @@ abstract class Phirehose
       //     called, which might mean a monitoring system kills the script assuming it has died.
       while ($this->conn !== NULL && !feof($this->conn) &&
         ($numChanged = stream_select($this->fdrPool, $fdw, $fde, $this->readTimeout)) !== FALSE) {
-        if ((time()-$time_r)>30) break;
         /* Unfortunately, we need to do a safety check for dead twitter streams - This seems to be able to happen where
          * you end up with a valid connection, but NO tweets coming along the wire (or keep alives). The below guards
          * against this.
@@ -518,7 +516,6 @@ abstract class Phirehose
       $this->lastErrorNo = is_resource($this->conn) ? @socket_last_error($this->conn) : NULL;
       $this->lastErrorMsg = ($this->lastErrorNo > 0) ? @socket_strerror($this->lastErrorNo) : 'Socket disconnected';
       $this->log('Phirehose connection error occured: ' . $this->lastErrorMsg,'error');
-      break;
 
       // Reconnect
     } while ($this->reconnect);

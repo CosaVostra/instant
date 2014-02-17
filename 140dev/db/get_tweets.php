@@ -16,6 +16,7 @@ class Consumer extends OauthPhirehose
 {
   // A database connection is established at launch and kept open permanently
   public $oDB;
+
   public function db_connect() {
     require_once('db_lib.php');
     $this->oDB = new db;
@@ -39,6 +40,25 @@ class Consumer extends OauthPhirehose
       'tweet_id = ' . $tweet_id;
     $this->oDB->insert('json_cache',$field_values);
   }
+
+  public function checkFilterPredicates() {
+    $result = $this->oDB->select('
+      SELECT DISTINCT u.twitterID
+      FROM fos_user u,Twittos t,Instant i
+      WHERE u.id=t.user_id
+      AND t.instant_id=i.id
+      AND i.status=\'publish\'
+      AND i.finish_at>now()
+    ');
+    $twitterIDs = array('12510322');
+    if($result){
+      while ($row = $result->fetch_array()){
+        $twitterIDs[] = $row['twitterID'];
+      }
+      $result->close();
+    }
+    $this->setFollow($twitterIDs);
+  }
 }
 
 // Open a persistent connection to the Twitter streaming API
@@ -47,13 +67,6 @@ $stream = new Consumer(OAUTH_TOKEN, OAUTH_SECRET, Phirehose::METHOD_FILTER);
 // Establish a MySQL database connection
 $stream->db_connect();
 
-// The keywords for tweet collection are entered here as an array
-// More keywords can be added as array elements
-// For example: array('recipe','food','cook','restaurant','great meal')
-$stream->setTrack(array('twitter'));
-
-// Start collecting tweets
-// Automatically call enqueueStatus($status) with each tweet's JSON data
 $stream->consume();
 
 ?>
