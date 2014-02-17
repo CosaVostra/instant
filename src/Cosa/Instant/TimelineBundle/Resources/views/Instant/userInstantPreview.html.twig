@@ -2,6 +2,15 @@
 
 {% block body -%}
     <h1>Instant "{{ instant.title }}" preview</h1>
-
+    <div id="tweet_column2" class="block last">
+      <div class="block-title">
+        Timeline
+      </div>
+      <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
+        {% for tweet in tweets %}
+          {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false} %}
+        {% endfor %}
+      </div>
+    </div>
     <a href="{{ path('instant_edit' , { 'username':user.username, 'instant_title':instant.title}) }}">Back</A>
 {% endblock %}

@@ -419,9 +419,11 @@ private function checkTweet($tweet_id)
     {
         $user = $this->checkUser($username);
         $instant = $this->checkInstant($user,$instant_title);
+        $tweets = $instant->getTweets();
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantPreview.html.twig', array(
             'instant' => $instant,
-            'user' => $user
+            'user' => $user,
+            'tweets' => $tweets
         ));
     }
 
@@ -638,7 +640,7 @@ private function checkTweet($tweet_id)
         } catch(\Exception $e) {
             return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
         }
-        return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId(),'username'=>$tuser->getUsername(),'name'=>$tuser->getTwitterRealname(),'profile_image_url'=>$tuser->getProfileImageUrl()),200,array('Content-Type', 'application/json'));
+        return new JsonResponse(array('retour'=>true,'twitterID'=>$tuser->getTwitterID(),'id'=>$twittos->getId(),'username'=>$tuser->getUsername(),'name'=>$tuser->getTwitterRealname(),'profile_image_url'=>$tuser->getProfileImageUrl()),200,array('Content-Type', 'application/json'));
     }
 
     public function addTwittosAction(Request $request, $instant_id)

@@ -1,6 +1,6 @@
 {% if draggable %}<div class="twitter_result_item ui-widget-content">{% endif %}
   <div class="tweet">
-    <button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent());">X</button>
+    <button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent(),'{{ tweet.twitterId }}');">X</button>
     <div class="tweet_content">
       <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
       <div class="tweet_image">
