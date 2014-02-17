@@ -109,7 +109,6 @@
     </div>
     <br/>
     <!--<form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
->>>>>>> some style, modif create new instant, modif entity Instant (schema to update)
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
@@ -121,6 +120,7 @@
 
     <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
     <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.username } ) }}';">Cancel</button>
+    <a href="{{ path('instant_clear', { 'instant_id': entity.id } ) }}">Clear</a>
 {% endblock %}
 
 {% block javascripts %}

@@ -655,11 +655,10 @@ private function checkTweet($tweet_id)
         $twittos_user = $repository->findOneByUsername($twittos_username);
 
         $twittos = new Twittos();
-        $twittos->setUser($twittos_user);
         $twittos->setInstant($instant);
         $twittos->setAlerted(0);
 
-        if ($twittos_user == null) {
+        if (!$twittos_user) {
             $user = new User();
             $user->setTwitterID($request->request->get('twittos_id'));
             $user->setTwitterUsername($request->request->get('twittos_username'));
@@ -678,6 +677,13 @@ private function checkTweet($tweet_id)
             $user->setUsername($request->request->get('twittos_username'));
 
             $twittos->setUser($user);
+        } else {
+            $twittos_user->setTwitterUsername($request->request->get('twittos_username'));
+            $twittos_user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
+            $twittos_user->setTwitterRealname($request->request->get('twittos_realname'));
+            $twittos_user->setUpdatedAt(new \DateTime('now'));
+
+            $twittos->setUser($twittos_user);
         }
 
         try {
@@ -740,4 +746,28 @@ private function checkTweet($tweet_id)
           return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
         }
     }
+
+    public function clearAction($instant_id)
+    {
+        $instant = $this->checkInstant2($instant_id);
+        $em = $this->getDoctrine()->getManager();
+        $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($instant->getId());
+        foreach ($keywords as $keyword)
+        {
+            $em->remove($keyword);
+        }
+        //$keywords->clear();
+        $twittos_list = $em->getRepository('CosaInstantTimelineBundle:Twittos')->findByInstant($instant->getId());
+        foreach ($twittos_list as $twittos)
+        {
+            $em->remove($twittos);
+        }
+        foreach ($instant->getTweets() as $tweet)
+        {
+            $instant->removeTweet($tweet);
+        }
+        $em->flush();
+        return $this->redirect($this->generateUrl('instant_edit', array('username' => $this->get('security.context')->getToken()->getUser()->getUsername(), 'instant_title' => $instant->getTitle())));
+    }
+
 }

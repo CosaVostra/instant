@@ -76,3 +76,6 @@ instant_up_twittos :
 instant_cr:
     pattern: /update/instant/{instant_id}
     defaults: { _controller: CosaInstantTimelineBundle:Instant:upInstant }
+instant_clear:
+    pattern:  /{instant_id}/clear
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:clear }
