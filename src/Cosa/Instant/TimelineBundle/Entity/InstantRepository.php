@@ -15,7 +15,8 @@ class InstantRepository extends EntityRepository
 
     public function getLastId()
     {
-        return $this->getEntityManager()
+        try{
+          return $this->getEntityManager()
             ->createQuery(
                 'SELECT i.id
                  FROM CosaInstantTimelineBundle:Instant i
@@ -23,6 +24,9 @@ class InstantRepository extends EntityRepository
             )
             ->setMaxResults(1)
             ->getSingleResult();
+        }catch(\Exception $e){
+          return false;
+        }
     }
 
     public function findByUserNTitle($user_id,$title)

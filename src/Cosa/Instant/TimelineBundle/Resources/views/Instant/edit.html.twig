@@ -157,6 +157,7 @@
       });
     }
     function js_twitter_search() {
+      $('#twitter_result').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
       $.ajax({
         type: "POST",
         url: "{{path('instant_twitter_search')}}",
