@@ -262,9 +262,9 @@
         if(retour.retour){
           var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
           var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent());">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
-        $('#').append(elt);
+        $('#twittos').append(elt);
         }else{
-          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+          var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);

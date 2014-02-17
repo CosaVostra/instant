@@ -1,9 +1,10 @@
 {% extends "::base.html.twig" %}
 {% block body %}
-  {% if app.security.token.user.email != '' %}
+  <h1>Email confirmation</h1>
+  {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
     <a href="#" onclick="$('#email_form').slideToggle();">Edit your email</a>
   {% endif %}
-  <div id="email_form" style="display:{% if app.security.token.user.email == '' %}block{% else %}none{% endif %};"
+  <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};"
     <h1>Please set your email</h1>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.username})) }}
     <h2>Then</h2>

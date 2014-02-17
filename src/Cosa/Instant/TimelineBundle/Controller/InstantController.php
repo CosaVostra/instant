@@ -593,17 +593,23 @@ private function checkTweet($tweet_id)
             $cb = new \Codebird\Codebird;
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             $reply = $cb->users_search('q='.$twittos_username);
-            var_dump($reply);exit;
-            if(isset($reply)>1){
-              return new JsonResponse(array('retour'=>true,'msg'=>$reply),200,array('Content-Type', 'application/json'));
-            }else if(count($reply)==1){
-              $user = $users[0];
+            $ruser = false;
+            foreach($reply as $repl){
+              if(!isset($repl->screen_name)){
+                break;
+              }
+              if(strtoupper($repl->screen_name)==strtoupper($twittos_username)){
+                $ruser = $repl;
+                break;
+              }
+            }
+            if($ruser!==false){
               $tuser = new User();
-              $tuser->setTwitterID($request->request->get('twittos_id'));
-              $tuser->setTwitterUsername($request->request->get('twittos_username'));
-              $tuser->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
-              $tuser->setTwitterRealname($request->request->get('twittos_realname'));
-              $tuser->setEmail($request->request->get('twittos_id'));
+              $tuser->setTwitterID($ruser->id_str);
+              $tuser->setTwitterUsername($ruser->screen_name);
+              $tuser->setProfileImageUrl($ruser->profile_image_url);
+              $tuser->setTwitterRealname($ruser->name);
+              $tuser->setEmail($ruser->id_str);
               $tuser->setPassword('');
               $tuser->setTwitterAccessToken('');
               $tuser->setTwitterAccessTokenSecret('');
@@ -613,7 +619,7 @@ private function checkTweet($tweet_id)
               $tuser->setUpdatedAt(new \DateTime('now'));
               $tuser->setLoginCount(0);
               $tuser->setLang('');
-              $tuser->setUsername($request->request->get('twittos_username'));
+              $tuser->setUsername($ruser->screen_name);
             }else{
               return new JsonResponse(array('retour'=>false,'msg'=>'no user found'),200,array('Content-Type', 'application/json'));
             }
