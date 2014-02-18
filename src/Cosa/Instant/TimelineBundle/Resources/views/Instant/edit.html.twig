@@ -54,7 +54,7 @@
                 </div>
                 <div id="edit_tw_{{ twitto.id }}" style="display:none;">
                   <form>
-                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;">
+                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onFocusOut="return js_save_twittos_desc({{ twitto.id }});">
                       {{ twitto.description }}
                     </textarea>
                     <input type="submit" value="Save" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
@@ -66,10 +66,11 @@
           {% endfor %}
         </div>
         <div class="block-footer">
-          <button onclick="$(this).hide();$('#addtw').fadeIn();">ADD A TWITTOS</button>
+          <button onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();">ADD A TWITTOS</button>
           <form id="addtw" style="display:none;">
             <input type="text" id="twittos_username" placeholder="add a twittos" />
             <input type="submit" value="ADD" onClick="return js_add_twittos();" />
+            <div id="autotwittos"></div>
           </form>
         </div>
       </div>
@@ -87,7 +88,7 @@
           {% endfor %}
         </div>
         <div class="block-footer">
-          <button onclick="$(this).hide();$('#addkw').fadeIn();">ADD A KEYWORD</button>
+          <button onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();">ADD A KEYWORD</button>
           <form id="addkw" style="display:none;">
             <input type="text" id="keyword" placeholder="add a keyword" />
             <input type="submit" value="ADD" onClick="return js_add_keyword();" />
@@ -273,12 +274,20 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          if(in_array(retour.twitterID, twittos))
+          if(retour.users){
+            $.each(retour.users, function(key, user) {
+              $('#autotwittos').append('<div class="twittos" onclick="cr_twittos(\''+user.screen_name+'\',\''+user.name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\');"><img src="'+user.profile_image_url+'"/><div><span class="username">'+user.screen_name+'</span><span class="name">'+user.name+'</span><br/><span class="description">'+user.description+'</span><span style="display:none;">'+user.id_str+'</span><br/><span class="location">'+user.location+'</span></div><div class="clearb"></div></div>');
+            });
+            $('#autotwittos').fadeIn();
             return false;
-          var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
-          var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
-          $('#twittos').append(elt);
-          twittos.push(retour.twitterID);
+          }else{
+            if(in_array(retour.twitterID, twittos))
+              return false;
+            var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
+            var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onFocusOut="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+            $('#twittos').append(elt);
+            twittos.push(retour.twitterID);
+          }
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
         }
@@ -286,6 +295,13 @@
         msg.delay(3000).fadeOut(1000);
       });
       return false;
+    }
+    function cr_twittos(screen_name,name,profile_image_url,id_str)
+    {
+      $('#autotwittos').hide();
+      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+'">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
+      $('#twittos').append(elt);
+      add_twittos(id_str,screen_name,name,profile_image_url,elt);
     }
     function add_twittos(twitterID,username,name,profile_image_url,elt)
     {
@@ -307,7 +323,7 @@
         if(retour.retour){
           var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
           $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+twitterID+'\');">X</button>');
-          $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+          $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onFocusOut="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
           twittos.push(twitterID);
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');

@@ -276,13 +276,14 @@ body .twitter_result_item {
 }
 
 #body{
-  padding-bottom: 100px;
+ /* padding-bottom: 200px;*/
+  margin-bottom: 200px;
 }
 
 #footer {
   position: absolute;
   width:100%;
-  bottom:0px;
+/*  bottom:0px;*/
   height: 100px;
 }
 
@@ -333,4 +334,54 @@ body .twitter_result_item {
   font-style: italic;
   width: 100%;
   border: 0px;
+}
+
+#autotwittos {
+  display:none;
+  position:absolute;
+  padding:3px;
+  border:1px solid black;
+  background: white;
+  overflow: auto;
+  height: 200px;
+  text-align: left;
+  margin-bottom: 100px;
+  width: 23%;
+}
+
+#autotwittos .twittos {
+  cursor: pointer;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
+}
+
+#autotwittos .twittos:hover {
+  background: #cdcdcd;
+}
+
+#autotwittos .twittos span.username {
+  color:grey;
+  font-size:20px;
+  font-weight:bold;
+  margin-right:5px;
+}
+
+#autotwittos .twittos span.name {
+  color:black;
+  font-style:italic;
+}
+
+#autotwittos .twittos img {
+  margin-right:5px;
+  float: left;
+}
+
+#autotwittos .twittos span.description {
+  color:black;
+  font-size:10px;
+}
+
+#autotwittos .twittos span.location {
+  color:green;
+  font-size:8px;
 }

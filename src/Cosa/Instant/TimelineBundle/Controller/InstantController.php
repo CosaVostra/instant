@@ -606,14 +606,25 @@ private function checkTweet($tweet_id)
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             $reply = $cb->users_search('q='.$twittos_username);
             $ruser = false;
+            $retour = array('retour'=>true,'users'=>array());
             foreach($reply as $repl){
               if(!isset($repl->screen_name)){
                 break;
               }
+              $retour['users'][] = array(
+                'id_str'=>$repl->id_str,
+                'screen_name'=>$repl->screen_name,
+                'name'=>$repl->name,
+                'description'=>$repl->description,
+                'location'=>$repl->location,
+                'profile_image_url'=>$repl->profile_image_url
+              );
               if(strtoupper($repl->screen_name)==strtoupper($twittos_username)){
                 $ruser = $repl;
-                break;
               }
+            }
+            if(count($retour['users'])>1){
+              return new JsonResponse($retour,200,array('Content-Type', 'application/json'));
             }
             if($ruser!==false){
               $tuser = new User();
