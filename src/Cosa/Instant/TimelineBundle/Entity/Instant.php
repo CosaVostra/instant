@@ -385,4 +385,15 @@ class Instant
     {
         return $this->tweets;
     }
+
+    public function hasTweet(\Cosa\Instant\TimelineBundle\Entity\Tweet $tweet)
+    {
+        //TO_DO: SQL request to increase the performance
+        foreach ($this->tweets as $tweet2) {
+           if ($tweet2 == $tweet)
+               return true;
+        }
+        return false;
+    }
+
 }

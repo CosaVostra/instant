@@ -494,19 +494,29 @@ private function checkTweet($tweet_id)
 
     public function addKeywordAction(Request $request, $instant_id)
     {
+        $keywordToAdd = strtolower($request->request->get('keyword')); 
         $instant = $this->checkInstant2($instant_id);
-        $keyword = new Keyword();
-        $keyword->setKeyword($request->request->get('keyword')); 
-        $keyword->setInstant($instant);
+        $em = $this->getDoctrine()->getManager();
+        $keywordInDB = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findOneBy(array('instant'=>$instant_id,'keyword'=>$keywordToAdd));
 
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($keyword);
-            $em->flush();
-        } catch(\Exception $e) {
-            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        $id = 0;
+
+        if ($keywordInDB) {
+            $id = $keywordInDB->getId();
+        } else {
+            $keyword = new Keyword();
+            $keyword->setKeyword($keywordToAdd); 
+            $keyword->setInstant($instant);
+
+            try {
+                $em->persist($keyword);
+                $em->flush();
+            } catch(\Exception $e) {
+                return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+            }
+            $id = $keyword->getId();
         }
-        return new JsonResponse(array('retour'=>true,'id'=>$keyword->getId()),200,array('Content-Type', 'application/json'));
+        return new JsonResponse(array('retour'=>true,'id'=>$id),200,array('Content-Type', 'application/json'));
     }
 
     /**
@@ -648,11 +658,9 @@ private function checkTweet($tweet_id)
         $instant = $this->checkInstant2($instant_id);
         $twittos_username = $request->request->get('twittos_username');
 
-        $repository = $this->getDoctrine()
-                   ->getManager()
-                   ->getRepository('CosaInstantUserBundle:User');
+        $em = $this->getDoctrine()->getManager();
 
-        $twittos_user = $repository->findOneByUsername($twittos_username);
+        $twittos_user = $em->getRepository('CosaInstantUserBundle:User')->findOneByUsername($twittos_username);
 
         $twittos = new Twittos();
         $twittos->setInstant($instant);
@@ -678,27 +686,40 @@ private function checkTweet($tweet_id)
 
             $twittos->setUser($user);
         } else {
-            $twittos_user->setTwitterUsername($request->request->get('twittos_username'));
-            $twittos_user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
-            $twittos_user->setTwitterRealname($request->request->get('twittos_realname'));
-            $twittos_user->setUpdatedAt(new \DateTime('now'));
+            if (($twittos_user->getTwitterUsername() != $request->request->get('twittos_username'))
+                || ($twittos_user->getProfileImageUrl() != $request->request->get('twittos_profile_image_url'))
+                || ($twittos_user->getTwitterRealname() != $request->request->get('twittos_realname'))) {
+                $twittos_user->setTwitterUsername($request->request->get('twittos_username'));
+                $twittos_user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
+                $twittos_user->setTwitterRealname($request->request->get('twittos_realname'));
+                $twittos_user->setUpdatedAt(new \DateTime('now'));
+            }
 
             $twittos->setUser($twittos_user);
+            $twittosInDB = $em->getRepository('CosaInstantTimelineBundle:Twittos')->findOneBy(array('instant'=>$instant_id, 'user'=>$twittos_user->getId()));
         }
 
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($twittos);
-            $em->flush();
-        } catch(\Exception $e) {
-            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        $id = 0;
+
+        if ($twittosInDB) {
+            $id = $twittosInDB->getId();
+        } else {
+            try {
+                $em->persist($twittos);
+                $em->flush();
+            } catch(\Exception $e) {
+                return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+            }
+            $id = $twittos->getId();
         }
-        return new JsonResponse(array('retour'=>true,'id'=>$twittos->getId()),200,array('Content-Type', 'application/json'));
+        return new JsonResponse(array('retour'=>true,'id'=>$id),200,array('Content-Type', 'application/json'));
     }
 
     public function addTweetAction(Request $request, $instant_id)
     {
         $instant = $this->checkInstant2($instant_id);
+        // Is this tweet already attached to this instant ?
+        $hasTweet = false;
 
         $repository = $this->getDoctrine()
                    ->getManager()
@@ -706,7 +727,7 @@ private function checkTweet($tweet_id)
 
         $tweet = $repository->findOneBy(array('twitter_id' =>$request->request->get('twitter_id')));
 
-        if ($tweet == null) {
+        if (!$tweet) {
             $tweet = new Tweet();
             $tweet->setTwitterId($request->request->get('twitter_id'));
             $tweet->setText($request->request->get('text'));
@@ -718,16 +739,20 @@ private function checkTweet($tweet_id)
             $tweet->setMediaUrl($request->request->get('media_url'));
             $tweet->setCreatedAt(new \DateTime($request->request->get('created_at')));
             $tweet->setIsRt(0);
+        } else {
+            if ($instant->hasTweet($tweet))
+                $hasTweet = true;
         }
 
-        $instant->addTweet($tweet);
-
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($instant);
-            $em->flush();
-        } catch(\Exception $e) {
-            return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        if (!$hasTweet) {
+            $instant->addTweet($tweet);
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($instant);
+                $em->flush();
+            } catch(\Exception $e) {
+                return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+            }
         }
         return new JsonResponse(array('retour'=>true,'id'=>$tweet->getId()),200,array('Content-Type', 'application/json'));
     }
