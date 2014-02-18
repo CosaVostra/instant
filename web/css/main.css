@@ -385,3 +385,20 @@ body .twitter_result_item {
   color:green;
   font-size:8px;
 }
+
+#geoloc {
+  background: white;
+  border: 1px solid black;
+  position: relative;
+}
+
+#autogeo .geoplace {
+  border: 1px solid grey;
+  padding: 3px;
+  color: grey;
+}
+
+#autogeo .geoplace:hover {
+  background: grey;
+  color:white;
+}

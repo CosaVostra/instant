@@ -24,10 +24,21 @@
     <div class="grid4">
       <div id="block-search" class="block">
         <div class="block-title">
+          <a href="#" onclick="$('#geoloc').slideToggle();return false;" style="float:right;">geo</a>
           <form>
             <input type="text" id="twitter_search" placeholder="twitter search" />
             <input type="submit" value="Rechercher" onClick="return js_twitter_search();" />
           </form>
+          <div id="geoloc" style="display:none;">
+            <input type="integer" id="geo_radius" placeholder="set the radius (mi)" />
+            <input type="text" id="geo_lat" value="" placeholder="set the lat"/>
+            <input type="text" id="geo_lon" value="" placeholder="set the lon"/>
+            <form>
+              <input type="text" id="geo_search" placeholder="set the location" />
+              <input type="submit" value="Rechercher" onClick="return js_geo_search();" />
+            </form>
+            <div id="autogeo" style="display:none;"></div>
+          </div>
         </div>
         <div id="twitter_result" style="overflow-y:auto;overflow-x:hidden;height:371px;" class="block-content">
         </div>
@@ -146,13 +157,49 @@
         }
       });
     }
+    function js_geo_search()
+    {
+      $('#autogeo').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
+      $('#autogeo').fadeIn();
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_geo_search')}}",
+        data: {
+          'q': encodeURIComponent($('#geo_search').val())
+        }
+      })
+      .done(function( retour ) {
+        $('#autogeo').html('');
+        if(retour.retour){
+          $.each(retour.datas.result.places , function(key,place) {
+            var lat = 0;
+            var lon = 0;
+            for(var i=0;i<4;i++){
+              lon += place.bounding_box.coordinates[0][i][0];
+              lat += place.bounding_box.coordinates[0][i][1];
+            }
+            lat /= 4;
+            lon /= 4;
+            var elt = $('<div class="geoplace" onclick="$(\'#geo_lat\').val('+lat+');$(\'#geo_lon\').val('+lon+');$(\'#autogeo\').hide();$(\'#geoloc\').slideToggle();">'+lat+':'+lon+'<br/>'+place.full_name+' ('+place.country+')</div>');
+            $('#autogeo').append(elt);
+          });
+        }else{
+          alert(retour.msg);
+        }
+      });
+      return false;
+    }
     function js_twitter_search() {
+      $('#geoloc').hide();
       $('#twitter_result').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
       $.ajax({
         type: "POST",
         url: "{{path('instant_twitter_search')}}",
         data: {
-          'q': encodeURIComponent($('#twitter_search').val())
+          'q': encodeURIComponent($('#twitter_search').val()),
+          'lat':$('#geo_lat').val(),
+          'lon':$('#geo_lon').val(),
+          'radius':$('#geo_radius').val()
         }
       })
       .done(function( retour ) {

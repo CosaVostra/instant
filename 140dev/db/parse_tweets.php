@@ -1,4 +1,6 @@
 <?php
+
+set_time_limit(0);
 /**
 * parse_tweets.php
 * Populate the database with new tweet data from the json_cache table

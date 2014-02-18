@@ -455,6 +455,17 @@ private function checkTweet($tweet_id)
         return true;
     }
 
+    public function geoSearchAction(Request $request)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        require_once ('codebird.php');
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+        $cb = new \Codebird\Codebird;
+        $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
+        $reply = $cb->geo_search('query='.$request->request->get('q'));
+        return new JsonResponse(array('retour'=>true,'datas'=>$reply),200,array('Content-Type', 'application/json'));
+    }
+
     public function twitterSearchAction(Request $request)
     {
 
@@ -467,8 +478,19 @@ private function checkTweet($tweet_id)
         //$cb->setConsumerKey('vEuuUtMeVP5TAErglQISJw', 'ObGMkwIgFBNAgpYPRmdERN5JtaDZbg1l9Ao67BCFJ0'); // static, see 'Using multiple Codebird instances'
         $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
 //'12510322-GeTDxwl5lXmwwH1ioL5YFGmmNw44TypDxYcO4QoYy', 'ZzKUfXMrxuEBNQLXXCJ9mYnD6sB6eyQ73pLlshapmNFoP');
-        //print_r($cb); 
-        $reply = $cb->search_tweets('result_type=recent&count=100&q='.$request->request->get('q'));
+        //print_r($cb);
+        $lat = $request->request->get('lat');
+        $lon = $request->request->get('lon');
+        $radius = $request->request->get('radius');
+        if($lat!='' && is_float($lat) && $lon!= '' && is_float($lon)){
+          if($radius=='' || !is_float($radius)){
+            $radius = 10;
+          }
+          $geocode = "$lat,$lon,".$radius."mi";
+        }else{
+          $geocode = false;
+        }
+        $reply = $cb->search_tweets('result_type=recent&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:''));
         //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
         //print_r($reply);
         //echo $request->request->get('q');

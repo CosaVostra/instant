@@ -1,4 +1,6 @@
 <?php
+
+set_time_limit(0);
 /**
 * get_tweets.php
 * Collect tweets from the Twitter streaming API
