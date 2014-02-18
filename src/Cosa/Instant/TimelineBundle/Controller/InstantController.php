@@ -677,6 +677,8 @@ private function checkTweet($tweet_id)
         $twittos->setInstant($instant);
         $twittos->setAlerted(0);
 
+        $twittosInDB = null;
+
         if (!$twittos_user) {
             $user = new User();
             $user->setTwitterID($request->request->get('twittos_id'));
