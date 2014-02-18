@@ -13,7 +13,15 @@ I-5 Editer le vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/
 | $user->setLoginCount($user->getLoginCount()+1);
 | $this->userProvider->updateUser($user);
 
-I-6 Executer : app/console doctrine:schema:create
+I-6 Editer le vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php aux lignes 91 et 95; remplacer $accessToken['screen_name'] par $accessToken['user_id'] :
+
+91:            return new TwitterUserToken($accessToken['user_id'], null, array('ROLE_TWITTER_USER'));
+92:        }
+93:
+94:        try {
+95:            $user = $this->userProvider->loadUserByUsername($accessToken['user_id']);
+
+I-7 Executer : app/console doctrine:schema:create
 
 (optionnel)
 I-101 Executer en root : chmod -R 777 app/cache/ app/logs/

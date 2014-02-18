@@ -13,7 +13,7 @@ class DefaultController extends Controller
     {//var_dump($this->get('session'));
 //var_dump($this->get('security.context')->getToken());//->getUser());
         if($this->get('security.context')->isGranted('ROLE_USER')){
-            return $this->redirect($this->generateUrl('instant_list',array('username'=>$this->get('security.context')->getToken()->getUser()->getUsername())));
+            return $this->redirect($this->generateUrl('instant_list',array('username'=>$this->get('security.context')->getToken()->getUser()->getTwitterUsername())));
         }
         return $this->render('CosaInstantUserBundle:Default:login.html.twig');
     }
@@ -73,7 +73,7 @@ class DefaultController extends Controller
               $em->flush();
               $to = $user->getEmail();
               $subject = 'Email validation';
-              $message = "Bonjour !\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
+              $message = "Bonjour ".$user->getTwitterRealname()."\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
               $headers = "From: instant@cosavostra.com\r\nX-Mailer: PHP/" . phpversion();
 
               mail($to, $subject, $message, $headers);

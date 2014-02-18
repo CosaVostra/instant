@@ -91,7 +91,7 @@ class InstantController extends Controller
         $entity->setTitle("Draft - {$last_id['id']}");
         $em->persist($entity);
         $em->flush();
-        return $this->redirect($this->generateUrl('instant_edit',array('username'=>$user->getUsername(),'instant_title'=>$entity->getTitle())));
+        return $this->redirect($this->generateUrl('instant_edit',array('username'=>$user->getTwitterUsername(),'instant_title'=>$entity->getTitle())));
 
       /*  $form   = $this->createForm(new InstantType(), $entity);
 
@@ -303,7 +303,7 @@ class InstantController extends Controller
     private function checkUser($username)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneByUsername($username);
+        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$username));
         if (!$user) {
             throw $this->createNotFoundException('This user does not exist');
         } else if ($user != $this->get('security.context')->getToken()->getUser()) {
@@ -383,7 +383,7 @@ private function checkTweet($tweet_id)
     public function userInstantWebviewAction($username,$instant_title)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneByUsername($username);
+        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$username));
         if (!$user) {
             throw $this->createNotFoundException('This user does not exist');
         }
@@ -412,7 +412,7 @@ private function checkTweet($tweet_id)
             return $tmp;
         }
         $instant = $this->checkInstant2($instant_id);
-        return $this->redirect($this->generateUrl('instant_preview2',array('username'=>$this->get('security.context')->getToken()->getUser()->getUsername(),'instant_title'=>$instant->getTitle())));
+        return $this->redirect($this->generateUrl('instant_preview2',array('username'=>$this->get('security.context')->getToken()->getUser()->getTwitterUsername(),'instant_title'=>$instant->getTitle())));
     }
 
     public function instantPreviewAction($username,$instant_title)
@@ -450,7 +450,7 @@ private function checkTweet($tweet_id)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         if($user->getConfirmationToken()!='confirmed'){
-            return $this->redirect($this->generateUrl('please_confirm_email',array('username'=>$user->getUsername())));
+            return $this->redirect($this->generateUrl('please_confirm_email',array('username'=>$user->getTwitterUsername())));
         }
         return true;
     }
@@ -587,7 +587,7 @@ private function checkTweet($tweet_id)
         $user = $this->get('security.context')->getToken()->getUser();
         $twittos_username = $request->request->get('twittos_username');
         $em = $this->getDoctrine()->getManager();
-        $tuser = $em->getRepository('CosaInstantUserBundle:User')->findOneByUsername($twittos_username);
+        $tuser = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$twittos_username));
         if(!$tuser){ // on cherche chez twitter
           try{
             require_once ('codebird.php');
@@ -621,7 +621,7 @@ private function checkTweet($tweet_id)
               $tuser->setUpdatedAt(new \DateTime('now'));
               $tuser->setLoginCount(0);
               $tuser->setLang('');
-              $tuser->setUsername($ruser->screen_name);
+              $tuser->setUsername($ruser->id_str);
             }else{
               return new JsonResponse(array('retour'=>false,'msg'=>'no user found'),200,array('Content-Type', 'application/json'));
             }
@@ -674,7 +674,7 @@ private function checkTweet($tweet_id)
             $user->setUpdatedAt(new \DateTime('now'));
             $user->setLoginCount(0);
             $user->setLang('');
-            $user->setUsername($request->request->get('twittos_username'));
+            $user->setUsername($request->request->get('twittos_id'));
 
             $twittos->setUser($user);
         } else {
@@ -767,7 +767,7 @@ private function checkTweet($tweet_id)
             $instant->removeTweet($tweet);
         }
         $em->flush();
-        return $this->redirect($this->generateUrl('instant_edit', array('username' => $this->get('security.context')->getToken()->getUser()->getUsername(), 'instant_title' => $instant->getTitle())));
+        return $this->redirect($this->generateUrl('instant_edit', array('username' => $this->get('security.context')->getToken()->getUser()->getTwitterUsername(), 'instant_title' => $instant->getTitle())));
     }
 
 }

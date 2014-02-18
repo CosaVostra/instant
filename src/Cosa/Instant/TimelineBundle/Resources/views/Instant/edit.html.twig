@@ -16,7 +16,7 @@
     {% endif %}
     <form>
       <input id="title" type="text" value="{{ entity.title }}" onFocusOut="js_cr_instant();"/>
-      <input id="description" type="text" value="{{ entity.description }}" onFocusOut="js_cr_instant();"/>
+      <input id="description" type="text" value="{{ entity.description }}" onFocusOut="js_cr_instant();" placeholder="set the description here"/>
       <input style="visibility:hidden;" type="submit" value="Save" onclick="return js_cr_instant();"/>
     </form>
     <button style="float:right" onclick="document.location.href='{{ path('instant_preview', { 'instant_id': entity.id }) }}';">Preview</button>
@@ -107,20 +107,9 @@
       </div>
       <span class="clearb"></span>
     </div>
-    <br/>
-    <!--<form action="{{ path('instant_update', { 'username':user.username, 'instant_title': entity.title }) }}" method="post" {{ form_enctype(edit_form) }}>
-        <input type="hidden" name="_method" value="PUT" />
-        {{ form_widget(edit_form) }}
-        <p>
-            <button name="bsubmit" id="save" value="save">Save</button>
-            {% if entity.status!='publish' %}
-            {% endif %}
-        </p>
-    </form>-->
-
     <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
-    <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.username } ) }}';">Cancel</button>
-    <a href="{{ path('instant_clear', { 'instant_id': entity.id } ) }}">Clear</a>
+    <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">Cancel</button>
+    <button onclick="document.location.href='{{ path('instant_clear', { 'instant_id': entity.id } ) }}';">Clear</button>
 {% endblock %}
 
 {% block javascripts %}

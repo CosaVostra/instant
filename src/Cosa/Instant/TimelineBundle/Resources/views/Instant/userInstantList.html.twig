@@ -5,7 +5,7 @@
 
     <ul>
       <li>
-        <a href="{{ path('instant_new', {'username': user.username}) }}">Create a new entry</a>
+        <a href="{{ path('instant_new', {'username': user.twitterUsername}) }}">Create a new entry</a>
       </li>
     </ul>
 
@@ -43,13 +43,13 @@
                 <td>
                 <ul>
                     <li>
-                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.username,'instant_title': entity.title }) }}';">embed</button>
+                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">embed</button>
                     </li>
                     <li>
-                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.username,'instant_title': entity.title }) }}';">edit</button>
+                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">edit</button>
                     </li>
                     <li>
-                        <form action="{{ path('instant_delete', { 'username': user.username,'instant_title': entity.title }) }}" method="post">
+                        <form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.title }) }}" method="post">
                             <input type="hidden" name="_method" value="DELETE" />
                             {{ form_widget(deleteForms[entity.id]) }}
                             <button type="submit" onclick="return confirm('Are you sure ?');">Delete</button>

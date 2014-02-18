@@ -12,5 +12,5 @@
         {% endfor %}
       </div>
     </div>
-    <a href="{{ path('instant_edit' , { 'username':user.username, 'instant_title':instant.title}) }}">Back</A>
+    <a href="{{ path('instant_edit' , { 'username':user.twitterUsername, 'instant_title':instant.title}) }}">Back</A>
 {% endblock %}

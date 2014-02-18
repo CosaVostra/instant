@@ -6,7 +6,7 @@
   {% endif %}
   <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};"
     <h1>Please set your email</h1>
-    {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.username})) }}
+    {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
     <h2>Then</h2>
   </div>
   <h1>Confirm it</h1>
@@ -25,11 +25,13 @@
         }
       })
       .done(function( retour ) {
-        if(retour['retour']){
-          alert('update successfull');
+        if(retour.retour){
+          var msg = $('<div class="flash-message flash-notice">Confirmation email sent !</div>');
         }else{
-          alert('un problème est survenu');
+          var msg = $('<div class="flash-message flash-error">An error has occured !</div>');
         }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
       });
     }
   </script>

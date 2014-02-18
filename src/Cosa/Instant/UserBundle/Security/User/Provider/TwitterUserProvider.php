@@ -57,9 +57,9 @@ class TwitterUserProvider implements UserProviderInterface
 
     public function loadUserByUsername($username,$updateInfo=true)
     {
-        //$user = $this->findUserByTwitterID($username);
+        $user = $this->findUserByTwitterID($username);
         //echo "findUserByUsername($username)";var_dump(debug_backtrace());exit;
-        $user = $this->findUserByUsername($username);
+        //$user = $this->findUserByUsername($username);
 
         $this->twitter_oauth->setOAuthToken($this->session->get('access_token'), $this->session->get('access_token_secret'));
         if($updateInfo){
@@ -76,12 +76,14 @@ class TwitterUserProvider implements UserProviderInterface
                 $user->setEnabled(true);
                 $user->setPassword('');
             //    $user->setAlgorithm('');
-                $username = $info->screen_name;
                 $user->setTwitterID($info->id);
-                $user->setTwitterUsername($username);
                 $user->setEmail($info->id);
-                $user->setUsername($username);
+                $user->setUsername($info->id);//$username);
                 $user->setCreatedAt(new \Datetime());
+            }
+            if($user->getTwitterUsername()!=$info->screen_name){
+              $user->setTwitterUsername($info->screen_name);
+              $updated = true;
             }
             if($user->getTwitterAccessToken()!=$this->session->get('access_token')){
               $user->setTwitterAccessToken($this->session->get('access_token'));

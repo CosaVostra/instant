@@ -15,10 +15,10 @@
         {% else %}
           <div id="user_info">
             <div class="tweet_image">
-              <a href="http://twitter.com/{{ app.security.token.user }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
+              <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
             </div>
             <div class="text">
-              <a href="#">{{app.security.token.user}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="logout">Déconnexion</a>
+              <a href="#">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="logout">{% trans %} Logout {% endtrans %}</a>
             </div>
             <div id="email_edit">{# render(controller('CosaInstantUserBundle:Default:setEmailSmall')) #}</div>
             <span class="clearb"></span>
@@ -27,24 +27,20 @@
       </div>
       <div id="body">
         <div id="flash-messages">
-          {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="flash-message flash-notice">
-              {{ flashMessage }}
-              <div class="close-button">X</div>
-            </div>
-          {% endfor %}
-          {% for flashMessage in app.session.flashbag.get('warning') %}
-            <div class="flash-message flash-warning">
-              {{ flashMessage }}
-              <div class="close-button">X</div>
-            </div>
-          {% endfor %}
-          {% for flashMessage in app.session.flashbag.get('error') %}
-            <div class="flash-message flash-error">
-              {{ flashMessage }}
-              <div class="close-button">X</div>
-            </div>
-           {% endfor %}
+          <script type="text/javascript">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+              $('#flash-messages').append('<div class="flash-message flash-notice">{{ flashMessage }}</div>');
+              msg.delay(3000).fadeOut(1000);
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('warning') %}
+              $('#flash-messages').append('<div class="flash-message flash-warning">{{ flashMessage }}</div>');
+              msg.delay(3000).fadeOut(1000);
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+              $('#flash-messages').append('<div class="flash-message flash-error">{{ flashMessage }}</div>');
+              msg.delay(3000).fadeOut(1000);
+            {% endfor %}
+          </script>
          </div>
          {% block body %}{% endblock %}
        </div>

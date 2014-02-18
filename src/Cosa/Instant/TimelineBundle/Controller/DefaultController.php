@@ -19,7 +19,7 @@ class DefaultController extends Controller
     public function homepageAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        return $this->redirect($this->generateUrl('instant_list', array('username' => $user->getUsername())));
+        return $this->redirect($this->generateUrl('instant_list', array('username' => $user->getTwitterUsername())));
     }
 
     public function aboutAction()

@@ -1,6 +1,6 @@
 <div class="well">
   {% for twitto in twittos %}
-    <span class="twittos">{{ twitto.user.username }}</span>
+    <span class="twittos">{{ twitto.user.twitterUsername }}</span>
   {% endfor %}
   <form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}

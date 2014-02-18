@@ -22,7 +22,7 @@ class Tweet
     private $twitter_id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $twitter_id_ori;
 

@@ -13,7 +13,7 @@
         </div>
         <div class="tweet_text">{{ tweet.text }}
           <div class="tweet_date">
-            <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|date("m/d/Y H:i:s", "Europe/Paris") }}</a>
+            <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|date("m/d/Y H:i:s") }}</a>
           </div>
         </div>
         {% if tweet.mediaUrl!='' %}
