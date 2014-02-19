@@ -2,6 +2,9 @@
   <div class="tweet">
     <button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent(),'{{ tweet.twitterId }}');">X</button>
     <div class="tweet_content">
+      {% if tweet.isRt %}
+        <div class="retweet">Retweeted by {{ tweet.rtByTwitterRealname }}</div>
+      {% endif %}
       <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
       <div class="tweet_image">
         <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.name }}"><img src="{{ tweet.profileImageUrl }}" width="48" height="48"></a>
@@ -13,7 +16,7 @@
         </div>
         <div class="tweet_text">{{ tweet.text }}
           <div class="tweet_date">
-            <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|date("m/d/Y H:i:s") }}</a>
+            <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|datedelta }}</a>
           </div>
         </div>
         {% if tweet.mediaUrl!='' %}

@@ -81,3 +81,7 @@ services:
             validator: "@validator"
             session: "@session"
             entityManager: "@doctrine.orm.entity_manager"
+    cosa.twig.cosa_extension:
+        class: Cosa\Instant\TimelineBundle\Twig\CosaExtension
+        tags:
+            - { name: twig.extension }
