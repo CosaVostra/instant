@@ -24,7 +24,7 @@ class CosaExtension extends \Twig_Extension
         if($diff->i)
           return $diff->i.' m';
         if($diff->s)
-          return $diff->h.' s';
+          return $diff->s.' s';
         return 'now';
     }
 
