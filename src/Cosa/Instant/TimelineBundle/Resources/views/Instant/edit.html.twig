@@ -264,25 +264,29 @@
     }
     function add_keyword(keyword)
     {
-      if(in_array(keyword, keywords))
-        return false;
-      $.ajax({
-        type: "POST",
-        url: "{{path('instant_add_keyword',{instant_id:entity.id})}}",
-        data: {
-          'keyword': encodeURIComponent(keyword)
-        }
-      })
-      .done(function( retour ) {
-        if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Keyword saved !</div>');
-          $('#keywords').append($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="Remove" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+keyword+'\');">X</button>'+keyword+'</div>'));
-          keywords.push(keyword);
-        }else{
-          var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
-        }
-        $('#flash-messages').append(msg);
-        msg.delay(3000).fadeOut(1000);
+      keyw = keyword.split(' ');
+      $.each(keyw, function(key,keywo) {
+        var keywor = keywo.toLowerCase();
+        if(in_array(keywor, keywords))
+          return false;
+        $.ajax({
+          type: "POST",
+          url: "{{path('instant_add_keyword',{instant_id:entity.id})}}",
+          data: {
+            'keyword': keywor,
+          }
+        })
+        .done(function( retour ) {
+          if(retour.retour){
+            var msg = $('<div class="flash-message flash-notice">Keyword saved !</div>');
+            $('#keywords').append($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="Remove" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+keywor+'\');">X</button>'+keywor+'</div>'));
+            keywords.push(keywor);
+          }else{
+            var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
+          }
+          $('#flash-messages').append(msg);
+          msg.delay(3000).fadeOut(1000);
+        });
       });
       return false;
     }

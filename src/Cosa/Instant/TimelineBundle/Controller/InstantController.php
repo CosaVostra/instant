@@ -88,7 +88,7 @@ class InstantController extends Controller
         $last_id = $em->getRepository('CosaInstantTimelineBundle:Instant')->getLastId();
         if(empty($last_id) || !isset($last_id['id']))
           $last_id['id'] = 1;
-        $entity->setTitle("Draft - {$last_id['id']}");
+        $entity->setTitle("Draft - ".($last_id['id']+1));
         $em->persist($entity);
         $em->flush();
         return $this->redirect($this->generateUrl('instant_edit',array('username'=>$user->getTwitterUsername(),'instant_title'=>$entity->getTitle())));
@@ -498,7 +498,7 @@ private function checkTweet($tweet_id)
         }
         $reply = $cb->search_tweets('result_type=recent&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:''));
         //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
-        //print_r($reply);
+        //print_r($reply);exit;
         //echo $request->request->get('q');
         //echo $this->container->parameters["fos_twitter.consumer_key"];
         //var_dump($this->container->parameters);
@@ -779,7 +779,7 @@ private function checkTweet($tweet_id)
             $tweet->setLocation($request->request->get('location'));
             $tweet->setMediaUrl($request->request->get('media_url'));
             $date = new \DateTime($request->request->get('created_at'));
-            $date->modify('-1 hour');
+            $date->modify('-1 hour'); // HACK FOR SERVER IN PARIS WINTER TIMEZONE
             $tweet->setCreatedAt($date);
             $tweet->setIsRt(0);
         } else {
