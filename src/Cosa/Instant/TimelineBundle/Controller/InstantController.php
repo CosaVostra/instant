@@ -184,24 +184,30 @@ class InstantController extends Controller
      * Edits an existing Instant entity.
      *
      */
-    public function updateAction(Request $request, $username, $instant_title)
+    public function updateAction(Request $request, $instant_id)
     {
         if(($tmp=$this->userEmailIsConfirmed())!==true){
             return $tmp;
         }
-        if($request->request->get('bsubmit')=='publish'){
-            $editForm = $this->save($request, $username, $instant_title, true);
-            if ($editForm === true) {
-              return $this->redirect($this->generateUrl('instant_embed', array('username' => $username, 'instant_title' => $instant_title)));
-            }
-        }else{
-            $editForm = $this->save($request, $username, $instant_title);
-            if ($editForm === true) {
-              return $this->redirect($this->generateUrl('instant_edit', array('username' => $username, 'instant_title' => $instant_title)));
-        }
-        }
+        $instant = $this->checkInstant2($instant_id);
+        $instant->setStatus('publish');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($instant);
+        $em->flush();
+        $user = $this->get('security.context')->getToken()->getUser();
+        //if($request->request->get('bsubmit')=='publish'){
+        //    $editForm = $this->save($request, $user->getTwitterUsername(), $instant->getTitle(), true);
+        //    if ($editForm === true) {
+              return $this->redirect($this->generateUrl('instant_embed', array('username' => $user->getTwitterUsername(), 'instant_title' => $instant->getTitle())));
+        //    }
+        //}else{
+        //    $editForm = $this->save($request, $username, $instant_title);
+        //    if ($editForm === true) {
+        //      return $this->redirect($this->generateUrl('instant_edit', array('username' => $username, 'instant_title' => $instant_title)));
+        //    }
+        //}
         return $this->render('CosaInstantTimelineBundle:Instant:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $instant,
             'edit_form'   => $editForm->createView(),
             //'delete_form' => $deleteForm->createView(),
             'user'        => $user,
@@ -693,7 +699,7 @@ private function checkTweet($tweet_id)
 
         $em = $this->getDoctrine()->getManager();
 
-        $twittos_user = $em->getRepository('CosaInstantUserBundle:User')->findOneByUsername($twittos_username);
+        $twittos_user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$twittos_username));
 
         $twittos = new Twittos();
         $twittos->setInstant($instant);
@@ -772,7 +778,9 @@ private function checkTweet($tweet_id)
             $tweet->setProfileImageUrl($request->request->get('profile_image_url'));
             $tweet->setLocation($request->request->get('location'));
             $tweet->setMediaUrl($request->request->get('media_url'));
-            $tweet->setCreatedAt(new \DateTime($request->request->get('created_at')));
+            $date = new \DateTime($request->request->get('created_at'));
+            $date->modify('-1 hour');
+            $tweet->setCreatedAt($date);
             $tweet->setIsRt(0);
         } else {
             if ($instant->hasTweet($tweet))

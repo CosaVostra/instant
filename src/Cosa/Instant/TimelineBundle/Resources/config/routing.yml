@@ -20,7 +20,7 @@ instant_edit:
     pattern:  /{username}/{instant_title}/edit
     defaults: { _controller: CosaInstantTimelineBundle:Instant:edit }
 instant_update:
-    pattern: /{username}/{instant_title}/update
+    pattern: /{instant_id}/update
     defaults: { _controller: CosaInstantTimelineBundle:Instant:update }
 #insant_save:
 #    pattern:  /{username}/{instant_title}/save

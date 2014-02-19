@@ -119,7 +119,7 @@
       </div>
       <span class="clearb"></span>
     </div>
-    <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}">Publish</button>
+    <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}">Publish</button>
     <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">Cancel</button>
     <button onclick="document.location.href='{{ path('instant_clear', { 'instant_id': entity.id } ) }}';">Clear</button>
 {% endblock %}

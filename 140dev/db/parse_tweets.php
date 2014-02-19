@@ -112,7 +112,7 @@ while (true) {
         'is_rt = ' . $is_rt . ',' .
         (($is_rt)?
           'twitter_id_ori="'.$tweet_id_ori.'", rt_by_twitter_realname="'.$rt_by_twitter_realname.'",rt_by_twitterID="'.$rt_by_twitterID.'",':'').
-        'media_url = ""';// . $twitter_object->media[0]->media_url ;
+        'media_url = "", from_stream = 1';// . $twitter_object->media[0]->media_url ;
 			echo $field_values;
     echo $oDB->insert('Tweet',$field_values);
 	//exit;	

@@ -82,6 +82,11 @@ class Tweet
     protected $rt_by_twitterID;
 
     /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $from_stream = false;
+
+    /**
      * Get id
      *
      * @return integer 
