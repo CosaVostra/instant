@@ -82,3 +82,6 @@ instant_cr:
 instant_clear:
     pattern:  /{instant_id}/clear
     defaults: { _controller: CosaInstantTimelineBundle:Instant:clear }
+instant_refresh_timeline:
+    pattern:  /{instant_id}/refresh/timeline
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:refreshTimeline }

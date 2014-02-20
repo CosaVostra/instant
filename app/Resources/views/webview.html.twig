@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  </head>
+  <body>
+    <div id="webview">
+      <div id="body">
+        {% block body %}{% endblock %}
+      </div>
+      <div id="footer">
+        {% block footer %}{% endblock %}
+      </div>
+      <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+      {% block javascripts %}{% endblock %}
+    </div>
+  </body>
+</html>

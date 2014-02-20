@@ -402,7 +402,8 @@ private function checkTweet($tweet_id)
         $em->persist($instant);
         $em->flush();
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantWebview.html.twig', array(
-            'instant' => $instant
+            'instant' => $instant,
+            'tweets' => $instant->getTweets()
         ));
     }
 
@@ -779,7 +780,6 @@ private function checkTweet($tweet_id)
             $tweet->setLocation($request->request->get('location'));
             $tweet->setMediaUrl($request->request->get('media_url'));
             $date = new \DateTime($request->request->get('created_at'));
-            $date->modify('-1 hour'); // HACK FOR SERVER IN PARIS WINTER TIMEZONE
             $tweet->setCreatedAt($date);
             $tweet->setIsRt(0);
         } else {
@@ -836,6 +836,21 @@ private function checkTweet($tweet_id)
         }
         $em->flush();
         return $this->redirect($this->generateUrl('instant_edit', array('username' => $this->get('security.context')->getToken()->getUser()->getTwitterUsername(), 'instant_title' => $instant->getTitle())));
+    }
+
+    public function refreshTimelineAction(Request $request, $instant_id)
+    {
+        try{
+          $instant = $this->checkInstant2($instant_id);
+          $tweets = $instant->getTweets();
+          $editable = true;
+          if($request->request->get('editable')!=null)
+            $editable = $request->request->get('editable');
+          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $tweets,'editable'=>$editable));
+          return new JsonResponse(array('retour'=>true,'html'=>$html->getContent()),200,array('Content-Type', 'application/json'));
+        }catch(\Exception $e){
+          return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+        }
     }
 
 }

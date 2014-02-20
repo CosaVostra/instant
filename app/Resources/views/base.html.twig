@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>!nstant | {% block title %}Welcome!{% endblock %}</title>
+        <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -10,9 +10,7 @@
     <body>
      <div id="container">
       <div id="header">
-        {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
-          <!--<a href="{{ path('connect_twitter')}}">Veuiller vous connecter sur Twitter</a>-->
-        {% else %}
+        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
           <div id="user_info">
             <div class="tweet_image">
               <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
@@ -52,12 +50,6 @@
          </ul> 
        </div>
        <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
-       <script type="text/javascript">
-         function postEmailSmall()
-         {
-            
-         }
-       </script>
        {% block javascripts %}{% endblock %}
      </div>
     </body>

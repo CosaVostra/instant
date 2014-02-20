@@ -1,16 +1,19 @@
 {% extends "::base.html.twig" %}
+
+{% block title %}{% trans %}Email confirmation{% endtrans %}{% endblock %}
+
 {% block body %}
-  <h1>Email confirmation</h1>
+  <h1>{% trans %}Email confirmation{% endtrans %}</h1>
   {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
-    <a href="#" onclick="$('#email_form').slideToggle();">Edit your email</a>
+    <a href="#" onclick="$('#email_form').slideToggle();">{% trans %}Set your email{% endtrans %}</a>
   {% endif %}
-  <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};"
-    <h1>Please set your email</h1>
+  <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};">
+    <h2>{% trans %}Please set your email{% endtrans %}</h2>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
-    <h2>Then</h2>
+    <h3>{% trans %}Then{% endtrans %}</h3>
   </div>
-  <h1>Confirm it</h1>
-  <span>Check your email box and open the confirmation link...</span>
+  <h2>{% trans %}Confirm it{% endtrans %}</h2>
+  <span>{% trans %}Check your email box and open the confirmation link{% endtrans %}</span>
 {% endblock %}
 
 {% block javascripts %}
@@ -26,9 +29,9 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Confirmation email sent !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Confirmation email sent{% endtrans %} !</div>');
         }else{
-          var msg = $('<div class="flash-message flash-error">An error has occured !</div>');
+          var msg = $('<div class="flash-message flash-error">{% trans %}An error has occured{% endtrans %} !</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);

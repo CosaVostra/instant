@@ -107,6 +107,7 @@
         </div>
       </div>
       <div id="tweet_column2" class="block last">
+        <button onclick="refreshTimeline();" style="float:right;">refresh</button>
         <div class="block-title">
           Timeline
         </div>
@@ -411,8 +412,8 @@
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {
-        var tweet = $('.tweet',ui.draggable).clone();
-        tweet.appendTo($('#tweet_list2'));
+        //var tweet = $('.tweet',ui.draggable).clone();
+        //tweet.appendTo($('#tweet_list2'));
         add_tweet(
           $('.twitter_id_str',ui.draggable).val(),
           $('.twitter_text',ui.draggable).val(),
@@ -422,18 +423,18 @@
           $('.twitter_profile_image_url',ui.draggable).val(),
           $('.twitter_location',ui.draggable).val(),
           $('.twitter_media_url',ui.draggable).val(),
-          $('.twitter_created_at',ui.draggable).val(),
-          tweet
+          $('.twitter_created_at',ui.draggable).val()//,
+          //tweet
         );
       }
     });
     function js_add_tweet() {
       add_tweet($('#tweet_twitter_id').val(),$('#tweet_text').val(),$('#tweet_name').val(),$('#tweet_screen_name').val(),$('#tweet_user_id').val(),$('#tweet_profile_image_url').val(),$('#tweet_location').val(),$('#tweet_media_url').val(),$('#tweet_created_at').val());
     }
-    function add_tweet(twitter_id,text,name,screen_name,user_id,profile_image_url,location,media_url,created_at,elt)
+    function add_tweet(twitter_id,text,name,screen_name,user_id,profile_image_url,location,media_url,created_at)//,elt)
     {
       if(in_array(twitter_id, tweets)){
-        $(elt).remove();
+        //$(elt).remove();
         return false;
       }
       $.ajax({
@@ -453,14 +454,16 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Timeline saved !</div>');
-          $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet('+retour.id+',$(this).parent(),\''+twitter_id+'\');">X</button>');
+          //var msg = $('<div class="flash-message flash-notice">Timeline saved !</div>');
+          //$(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet('+retour.id+',$(this).parent(),\''+twitter_id+'\');">X</button>');
           tweets.push(twitter_id);
+          refreshTimeline();
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        //}
+          $('#flash-messages').append(msg);
+          msg.delay(3000).fadeOut(1000);
         }
-        $('#flash-messages').append(msg);
-        msg.delay(3000).fadeOut(1000);
       });
       return false;
     }
@@ -521,6 +524,24 @@
       .done(function( retour ) {
         if(retour.retour){
           var msg = $('<div class="flash-message flash-notice">Instant saved !</div>');
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return false;
+    }
+    function refreshTimeline()
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_refresh_timeline',{instant_id:entity.id})}}"
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          $('#tweet_list2').html(retour.html);
+          var msg = $('<div class="flash-message flash-notice">Timeline refreshed !</div>');
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }

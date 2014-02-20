@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(indexes={@ORM\Index(name="created_at_idx", columns={"created_at"})})
  */
 class Tweet
 {

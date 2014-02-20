@@ -1,8 +1,8 @@
-{% extends '::base.html.twig' %}
+{% extends '::webview.html.twig' %}
 
 {% block body -%}
-    <h1>Instant "{{ instant.title }}" Webview</h1>
     <div id="tweet_column2" class="block last">
+      <button onclick="refreshTimeline();" style="float:right;">refresh</button>
       <div class="block-title">
         Timeline
       </div>
@@ -14,3 +14,28 @@
     </div>
 {% endblock %}
 
+{% block javascripts %}
+  <script type="text/javascript">
+    function refreshTimeline()
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_refresh_timeline',{instant_id:instant.id})}}",
+        data: {
+          'editable':false,
+        }
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          $('#tweet_list2').html(retour.html);
+          var msg = $('<div class="flash-message flash-notice">Timeline refreshed !</div>');
+        }else{
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+        }
+        $('#flash-messages').append(msg);
+        msg.delay(3000).fadeOut(1000);
+      });
+      return false;
+    }
+  </script>
+{% endblock %}
