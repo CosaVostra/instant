@@ -8,7 +8,7 @@
       </div>
       <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
         {% for tweet in tweets %}
-          {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false} %}
+          {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true} %}
         {% endfor %}
       </div>
     </div>
