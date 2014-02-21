@@ -254,7 +254,7 @@ body .twitter_result_item {
   font-size: 20px;
 }
 
-.block-content{
+#container .block-content{
   height: 342px;
 }
 .block-footer{
@@ -275,12 +275,12 @@ body .twitter_result_item {
   height: 100%;
 }
 
-#body{
+#container #body{
  /* padding-bottom: 200px;*/
   margin-bottom: 200px;
 }
 
-#footer {
+#container #footer {
   position: absolute;
   width:100%;
 /*  bottom:0px;*/
@@ -318,18 +318,18 @@ body .twitter_result_item {
   background-color:#D3D3D3;
 }
 
-#title {
+#container #title {
   font-size: 34px;
   font-weight: bold;
   width: 100%;
   border: 0px;
 }
 
-#title:focus, #description:focus {
+#container #title:focus,#container #description:focus {
     outline: 0;
 }
 
-#description {
+#container #description {
   font-size: 24px;
   font-style: italic;
   width: 100%;
@@ -401,4 +401,29 @@ body .twitter_result_item {
 #autogeo .geoplace:hover {
   background: grey;
   color:white;
+}
+
+#webview {
+  width: 100%;
+  height: 100%;
+}
+
+#webview #body {
+  width: 100%;
+  height: 100%;
+}
+
+#webview #tweet_list2, #webview #whotofollow_list {
+  margin: 3em 0em;
+  font-size: 80%;
+}
+
+#webview #footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  border-top: 1px solid grey;
+  background: #cdcdcd;
+  color: black;
+  text-align: right;
 }

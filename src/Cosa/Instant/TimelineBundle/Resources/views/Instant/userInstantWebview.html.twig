@@ -1,17 +1,45 @@
 {% extends '::webview.html.twig' %}
 
 {% block body -%}
-    <div id="tweet_column2" class="block last">
+    <div id="title" style="text-align:center;font-weight: bold;position:fixed;top:0px;background:orange;width:100%;">
       <button onclick="refreshTimeline();" style="float:right;">refresh</button>
-      <div class="block-title">
-        Timeline
-      </div>
-      <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
-        {% for tweet in tweets %}
-          {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': false} %}
-        {% endfor %}
+      {{ instant.title }}
+      <div class="tabs" style="text-align:center;width:100%;">
+        <div class="timeline" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','grey');$('.whotofollow').css('background','grey');$('.whotofollow').css('color','white');" style="width:50%;float:left;background:white;color:grey;">
+          Timeline
+        </div>
+        <div class="whotofollow" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).css('background','white');$(this).css('color','grey');$('.timeline').css('background','grey');$('.timeline').css('color','white');" style="width:50%;float:left;color:white;background:grey;">
+          Who to follow
+        </div>
+        <div class="clearb"></div>
       </div>
     </div>
+    <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
+      {% for tweet in tweets %}
+        {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': false} %}
+      {% endfor %}
+    </div>
+    <div id="whotofollow_list" style="display:none;" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
+      {% for twitto in twittos %}
+        <div class="twitto">
+          <div class="tweet_image">
+            <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
+          </div>
+          <div class="tweet_screen_name">
+            <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">{{ twitto.user.twitterUsername }}</a>
+            <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
+          </div>
+          <div class="description">
+            {{ twitto.description }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+  Instant by <a href="http://twitter.com/{{ instant.user.twitterUsername }}" target="_blank">{{ instant.user.twitterRealname }}</a> from ...<br/>
+  Powered by Instant Team | <a href="#" target="_blank">{% trans %}Click here to Embed{% endtrans %}</a>
 {% endblock %}
 
 {% block javascripts %}

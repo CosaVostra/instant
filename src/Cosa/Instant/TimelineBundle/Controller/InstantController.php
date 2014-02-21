@@ -399,11 +399,13 @@ private function checkTweet($tweet_id)
         }
         $instant->setNbViews($instant->getNbViews()+1);
         $instant->setLastView(new \Datetime());
+        $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getComplete($instant->getId());
         $em->persist($instant);
         $em->flush();
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantWebview.html.twig', array(
             'instant' => $instant,
-            'tweets' => $instant->getTweets()
+            'tweets' => $instant->getTweets(),
+            'twittos' => $twittos
         ));
     }
 

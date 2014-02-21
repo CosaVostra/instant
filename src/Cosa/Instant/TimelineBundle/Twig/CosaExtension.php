@@ -22,7 +22,7 @@ class CosaExtension extends \Twig_Extension
         $now = new \DateTime();
         $diff = $now->diff($date);
         if($diff->y || $diff->m || $diff->d > 2)
-          return $date.format('%m-%d-%Y');
+          return $date->format('m-d-Y');
         if($diff->d > 0)
           return $diff->d.' d ago';
         if($diff->h)
