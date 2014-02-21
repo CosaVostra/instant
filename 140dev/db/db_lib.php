@@ -13,28 +13,31 @@ class db
   public $dbh;
   public $error;
   public $error_msg;    
-  
-  // Create a database connection for use by all functions in this class
-  function __construct() {
-
+  public $result;
+ 
+  function connect() {
     require_once('db_config.php');
-    
-    if($this->dbh = mysqli_connect($db_host, 
-      $db_user, $db_password, $db_name)) { 
-            
+    if($this->dbh = mysqli_connect($db_host,
+      $db_user, $db_password, $db_name)) {
+
       // Set every possible option to utf-8
       mysqli_query($this->dbh, 'SET NAMES "utf8"');
       mysqli_query($this->dbh, 'SET CHARACTER SET "utf8"');
       mysqli_query($this->dbh, 'SET character_set_results = "utf8",' .
         'character_set_client = "utf8", character_set_connection = "utf8",' .
         'character_set_database = "utf8", character_set_server = "utf8"');
-    } else {
+    }
+    return $this->dbh;
+  }
+ 
+  // Create a database connection for use by all functions in this class
+  function __construct() {
+    if(!$this->connect()){
       // Log an error if the connection fails
       $this->error = true;
       $this->error_msg = 'Unable to connect to DB';
       $this->log_error('__construct','attempted connection to ' . $db_name);
     }
-        
     date_default_timezone_set(TIME_ZONE);
   }
   
@@ -45,6 +48,13 @@ class db
     // Record the last error state in the object, 
     // so code using objects of this class can read it
     if ($this->error_msg = mysqli_error($this->dbh)) {
+        if(mysqli_errno($this->dbh)==2006){
+          if($this->connect()){
+            $this->result = mysqli_query($this->dbh,$query);
+            $this->error = false;
+            return $this->error;
+          }
+        }
         $this->log_error($function,$query);
         $this->error = true;
     } else {
@@ -79,16 +89,16 @@ class db
   public function in_table($table,$where) {
     $query = 'SELECT * FROM ' . $table . 
       ' WHERE ' . $where;
-    $result = mysqli_query($this->dbh,$query);
+    $this->result = mysqli_query($this->dbh,$query);
     $this->error_test('in_table',$query); 
-    return mysqli_num_rows($result) > 0;
+    return mysqli_num_rows($this->result) > 0;
   }
 
   // Perform a generic select and return a pointer to the result
   public function select($query) {
-    $result = mysqli_query( $this->dbh, $query );
+    $this->result = mysqli_query( $this->dbh, $query );
     $this->error_test("select",$query);
-    return $result;
+    return $this->result;
   }
     
   // Add a row to any table
