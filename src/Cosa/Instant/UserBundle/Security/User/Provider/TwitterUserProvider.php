@@ -81,6 +81,10 @@ class TwitterUserProvider implements UserProviderInterface
                 $user->setUsername($info->id);//$username);
                 $user->setCreatedAt(new \Datetime());
             }
+            if($user->getTwitterDescription()!=$info->description){
+              $user->setTwitterDescription($info->description);
+              $updated = true;
+            }
             if($user->getTwitterUsername()!=$info->screen_name){
               $user->setTwitterUsername($info->screen_name);
               $updated = true;

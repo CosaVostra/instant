@@ -3,18 +3,21 @@
     <div class="tweet_content">
       <div class="tweet_id hidden">{{ tweet.id_str }}</div>
       <div class="tweet_image">
-        <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.name }}"><img src="{{ tweet.user.profile_image_url }}" width="48" height="48"></a>
+        <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.name }}
+{{ tweet.user.description }}"><img src="{{ tweet.user.profile_image_url }}" width="48" height="48"></a>
       </div>
       <div class="tweet_right">
         <div class="tweet_screen_name">
-          <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.name }}">{{ tweet.user.screen_name }}</a>
+          <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.name }}
+{{ tweet.user.description }}" onclick="return searchFrom('{{ tweet.user.screen_name }}');">{{ tweet.user.screen_name }}</a>
           <span class="tweet_name">{{ tweet.user.name }}</span>
           <input type="hidden" class="twitterID" value="{{ tweet.user.id_str }}"/>
           <input type="hidden" class="twitter_username" value="{{ tweet.user.screen_name }}"/>
           <input type="hidden" class="twitter_realname" value="{{ tweet.user.name }}"/>
+          <input type="hidden" class="twitter_description" value="{{ tweet.user.description }}"/>
           <input type="hidden" class="twitter_profile_image_url" value="{{ tweet.user.profile_image_url }}"/>
         </div>
-        <div class="tweet_text">{{ tweet.text }}
+        <div class="tweet_text">{{ tweet.text | customlink | raw }}
           <div class="tweet_date">
             <a href="http://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" >{{ tweet.created_at|date("m/d/Y H:i:s","Europe/London")|datedelta }}</a>
           </div>

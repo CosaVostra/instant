@@ -499,7 +499,7 @@ private function checkTweet($tweet_id)
         }else{
           $geocode = false;
         }
-        $reply = $cb->search_tweets('result_type=recent&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:''));
+        $reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:''));
         //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
         //print_r($reply);exit;
         //echo $request->request->get('q');
@@ -652,6 +652,8 @@ private function checkTweet($tweet_id)
               );
               if(strtoupper($repl->screen_name)==strtoupper($twittos_username)){
                 $ruser = $repl;
+                $last = array_pop($retour['users']);
+                array_unshift($retour['users'], $last);
               }
             }
             if(count($retour['users'])>1){
@@ -663,6 +665,7 @@ private function checkTweet($tweet_id)
               $tuser->setTwitterUsername($ruser->screen_name);
               $tuser->setProfileImageUrl($ruser->profile_image_url);
               $tuser->setTwitterRealname($ruser->name);
+              $tuser->setTwitterDescription($ruser->description);
               $tuser->setEmail($ruser->id_str);
               $tuser->setPassword('');
               $tuser->setTwitterAccessToken('');
@@ -716,6 +719,7 @@ private function checkTweet($tweet_id)
             $user->setTwitterUsername($request->request->get('twittos_username'));
             $user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
             $user->setTwitterRealname($request->request->get('twittos_realname'));
+            $user->setTwitterDescription($request->request->get('twittos_description'));
             $user->setEmail($request->request->get('twittos_id'));
             $user->setPassword('');
             $user->setTwitterAccessToken('');
@@ -730,12 +734,16 @@ private function checkTweet($tweet_id)
 
             $twittos->setUser($user);
         } else {
-            if (($twittos_user->getTwitterUsername() != $request->request->get('twittos_username'))
+            if (
+                ($twittos_user->getTwitterUsername() != $request->request->get('twittos_username'))
                 || ($twittos_user->getProfileImageUrl() != $request->request->get('twittos_profile_image_url'))
-                || ($twittos_user->getTwitterRealname() != $request->request->get('twittos_realname'))) {
+                || ($twittos_user->getTwitterRealname() != $request->request->get('twittos_realname'))
+                || ($twittos_user->getTwitterDescription() != $request->request->get('twittos_description'))
+            ) {
                 $twittos_user->setTwitterUsername($request->request->get('twittos_username'));
                 $twittos_user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
                 $twittos_user->setTwitterRealname($request->request->get('twittos_realname'));
+                $twittos_user->setTwitterDescription($request->request->get('twittos_description'));
                 $twittos_user->setUpdatedAt(new \DateTime('now'));
             }
 
@@ -778,6 +786,7 @@ private function checkTweet($tweet_id)
             $tweet->setName($request->request->get('name'));
             $tweet->setScreenName($request->request->get('screen_name'));
             $tweet->setUserId($request->request->get('user_id'));
+            $tweet->setUserDescription($request->request->get('description'));
             $tweet->setProfileImageUrl($request->request->get('profile_image_url'));
             $tweet->setLocation($request->request->get('location'));
             $tweet->setMediaUrl($request->request->get('media_url'));

@@ -20,6 +20,9 @@
                 <td>
                 <ul>
                     <li>
+                        <button onclick="window.open('{{ path('instant_webview', { 'username': user.twitterUsername,'instant_title': entity.title }) }}','_newtab');">{% trans %}Webview{% endtrans %}</button>
+                    </li>
+                    <li>
                         <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">{% trans %}Embed{% endtrans %}</button>
                     </li>
                     <li>

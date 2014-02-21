@@ -50,6 +50,11 @@ class Tweet
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $user_description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $profile_image_url;
 
     /**
@@ -417,5 +422,51 @@ class Tweet
     public function getTwitterIdOri()
     {
         return $this->twitter_id_ori;
+    }
+
+    /**
+     * Set user_description
+     *
+     * @param string $userDescription
+     * @return Tweet
+     */
+    public function setUserDescription($userDescription)
+    {
+        $this->user_description = $userDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get user_description
+     *
+     * @return string 
+     */
+    public function getUserDescription()
+    {
+        return $this->user_description;
+    }
+
+    /**
+     * Set from_stream
+     *
+     * @param boolean $fromStream
+     * @return Tweet
+     */
+    public function setFromStream($fromStream)
+    {
+        $this->from_stream = $fromStream;
+
+        return $this;
+    }
+
+    /**
+     * Get from_stream
+     *
+     * @return boolean 
+     */
+    public function getFromStream()
+    {
+        return $this->from_stream;
     }
 }

@@ -1,7 +1,7 @@
 {% extends '::webview.html.twig' %}
 
 {% block body -%}
-    <div id="title" style="text-align:center;font-weight: bold;position:fixed;top:0px;background:orange;width:100%;">
+    <div id="title">
       <button onclick="refreshTimeline();" style="float:right;">{% trans %}Refresh{% endtrans %}</button>
       {{ instant.title }}
       <div class="tabs" style="text-align:center;width:100%;">
@@ -30,7 +30,7 @@
             <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
           </div>
           <div class="description">
-            {{ twitto.description }}
+            {% if twitto.description!='' %}{{ twitto.description }}{% else %}{{ twitto.user.twitterDescription }}{% endif %}
           </div>
         </div>
       {% endfor %}

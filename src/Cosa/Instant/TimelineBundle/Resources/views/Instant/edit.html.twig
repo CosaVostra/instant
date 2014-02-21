@@ -19,7 +19,7 @@
       <input id="description" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="{% trans %}set the description here{% endtrans %}"/>
       <input style="visibility:hidden;" type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_cr_instant();"/>
     </form>
-    <button style="float:right" onclick="document.location.href='{{ path('instant_preview', { 'instant_id': entity.id }) }}';">{% trans %}Preview{% endtrans %}</button>
+    <button style="float:right" onclick="window.open('{{ path('instant_preview', { 'instant_id': entity.id }) }}','_newtab');">{% trans %}Preview{% endtrans %}</button>
     <div class="clearb"></div>
     <div class="grid4">
       <div id="block-search" class="block">
@@ -54,10 +54,12 @@
             <div class="twitto">
               <button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos({{twitto.id}},$(this).parent(),'{{ twitto.user.twitterID }}');">X</button>
               <div class="tweet_image">
-                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
+                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
+{{ twitto.user.twitterDescription }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
               </div>
               <div class="tweet_screen_name">
-                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">{{ twitto.user.twitterUsername }}</a>
+                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
+{{ twitto.user.twitterDescription }}"  onclick="return searchFrom('{{ twitto.user.twitterUsername }}');">{{ twitto.user.twitterUsername }}</a>
                 <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
               </div>
               <div class="description">
@@ -335,7 +337,8 @@
             $.each(retour.users, function(key, user) {
               c_screen_name = user.screen_name.replace(/'/g,"\\'");
               c_name = user.name.replace(/'/g,"\\'");
-              $('#autotwittos').append('<div class="twittos" onclick="cr_twittos(\''+c_screen_name+'\',\''+c_name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\');"><img src="'+user.profile_image_url+'"/><div><span class="username">'+user.screen_name+'</span><span class="name">'+user.name+'</span><br/><span class="description">'+user.description+'</span><span style="display:none;">'+user.id_str+'</span><br/><span class="location">'+user.location+'</span></div><div class="clearb"></div></div>');
+              c_description = user.description.replace(/'/g,"\\'").replace(/[\n\r]/g, '');
+              $('#autotwittos').append('<div class="twittos" onclick="cr_twittos(\''+c_screen_name+'\',\''+c_name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\',\''+c_description+'\');"><img src="'+user.profile_image_url+'"/><div><span class="username">'+user.screen_name+'</span><span class="name">'+user.name+'</span><br/><span class="description">'+user.description+'</span><span style="display:none;">'+user.id_str+'</span><br/><span class="location">'+user.location+'</span></div><div class="clearb"></div></div>');
             });
             $('#autotwittos').fadeIn();
             return false;
@@ -343,7 +346,7 @@
             if(in_array(retour.twitterID, twittos))
               return false;
             var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
-            var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+            var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.userDescription+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.userDescription+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
             $('#twittos').append(elt);
             twittos.push(retour.twitterID);
           }
@@ -355,14 +358,14 @@
       });
       return false;
     }
-    function cr_twittos(screen_name,name,profile_image_url,id_str)
+    function cr_twittos(screen_name,name,profile_image_url,id_str,desc)
     {
       $('#autotwittos').hide();
-      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+'">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
+      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+'">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
       $('#twittos').append(elt);
-      add_twittos(id_str,screen_name,name,profile_image_url,elt);
+      add_twittos(id_str,screen_name,name,profile_image_url,desc,elt);
     }
-    function add_twittos(twitterID,username,name,profile_image_url,elt)
+    function add_twittos(twitterID,username,name,profile_image_url,desc,elt)
     {
       if(in_array(twitterID, twittos)){
         $(elt).remove();
@@ -375,7 +378,8 @@
           'twittos_id': twitterID,
           'twittos_username': username,
           'twittos_realname': name,
-          'twittos_profile_image_url': profile_image_url
+          'twittos_profile_image_url': profile_image_url,
+          'twittos_description': desc,
         }
       })
       .done(function( retour ) {
@@ -406,6 +410,7 @@
           $('.twitter_username',ui.draggable).val(),
           $('.twitter_realname',ui.draggable).val(),
           $('.twitter_profile_image_url',ui.draggable).val(),
+          $('.twitter_description',ui.draggable).val(),
           twitto
         );
       }
@@ -421,6 +426,7 @@
           $('.twitter_text',ui.draggable).val(),
           $('.twitter_realname',ui.draggable).val(),
           $('.twitter_username',ui.draggable).val(),
+          $('.twitter_description',ui.draggable).val(),
           $('.twitterID',ui.draggable).val(),
           $('.twitter_profile_image_url',ui.draggable).val(),
           $('.twitter_location',ui.draggable).val(),
@@ -433,7 +439,7 @@
     function js_add_tweet() {
       add_tweet($('#tweet_twitter_id').val(),$('#tweet_text').val(),$('#tweet_name').val(),$('#tweet_screen_name').val(),$('#tweet_user_id').val(),$('#tweet_profile_image_url').val(),$('#tweet_location').val(),$('#tweet_media_url').val(),$('#tweet_created_at').val());
     }
-    function add_tweet(twitter_id,text,name,screen_name,user_id,profile_image_url,location,media_url,created_at)//,elt)
+    function add_tweet(twitter_id,text,name,screen_name,desc,user_id,profile_image_url,location,media_url,created_at)//,elt)
     {
       if(in_array(twitter_id, tweets)){
         //$(elt).remove();
@@ -447,6 +453,7 @@
           'text': text,
           'name': name,
           'screen_name': screen_name,
+          'description': desc,
           'user_id': user_id,
           'profile_image_url': profile_image_url,
           'location': location,
@@ -551,6 +558,11 @@
         msg.delay(3000).fadeOut(1000);
       });
       return false;
+    }
+    function searchFrom(username)
+    {
+      $('#twitter_search').val('from:'+username);
+      return js_twitter_search();
     }
   </script>
 {% endblock %}

@@ -7,14 +7,16 @@
       {% endif %}
       <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
       <div class="tweet_image">
-        <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.name }}"><img src="{{ tweet.profileImageUrl }}" width="48" height="48"></a>
+        <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.name }}
+{{ tweet.userDescription }}"><img src="{{ tweet.profileImageUrl }}" width="48" height="48"></a>
       </div>
       <div class="tweet_right">
         <div class="tweet_screen_name">
-          <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.name }}">{{ tweet.screenName }}</a>
+          <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.name }}
+{{ tweet.userDescription }}" onclick="return searchFrom('{{ tweet.screenName }}');">{{ tweet.screenName }}</a>
           <span class="tweet_name">{{ tweet.name }}</span>
         </div>
-        <div class="tweet_text">{{ tweet.text }}
+        <div class="tweet_text">{{ tweet.text | customlink | raw }}
           <div class="tweet_date">
             <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|datedelta }}</a>
           </div>

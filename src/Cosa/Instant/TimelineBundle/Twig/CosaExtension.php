@@ -8,7 +8,7 @@ class CosaExtension extends \Twig_Extension
     {
         return array(
             'datedelta' => new \Twig_Filter_Method($this, 'datedeltaFilter'),
-            'datedelta2' => new \Twig_Filter_Method($this, 'datedelta2Filter'),
+            'customlink' => new \Twig_Filter_Method($this, 'customlinkFilter'),
         );
     }
 
@@ -32,6 +32,22 @@ class CosaExtension extends \Twig_Extension
         if($diff->s)
           return $diff->s.' s ago';
         return 'now';
+    }
+
+    public function customlinkFilter($text)
+    {
+    //  setlocale(LC_CTYPE,"fr_FR.ISO-8859-1");
+      $patterns = array(
+        '/(http\S*)/S',
+        '/(#\w*)\s*/Su',
+        '/@(\w*)\s*/Su',
+      );
+      $replacements = array(
+        '<a href="$1" target="_blank">$1</a>',
+        '<a href="http://twitter.com/search?src=hash&q=$1" target="_blank">$1</a> ',
+        '<a href="#" onclick="return searchFrom(\'$1\');">@$1</a> ',
+      );
+      return preg_replace($patterns,$replacements,$text);
     }
 
     public function getName()

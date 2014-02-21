@@ -54,6 +54,11 @@ class User extends BaseUser
     protected $twitter_location;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $twitter_description;
+
+    /**
      * @ORM\Column(type="boolean", options={"default":0})
      */
     protected $optin=false;
@@ -348,5 +353,38 @@ class User extends BaseUser
     public function getLang()
     {
         return $this->lang;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set twitter_description
+     *
+     * @param string $twitterDescription
+     * @return User
+     */
+    public function setTwitterDescription($twitterDescription)
+    {
+        $this->twitter_description = $twitterDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter_description
+     *
+     * @return string 
+     */
+    public function getTwitterDescription()
+    {
+        return $this->twitter_description;
     }
 }

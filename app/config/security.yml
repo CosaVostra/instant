@@ -42,4 +42,5 @@ security:
         - { path: ^/about, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/who_we_are, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/email/validation/.*, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: /webview, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/.*, role: [ROLE_USER] }

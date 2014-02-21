@@ -390,6 +390,8 @@ body .twitter_result_item {
   background: white;
   border: 1px solid black;
   position: relative;
+  text-align: left;
+  color: grey;
 }
 
 #autogeo .geoplace {
@@ -413,6 +415,14 @@ body .twitter_result_item {
   height: 100%;
 }
 
+#webview #title {
+  width: 50%;
+  text-align:center;
+  font-weight: bold;
+  position:fixed;top:0px;
+  background:orange;
+}
+
 #webview #tweet_list2, #webview #whotofollow_list {
   margin: 3em 0em;
   font-size: 80%;
@@ -421,9 +431,10 @@ body .twitter_result_item {
 #webview #footer {
   position: fixed;
   bottom: 0px;
-  width: 100%;
+  width: 50%;
   border-top: 1px solid grey;
   background: #cdcdcd;
   color: black;
   text-align: right;
+  font-size: 80%;
 }
