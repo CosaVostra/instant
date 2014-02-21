@@ -39,6 +39,7 @@
               <input type="text" id="geo_search" placeholder="{% trans %}location{% endtrans %} ?" />
               <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_geo_search();" />
             </form>
+            <input type="text" id="lang" value="" placeholder="en/fr/es/..."/>
             <div id="autogeo" style="display:none;"></div>
           </div>
         </div>
@@ -204,7 +205,8 @@
           'q': encodeURIComponent($('#twitter_search').val()),
           'lat':$('#geo_lat').val(),
           'lon':$('#geo_lon').val(),
-          'radius':$('#geo_radius').val()
+          'radius':$('#geo_radius').val(),
+          'lang':$('#lang').val()
         }
       })
       .done(function( retour ) {

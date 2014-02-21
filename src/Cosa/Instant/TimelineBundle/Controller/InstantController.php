@@ -499,7 +499,8 @@ private function checkTweet($tweet_id)
         }else{
           $geocode = false;
         }
-        $reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:''));
+        $lang = $request->request->get('lang');
+        $reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:''));
         //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
         //print_r($reply);exit;
         //echo $request->request->get('q');
