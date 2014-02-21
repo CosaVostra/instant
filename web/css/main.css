@@ -270,6 +270,10 @@ body .twitter_result_item {
   float:right;
 }
 
+#save {
+  float:right;
+}
+
 #container{
   min-height: 100%;
   height: 100%;
