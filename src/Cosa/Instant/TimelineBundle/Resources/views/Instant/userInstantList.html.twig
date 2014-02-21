@@ -1,32 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Instant list</h1>
-
-    <ul>
-      <li>
-        <a href="{{ path('instant_new', {'username': user.twitterUsername}) }}">Create a new entry</a>
-      </li>
-    </ul>
+    <button onclick="document.location.href='{{ path('instant_new', {'username': user.twitterUsername}) }}';">Create a new instant</button>
 
     <table class="records_list" style="width:100%;">
-        <thead>
-            <tr>
-                <!--<th>Id</th>-->
-                <th>Title</th>
-                <th>Description</th>
-   <!--             <th>Created_at</th>
-                <th>Updated_at</th>
-                <th>Finish_at</th>-->
-                <th>Status</th>
-                <th>Nb_views</th>
-                <th>Last_view</th>
-     <!--           <th>Lang</th>
-                <th>Message_type</th>-->
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
         {% for entity in entities %}
             <tr>
                 <!--<td><a href="{# path('instant_view', { 'username': user.username, 'instant_title': entity.title }) #}">{{ entity.id }}</a></td>-->
@@ -43,23 +20,22 @@
                 <td>
                 <ul>
                     <li>
-                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">embed</button>
+                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">{% trans %}Embed{% endtrans %}</button>
                     </li>
                     <li>
-                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">edit</button>
+                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">{% trans %}Edit{% endtrans %}</button>
                     </li>
                     <li>
                         <form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.title }) }}" method="post">
                             <input type="hidden" name="_method" value="DELETE" />
                             {{ form_widget(deleteForms[entity.id]) }}
-                            <button type="submit" onclick="return confirm('Are you sure ?');">Delete</button>
+                            <button type="submit" onclick="return confirm('{% trans %}Are you sure ?{% endtrans %}');">{% trans %}Delete{% endtrans %}</button>
                         </form>
                     </li>
                 </ul>
                 </td>
             </tr>
         {% endfor %}
-        </tbody>
     </table>
 
 {% endblock %}

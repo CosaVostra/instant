@@ -1,0 +1,57 @@
+About: __About
+'About Instant': '__About Instant'
+'Email confirmation': '__Email confirmation'
+'Set your email': '__Set your email'
+'Please set your email': '__Please set your email'
+Then: __Then
+'Confirm it': '__Confirm it'
+'Check your email box and open the confirmation link': '__Check your email box and open the confirmation link'
+'Confirmation email sent': '__Confirmation email sent'
+'An error has occured': '__An error has occured'
+'who we are': '__who we are'
+'Who we are': '__Who we are'
+Skip: __Skip
+Remove: __Remove
+'Retweeted by': '__Retweeted by'
+'Back to edit': '__Back to edit'
+preview: __preview
+Refresh: __Refresh
+Timeline: __Timeline
+Back: __Back
+'Timeline refreshed': '__Timeline refreshed'
+Embed: __Embed
+Edit: __Edit
+'Are you sure ?': '__Are you sure ?'
+Delete: __Delete
+'set the description here': '__set the description here'
+Save: __Save
+Preview: __Preview
+terms: __terms
+Search: __Search
+Lang: __Lang
+Geolocation: __Geolocation
+'Radius:': '__Radius:'
+'set the radius (mi)': '__set the radius (mi)'
+location: __location
+'Who To Follow': '__Who To Follow'
+'Edit comment': '__Edit comment'
+'ADD A TWITTOS': '__ADD A TWITTOS'
+'add a twittos': '__add a twittos'
+ADD: __ADD
+Keyword: __Keyword
+'ADD A KEYWORD': '__ADD A KEYWORD'
+'add a keyword': '__add a keyword'
+Publish: __Publish
+Cancel: __Cancel
+Clear: __Clear
+'Problem occured': '__Problem occured'
+'Keyword removed': '__Keyword removed'
+'Keyword saved': '__Keyword saved'
+'Twittos removed': '__Twittos removed'
+'Twittos saved': '__Twittos saved'
+'Comment saved': '__Comment saved'
+'Tweet removed': '__Tweet removed'
+'Instant saved': '__Instant saved'
+'Who to follow': '__Who to follow'
+'Click here to Embed': '__Click here to Embed'
+'Symfony2 is great': 'J''aime Symfony2'

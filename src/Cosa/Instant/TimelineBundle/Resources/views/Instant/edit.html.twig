@@ -16,26 +16,28 @@
     {% endif %}
     <form>
       <input id="title" type="text" value="{{ entity.title }}" onblur="js_cr_instant();"/>
-      <input id="description" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="set the description here"/>
-      <input style="visibility:hidden;" type="submit" value="Save" onclick="return js_cr_instant();"/>
+      <input id="description" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="{% trans %}set the description here{% endtrans %}"/>
+      <input style="visibility:hidden;" type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_cr_instant();"/>
     </form>
-    <button style="float:right" onclick="document.location.href='{{ path('instant_preview', { 'instant_id': entity.id }) }}';">Preview</button>
+    <button style="float:right" onclick="document.location.href='{{ path('instant_preview', { 'instant_id': entity.id }) }}';">{% trans %}Preview{% endtrans %}</button>
     <div class="clearb"></div>
     <div class="grid4">
       <div id="block-search" class="block">
         <div class="block-title">
-          <a href="#" onclick="$('#geoloc').slideToggle();return false;" style="float:right;">geo</a>
+          <a href="#" onclick="$('#geoloc').slideToggle();return false;" style="float:right;">adv</a>
           <form>
-            <input type="text" id="twitter_search" placeholder="twitter search" />
-            <input type="submit" value="Rechercher" onClick="return js_twitter_search();" />
+            <input type="text" id="twitter_search" placeholder="{% trans %}terms{% endtrans %} ?" />
+            <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_twitter_search();" />
           </form>
           <div id="geoloc" style="display:none;">
-            <input type="integer" id="geo_radius" placeholder="set the radius (mi)" />
-            <input type="text" id="geo_lat" value="" placeholder="set the lat"/>
-            <input type="text" id="geo_lon" value="" placeholder="set the lon"/>
+            <h4>{% trans %}Lang{% endtrans %}</h4>
+            <h4>{% trans %}Geolocation{% endtrans %}</h4>
+            <label>{% trans %}Radius:{% endtrans %}</label><input type="integer" id="geo_radius" value="10" placeholder="{% trans %}set the radius (mi){% endtrans %}" />
+            <input type="hidden" id="geo_lat" value="" placeholder="set the lat"/>
+            <input type="hidden" id="geo_lon" value="" placeholder="set the lon"/>
             <form>
-              <input type="text" id="geo_search" placeholder="set the location" />
-              <input type="submit" value="Rechercher" onClick="return js_geo_search();" />
+              <input type="text" id="geo_search" placeholder="{% trans %}location{% endtrans %} ?" />
+              <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_geo_search();" />
             </form>
             <div id="autogeo" style="display:none;"></div>
           </div>
@@ -45,12 +47,12 @@
       </div>
       <div id="block-twittos" class="block">
         <div class="block-title">
-          Who To Follow
+          {% trans %}Who To Follow{% endtrans %}
         </div>
         <div id="twittos" style="overflow-y:auto;" class="block-content">
           {% for twitto in twittos %}
             <div class="twitto">
-              <button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos({{twitto.id}},$(this).parent(),'{{ twitto.user.twitterID }}');">X</button>
+              <button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos({{twitto.id}},$(this).parent(),'{{ twitto.user.twitterID }}');">X</button>
               <div class="tweet_image">
                 <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
               </div>
@@ -59,7 +61,7 @@
                 <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
               </div>
               <div class="description">
-                <button onclick="$('#p_tw_{{ twitto.id }}').slideToggle();$('#edit_tw_{{ twitto.id }}').slideToggle();return false;">Edit description</button>
+                <button onclick="$('#p_tw_{{ twitto.id }}').slideToggle();$('#edit_tw_{{ twitto.id }}').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button>
                 <div id="p_tw_{{ twitto.id }}">
                   {{ twitto.description }}
                 </div>
@@ -68,7 +70,7 @@
                     <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onblur="return js_save_twittos_desc({{ twitto.id }});">
                       {{ twitto.description }}
                     </textarea>
-                    <input type="submit" value="Save" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
+                    <input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
                   </form>
                 </div>
               </div>
@@ -77,39 +79,39 @@
           {% endfor %}
         </div>
         <div class="block-footer">
-          <button onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();">ADD A TWITTOS</button>
+          <button onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();">{% trans %}ADD A TWITTOS{% endtrans %}</button>
           <form id="addtw" style="display:none;">
-            <input type="text" id="twittos_username" placeholder="add a twittos" />
-            <input type="submit" value="ADD" onClick="return js_add_twittos();" />
+            <input type="text" id="twittos_username" placeholder="{% trans %}add a twittos{% endtrans %}" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" />
             <div id="autotwittos"></div>
           </form>
         </div>
       </div>
       <div id="block-keyword" class="block">
         <div class="block-title">
-          Keyword
+          {% trans %}Keyword{% endtrans %}
         </div>
         <div id="keywords" style="overflow-y:auto;" class="block-content">
           {% for keyword in keywords %}
             <div class="keyword">
-              <button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="Remove" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent(),'{{ keyword.keyword }}');">X</button>
+              <button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent(),'{{ keyword.keyword }}');">X</button>
               {{ keyword.keyword }}
             </div>
             <script type="text/javascript">keywords.push('{{ keyword.keyword }}');</script>
           {% endfor %}
         </div>
         <div class="block-footer">
-          <button onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();">ADD A KEYWORD</button>
+          <button onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();">{% trans %}ADD A KEYWORD{% endtrans %}</button>
           <form id="addkw" style="display:none;">
-            <input type="text" id="keyword" placeholder="add a keyword" />
-            <input type="submit" value="ADD" onClick="return js_add_keyword();" />
+            <input type="text" id="keyword" placeholder="{% trans %}add a keyword{% endtrans %}" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" />
           </form>
         </div>
       </div>
       <div id="tweet_column2" class="block last">
-        <button onclick="refreshTimeline();" style="float:right;">refresh</button>
+        <button onclick="refreshTimeline();" style="float:right;">{% trans %}Refresh{% endtrans %}</button>
         <div class="block-title">
-          Timeline
+          {% trans %}Timeline{% endtrans %}
         </div>
         <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
           {% for tweet in tweets %}
@@ -120,9 +122,9 @@
       </div>
       <span class="clearb"></span>
     </div>
-    <button name="bsubmit" id="publish" value="publish" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}">Publish</button>
-    <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">Cancel</button>
-    <button onclick="document.location.href='{{ path('instant_clear', { 'instant_id': entity.id } ) }}';">Clear</button>
+    <button name="bsubmit" id="publish" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}">{% trans %}Publish{% endtrans %}</button>
+    <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">{% trans %}Cancel{% endtrans %}</button>
+    <button onclick="document.location.href='{{ path('instant_clear', { 'instant_id': entity.id } ) }}';">{% trans %}Clear{% endtrans %}</button>
 {% endblock %}
 
 {% block javascripts %}
@@ -154,7 +156,7 @@
           controles = true;
           $('#publish').click();
         }else{
-          alert('un problème est survenu');
+          alert('{% trans %}Problem occured{% endtrans %}');
         }
       });
     }
@@ -236,7 +238,7 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Keyword removed !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Keyword removed{% endtrans %} !</div>');
           $(elt).remove();
           rm_from_array(keyword,keywords);
         }else{
@@ -280,8 +282,8 @@
         })
         .done(function( retour ) {
           if(retour.retour){
-            var msg = $('<div class="flash-message flash-notice">Keyword saved !</div>');
-            $('#keywords').append($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="Remove" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+c_keywor+'\');">X</button>'+keywor+'</div>'));
+            var msg = $('<div class="flash-message flash-notice">{% trans %}Keyword saved{% endtrans %} !</div>');
+            $('#keywords').append($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+c_keywor+'\');">X</button>'+keywor+'</div>'));
             keywords.push(keywor);
           }else{
             var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
@@ -305,7 +307,7 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Twittos removed !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos removed{% endtrans %} !</div>');
           $(elt).remove();
           rm_from_array(twitter_id, twittos);
         }else{
@@ -340,8 +342,8 @@
           }else{
             if(in_array(retour.twitterID, twittos))
               return false;
-            var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
-            var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+            var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
+            var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+'">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
             $('#twittos').append(elt);
             twittos.push(retour.twitterID);
           }
@@ -378,9 +380,9 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Twittos saved !</div>');
-          $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+twitterID+'\');">X</button>');
-          $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">Edit description</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
+          $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+twitterID+'\');">X</button>');
+          $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
           twittos.push(twitterID);
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
@@ -478,7 +480,7 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Description saved !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Comment saved{% endtrans %} !</div>');
           $('#p_tw_'+twitto_id).html($('#txta_'+twitto_id).val());
           $('#p_tw_'+twitto_id).slideToggle();
           $('#edit_tw_'+twitto_id).slideToggle();
@@ -500,7 +502,7 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Tweet removed !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Tweet removed{% endtrans %} !</div>');
           $(elt).remove();
           rm_from_array(twitter_id, tweets);
         }else{
@@ -523,7 +525,7 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">Instant saved !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Instant saved{% endtrans %} !</div>');
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }
@@ -541,7 +543,7 @@
       .done(function( retour ) {
         if(retour.retour){
           $('#tweet_list2').html(retour.html);
-          var msg = $('<div class="flash-message flash-notice">Timeline refreshed !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Timeline refreshed{% endtrans %} !</div>');
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }

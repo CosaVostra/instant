@@ -2,14 +2,14 @@
 
 {% block body -%}
     <div id="title" style="text-align:center;font-weight: bold;position:fixed;top:0px;background:orange;width:100%;">
-      <button onclick="refreshTimeline();" style="float:right;">refresh</button>
+      <button onclick="refreshTimeline();" style="float:right;">{% trans %}Refresh{% endtrans %}</button>
       {{ instant.title }}
       <div class="tabs" style="text-align:center;width:100%;">
         <div class="timeline" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','grey');$('.whotofollow').css('background','grey');$('.whotofollow').css('color','white');" style="width:50%;float:left;background:white;color:grey;">
-          Timeline
+          {% trans %}Timeline{% endtrans %}
         </div>
         <div class="whotofollow" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).css('background','white');$(this).css('color','grey');$('.timeline').css('background','grey');$('.timeline').css('color','white');" style="width:50%;float:left;color:white;background:grey;">
-          Who to follow
+          {% trans %}Who to follow{% endtrans %}
         </div>
         <div class="clearb"></div>
       </div>
@@ -56,7 +56,7 @@
       .done(function( retour ) {
         if(retour.retour){
           $('#tweet_list2').html(retour.html);
-          var msg = $('<div class="flash-message flash-notice">Timeline refreshed !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Timeline refreshed{% endtrans %} !</div>');
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }

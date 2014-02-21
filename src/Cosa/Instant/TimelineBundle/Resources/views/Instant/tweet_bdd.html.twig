@@ -1,9 +1,9 @@
 {% if draggable %}<div class="twitter_result_item ui-widget-content">{% endif %}
   <div class="tweet">
-    {% if editable %}<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent(),'{{ tweet.twitterId }}');">X</button>{% endif %}
+    {% if editable %}<button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent(),'{{ tweet.twitterId }}');">X</button>{% endif %}
     <div class="tweet_content">
       {% if tweet.isRt %}
-        <div class="retweet">Retweeted by {{ tweet.rtByTwitterRealname }}</div>
+        <div class="retweet">{% trans %}Retweeted by{% endtrans %} {{ tweet.rtByTwitterRealname }}</div>
       {% endif %}
       <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
       <div class="tweet_image">
