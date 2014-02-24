@@ -29,6 +29,13 @@ class db
     }
     return $this->dbh;
   }
+
+  function getDbh() {
+    if($this->dbh){
+      return $this->dbh;
+    }
+    return $this->connect();
+  }
  
   // Create a database connection for use by all functions in this class
   function __construct() {
@@ -47,10 +54,10 @@ class db
     
     // Record the last error state in the object, 
     // so code using objects of this class can read it
-    if ($this->error_msg = mysqli_error($this->dbh)) {
-        if(mysqli_errno($this->dbh)==2006){
+    if ($this->error_msg = mysqli_error($this->getDbh())) {
+        if(mysqli_errno($this->getDbh())==2006){
           if($this->connect()){
-            $this->result = mysqli_query($this->dbh,$query);
+            $this->result = mysqli_query($this->getDbh(),$query);
             $this->error = false;
             return $this->error;
           }
@@ -81,7 +88,7 @@ class db
   // All text added to the DB should be cleaned with mysqli_real_escape_string
   // to block attempted SQL insertion exploits
   public function escape($str) {
-    return mysqli_real_escape_string($this->dbh,$str);
+    return mysqli_real_escape_string($this->getDbh(),$str);
   }
     
   // Test to see if a specific field value is already in the DB
@@ -89,14 +96,14 @@ class db
   public function in_table($table,$where) {
     $query = 'SELECT * FROM ' . $table . 
       ' WHERE ' . $where;
-    $this->result = mysqli_query($this->dbh,$query);
+    $this->result = mysqli_query($this->getDbh(),$query);
     $this->error_test('in_table',$query); 
     return mysqli_num_rows($this->result) > 0;
   }
 
   // Perform a generic select and return a pointer to the result
   public function select($query) {
-    $this->result = mysqli_query( $this->dbh, $query );
+    $this->result = mysqli_query( $this->getDbh(), $query );
     $this->error_test("select",$query);
     return $this->result;
   }
@@ -104,7 +111,7 @@ class db
   // Add a row to any table
   public function insert($table,$field_values) {
     $query = 'INSERT INTO ' . $table . ' SET ' . $field_values;
-    mysqli_query($this->dbh,$query);
+    mysqli_query($this->getDbh(),$query);
     $this->error_test('insert',$query);
   }
     
@@ -112,7 +119,7 @@ class db
   public function update($table,$field_values,$where) {
     $query = 'UPDATE ' . $table . ' SET ' . $field_values . 
       ' WHERE ' . $where;
-    mysqli_query($this->dbh,$query);
+    mysqli_query($this->getDbh(),$query);
    $this->error_test('update',$query);
   }  
 }  

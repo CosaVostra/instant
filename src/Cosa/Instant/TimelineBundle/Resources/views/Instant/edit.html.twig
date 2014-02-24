@@ -27,10 +27,11 @@
           <a href="#" onclick="$('#geoloc').slideToggle();return false;" style="float:right;">adv</a>
           <form>
             <input type="text" id="twitter_search" placeholder="{% trans %}terms{% endtrans %} ?" />
-            <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_twitter_search();" />
+            <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_twitter_search(true);" />
           </form>
           <div id="geoloc" style="display:none;">
             <h4>{% trans %}Lang{% endtrans %}</h4>
+            <input type="text" id="lang" value="" placeholder="set the language (en/fr/es/...)"/>
             <h4>{% trans %}Geolocation{% endtrans %}</h4>
             <label>{% trans %}Radius:{% endtrans %}</label><input type="integer" id="geo_radius" value="10" placeholder="{% trans %}set the radius (mi){% endtrans %}" />
             <input type="hidden" id="geo_lat" value="" placeholder="set the lat"/>
@@ -39,7 +40,6 @@
               <input type="text" id="geo_search" placeholder="{% trans %}location{% endtrans %} ?" />
               <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_geo_search();" />
             </form>
-            <input type="text" id="lang" value="" placeholder="set the language (en/fr/es/...)"/>
             <div id="autogeo" style="display:none;"></div>
           </div>
         </div>
@@ -198,7 +198,7 @@
       });
       return false;
     }
-    function js_twitter_search() {
+    function js_twitter_search(addkeyword) {
       $('#geoloc').hide();
       $('#twitter_result').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
       $.ajax({
@@ -214,7 +214,9 @@
       })
       .done(function( retour ) {
         $('#twitter_result').html(retour);
-        add_keyword($('#twitter_search').val());
+        if(addkeyword){
+          add_keyword($('#twitter_search').val());
+        }
         $( ".twitter_result_item" ).draggable({
           revert: true,
           appendTo: 'body',
@@ -573,7 +575,7 @@
     function searchFrom(username)
     {
       $('#twitter_search').val('from:'+username);
-      return js_twitter_search();
+      return js_twitter_search(false);
     }
   </script>
 {% endblock %}
