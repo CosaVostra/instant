@@ -41,13 +41,20 @@ while (true) {
     // $oDB->escape() escapes ' and " characters, and blocks characters that
     // could be used in a SQL injection attempt
    
+    $media_url = '';
     if (isset($tweet_object->retweeted_status)) {
+      $entities = $tweet_object->retweeted_status->entities;
       $tweet_id_ori = $tweet_object->retweeted_status->id_str;
       $rt_by_twitter_realname = $oDB->escape($tweet_object->user->name);
       $description = $oDB->escape($tweet_object->user->description);
       $rt_by_twitterID = $tweet_object->user->id_str;
       $tweet_text = $oDB->escape($tweet_object->retweeted_status->text);
       $created_at = $oDB->date($tweet_object->created_at);
+      if(isset($entities->media)){
+        foreach ($entities->media as $media) {
+          $media_url = $media->media_url;break;
+        }
+      }
       if (isset($tweet_object->retweeted_status->geo)) {
         $geo_lat = $tweet_object->retweeted_status->geo->coordinates[0];
         $geo_long = $tweet_object->retweeted_status->geo->coordinates[1];
@@ -59,11 +66,16 @@ while (true) {
       $screen_name = $oDB->escape($user_object->screen_name);
       $name = $oDB->escape($user_object->name);
       $profile_image_url = $user_object->profile_image_url;
-			$is_rt = 1;
-	  } else {
-	 	  $entities = $tweet_object->entities;
-		  $is_rt = 0;
-		  $tweet_text = $oDB->escape($tweet_object->text);	
+      $is_rt = 1;
+    } else {
+      $entities = $tweet_object->entities;
+      if(isset($entities->media)){
+        foreach ($entities->media as $media) {
+          $media_url = $media->media_url;break;
+        }
+      }
+      $is_rt = 0;
+      $tweet_text = $oDB->escape($tweet_object->text);	
       $created_at = $oDB->date($tweet_object->created_at);
       if (isset($tweet_object->geo)) {
         $geo_lat = $tweet_object->geo->coordinates[0];
@@ -77,7 +89,7 @@ while (true) {
       $screen_name = $oDB->escape($user_object->screen_name);
       $name = $oDB->escape($user_object->name);
       $profile_image_url = $user_object->profile_image_url;
-	  }
+    }
 
 		
     // Add a new user row or update an existing one
@@ -115,7 +127,7 @@ while (true) {
         'is_rt = ' . $is_rt . ',' .
         (($is_rt)?
           'twitter_id_ori="'.$tweet_id_ori.'", rt_by_twitter_realname="'.$rt_by_twitter_realname.'",rt_by_twitterID="'.$rt_by_twitterID.'",':'').
-        'media_url = "", from_stream = 1';// . $twitter_object->media[0]->media_url ;
+        'media_url = "'.$media_url.'", from_stream = 1';// . $twitter_object->media[0]->media_url ;
 			echo "$field_values\n";
     echo $oDB->insert('Tweet',$field_values);
 	//exit;	
@@ -166,7 +178,7 @@ while (true) {
 				
         $oDB->insert('tweet_urls',$field_values);
       }
-    }*/		
+    }*/	
   }
 		
   // You can adjust the sleep interval to handle the tweet flow and 

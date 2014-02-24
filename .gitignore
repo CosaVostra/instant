@@ -22,3 +22,4 @@
 /140dev/db/error_log.txt
 /app/config/config.yml
 *.swp
+*.log
