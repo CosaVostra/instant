@@ -129,7 +129,7 @@
     <button name="bsave" id="save" value="save" onclick="return js_save();">Save</button>
     <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">{% trans %}Cancel{% endtrans %}</button>
     <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
-        <input type="submit" value="Clear" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" />
+        <input type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" />
     </form>
 {% endblock %}
 
