@@ -35,3 +35,7 @@ II-2 Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de
 
 II-3 Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)
 
+III) Chapitre MySQL
+
+III-1 Créer la procédure et le trigger permettant d'alimenter les instant avec les tweets qui arrivent de la streaming API : le code à lancer se trouve dans trigger.sql
+
