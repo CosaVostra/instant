@@ -32,6 +32,10 @@
           <div id="geoloc" style="display:none;">
             <h4>{% trans %}Lang{% endtrans %}</h4>
             <input type="text" id="lang" value="" placeholder="set the language (en/fr/es/...)"/>
+            <h4>{% trans %}Result type{% endtrans %}</h4>
+            <input type="radio" name="result_type" value="recent" checked>Recent
+            <input type="radio" name="result_type" value="popular">Popular
+            <input type="radio" name="result_type" value="mixed">Mixed
             <h4>{% trans %}Geolocation{% endtrans %}</h4>
             <label>{% trans %}Radius:{% endtrans %}</label><input type="integer" id="geo_radius" value="10" placeholder="{% trans %}set the radius (mi){% endtrans %}" />
             <input type="hidden" id="geo_lat" value="" placeholder="set the lat"/>
@@ -209,8 +213,12 @@
           'lat':$('#geo_lat').val(),
           'lon':$('#geo_lon').val(),
           'radius':$('#geo_radius').val(),
-          'lang':$('#lang').val()
+          'lang':$('#lang').val(),
+          'result_type':$('input[name="result_type"]:checked').val()
         }
+      })
+      .fail(function() {
+      $('#twitter_result').html('');
       })
       .done(function( retour ) {
         $('#twitter_result').html(retour);
@@ -224,7 +232,7 @@
           scroll: false,
           helper: function(event) {
                 return $(event.target).closest(".ui-draggable").clone().css({
-                    width: $(event.target).width()
+                    width: $(event.target).closest(".ui-draggable").width()
                 });},
           cursor: 'move',
           start: function(event, ui) {

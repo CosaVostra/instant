@@ -35,6 +35,8 @@ II-2 Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de
 
 II-3 Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)
 
+II-4 Planifier le script php 140dev/db/garbage_tweet.php qui nettoie la table Tweet des tweet "orphelins" (ils sont nombreux car Twitter nous envoie tous les RT des tweets de nos twittos). A planifier toutes les heures par exemple.
+
 III) Chapitre MySQL
 
 III-1 Créer la procédure et le trigger permettant d'alimenter les instant avec les tweets qui arrivent de la streaming API : le code à lancer se trouve dans trigger.sql

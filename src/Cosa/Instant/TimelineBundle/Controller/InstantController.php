@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 use Cosa\Instant\TimelineBundle\Entity\Instant;
 use Cosa\Instant\TimelineBundle\Form\InstantType;
@@ -500,7 +501,12 @@ private function checkTweet($tweet_id)
           $geocode = false;
         }
         $lang = $request->request->get('lang');
-        $reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:''));
+        $result_type = $request->request->get('result_type');
+        if ($result_type == '')
+            $result_type = 'recent';
+        //$reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').(($result_type)?'&result_type='.$result_type:''));
+        $reply = $cb->search_tweets('count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').'&result_type='.$result_type);
+        //echo 'count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').(($result_type)?'&result_type='.$result_type:'');
         //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
         //print_r($reply);exit;
         //echo $request->request->get('q');
@@ -509,6 +515,7 @@ private function checkTweet($tweet_id)
         return $this->render('CosaInstantTimelineBundle:Instant:twitterSearch.html.twig', array(
             'reply' => $reply
         ));
+
     }
 
     public function rmKeywordAction($keyword_id)

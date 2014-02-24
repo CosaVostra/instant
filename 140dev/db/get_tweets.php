@@ -48,9 +48,10 @@ class Consumer extends OauthPhirehose
       SELECT DISTINCT u.twitterID
       FROM fos_user u,Twittos t,Instant i
       WHERE u.id=t.user_id
-      AND t.instant_id=i.id
-      AND i.status=\'publish\'
-      AND i.finish_at>now()
+      AND t.instant_id=i.id'.
+      //'AND i.status=\'publish\''.
+      'AND i.finish_at>now()
+      LIMIT 4999
     ');
     $twitterIDs = array('12510322');
     if($result){
