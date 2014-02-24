@@ -41,7 +41,7 @@ while (true) {
     // $oDB->escape() escapes ' and " characters, and blocks characters that
     // could be used in a SQL injection attempt
    
-		if (isset($tweet_object->retweeted_status)) {
+    if (isset($tweet_object->retweeted_status)) {
       $tweet_id_ori = $tweet_object->retweeted_status->id_str;
       $rt_by_twitter_realname = $oDB->escape($tweet_object->user->name);
       $description = $oDB->escape($tweet_object->user->description);
@@ -73,7 +73,7 @@ while (true) {
       } 
       $user_object = $tweet_object->user;
       $user_id = $user_object->id_str;
-      $description = $oDB->escape($user_object-->description);
+      $description = $oDB->escape($user_object->description);
       $screen_name = $oDB->escape($user_object->screen_name);
       $name = $oDB->escape($user_object->name);
       $profile_image_url = $user_object->profile_image_url;
@@ -109,14 +109,14 @@ while (true) {
         'location = "' . $geo_lat . '|' . $geo_long . '",' .
         'user_id = "' . $user_id . '", ' .				
         'screen_name = "' . $screen_name . '", ' .
-        'user_description = ' . $description . '", ' .
+        'user_description = "' . $description . '", ' .
         'name = "' . $name . '", ' .
         'profile_image_url = "' . $profile_image_url . '", ' .
         'is_rt = ' . $is_rt . ',' .
         (($is_rt)?
           'twitter_id_ori="'.$tweet_id_ori.'", rt_by_twitter_realname="'.$rt_by_twitter_realname.'",rt_by_twitterID="'.$rt_by_twitterID.'",':'').
         'media_url = "", from_stream = 1';// . $twitter_object->media[0]->media_url ;
-			echo $field_values;
+			echo "$field_values\n";
     echo $oDB->insert('Tweet',$field_values);
 	//exit;	
     // The mentions, tags, and URLs from the entities object are also
