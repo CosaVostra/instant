@@ -692,6 +692,9 @@ private function checkTweet($tweet_id)
             return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
           }
         }
+        if($em->getRepository('CosaInstantTimelineBundle:Twittos')->findOneBy(array('user'=>$tuser->getId(),'instant'=>$instant->getId()))){ // doublon
+          return new JsonResponse(array('retour'=>false,'msg'=>'already added'),200,array('Content-Type', 'application/json'));
+        }
         $twittos = new Twittos();
         $twittos->setUser($tuser);
         $twittos->setInstant($instant);
@@ -762,7 +765,8 @@ private function checkTweet($tweet_id)
         $id = 0;
 
         if ($twittosInDB) {
-            $id = $twittosInDB->getId();
+            //$id = $twittosInDB->getId();
+            return new JsonResponse(array('retour'=>false,'msg'=>'already added'),200,array('Content-Type', 'application/json'));
         } else {
             try {
                 $em->persist($twittos);
