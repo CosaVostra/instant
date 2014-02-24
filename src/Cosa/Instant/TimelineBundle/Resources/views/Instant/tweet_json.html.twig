@@ -4,18 +4,21 @@
       <div class="tweet_id hidden">{{ tweet.id_str }}</div>
       <div class="tweet_image">
         <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.name }}
-{{ tweet.user.description }}"><img src="{{ tweet.user.profile_image_url }}" width="48" height="48"></a>
+{{ tweet.user.description }}
+{{ tweet.user.location }}"><img src="{{ tweet.user.profile_image_url }}" width="48" height="48"></a>
       </div>
       <div class="tweet_right">
         <div class="tweet_screen_name">
           <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.name }}
-{{ tweet.user.description }}" onclick="return searchFrom('{{ tweet.user.screen_name }}');">{{ tweet.user.screen_name }}</a>
+{{ tweet.user.description }}
+{{ tweet.user.location }}" onclick="return searchFrom('{{ tweet.user.screen_name }}');">{{ tweet.user.screen_name }}</a>
           <span class="tweet_name">{{ tweet.user.name }}</span>
           <input type="hidden" class="twitterID" value="{{ tweet.user.id_str }}"/>
           <input type="hidden" class="twitter_username" value="{{ tweet.user.screen_name }}"/>
           <input type="hidden" class="twitter_realname" value="{{ tweet.user.name }}"/>
           <input type="hidden" class="twitter_description" value="{{ tweet.user.description }}"/>
           <input type="hidden" class="twitter_profile_image_url" value="{{ tweet.user.profile_image_url }}"/>
+          <input type="hidden" class="twitter_userlocation" value="{{ tweet.user.location }}"/>
         </div>
         <div class="tweet_text">{{ tweet.text | customlink | raw }}
           <div class="tweet_date">
@@ -32,7 +35,7 @@
     </div>
     <input type="hidden" class="twitter_id_str" value="{{ tweet.id_str }}"/>
     <input type="hidden" class="twitter_text" value="{{ tweet.text }}"/>
-    <input type="hidden" class="twitter_location" value=""/>
+    <input type="hidden" class="twitter_location" value="{% if tweet.geo %}{{ tweet.geo.coordinates.0 }}|{{ tweet.geo.coordinates.1 }}{% endif %}"/>
     <input type="hidden" class="twitter_created_at" value="{{ tweet.created_at|date("m/d/Y H:i:s", "Europe/London") }}"/>
   </div>
 {% if draggable %}</div>{% endif %}

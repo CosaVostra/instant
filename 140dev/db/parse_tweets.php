@@ -47,6 +47,7 @@ while (true) {
       $tweet_id_ori = $tweet_object->retweeted_status->id_str;
       $rt_by_twitter_realname = $oDB->escape($tweet_object->user->name);
       $description = $oDB->escape($tweet_object->user->description);
+      $user_location = $oDB->escape($tweet_object->user->location);
       $rt_by_twitterID = $tweet_object->user->id_str;
       $tweet_text = $oDB->escape($tweet_object->retweeted_status->text);
       $created_at = $oDB->date($tweet_object->created_at);
@@ -86,6 +87,7 @@ while (true) {
       $user_object = $tweet_object->user;
       $user_id = $user_object->id_str;
       $description = $oDB->escape($user_object->description);
+      $user_location = $oDB->escape($user_object->location);
       $screen_name = $oDB->escape($user_object->screen_name);
       $name = $oDB->escape($user_object->name);
       $profile_image_url = $user_object->profile_image_url;
@@ -122,6 +124,7 @@ while (true) {
         'user_id = "' . $user_id . '", ' .				
         'screen_name = "' . $screen_name . '", ' .
         'user_description = "' . $description . '", ' .
+        'user_location = "' . $user_location . '", ' .
         'name = "' . $name . '", ' .
         'profile_image_url = "' . $profile_image_url . '", ' .
         'is_rt = ' . $is_rt . ',' .

@@ -678,7 +678,7 @@ private function checkTweet($tweet_id)
               $tuser->setPassword('');
               $tuser->setTwitterAccessToken('');
               $tuser->setTwitterAccessTokenSecret('');
-              $tuser->setTwitterLocation('');
+              $tuser->setTwitterLocation($ruser->location);
               $tuser->setOptin(0);
               $tuser->setCreatedAt(new \DateTime('now'));
               $tuser->setUpdatedAt(new \DateTime('now'));
@@ -706,7 +706,7 @@ private function checkTweet($tweet_id)
         } catch(\Exception $e) {
             return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
         }
-        return new JsonResponse(array('retour'=>true,'twitterID'=>$tuser->getTwitterID(),'id'=>$twittos->getId(),'username'=>$tuser->getTwitterUsername(),'name'=>$tuser->getTwitterRealname(),'profile_image_url'=>$tuser->getProfileImageUrl()),200,array('Content-Type', 'application/json'));
+        return new JsonResponse(array('retour'=>true,'twitterID'=>$tuser->getTwitterID(),'id'=>$twittos->getId(),'username'=>$tuser->getTwitterUsername(),'name'=>$tuser->getTwitterRealname(),'profile_image_url'=>$tuser->getProfileImageUrl(),'description'=>$tuser->getTwitterDescription(),'location'=>$tuser->getTwitterLocation()),200,array('Content-Type', 'application/json'));
     }
 
     public function addTwittosAction(Request $request, $instant_id)
@@ -735,7 +735,7 @@ private function checkTweet($tweet_id)
             $user->setPassword('');
             $user->setTwitterAccessToken('');
             $user->setTwitterAccessTokenSecret('');
-            $user->setTwitterLocation('');
+            $user->setTwitterLocation($request->request->get('twittos_location'));
             $user->setOptin(0);
             $user->setCreatedAt(new \DateTime('now'));
             $user->setUpdatedAt(new \DateTime('now'));
@@ -750,11 +750,13 @@ private function checkTweet($tweet_id)
                 || ($twittos_user->getProfileImageUrl() != $request->request->get('twittos_profile_image_url'))
                 || ($twittos_user->getTwitterRealname() != $request->request->get('twittos_realname'))
                 || ($twittos_user->getTwitterDescription() != $request->request->get('twittos_description'))
+                || ($twittos_user->getTwitterLocation() != $request->request->get('twittos_location'))
             ) {
                 $twittos_user->setTwitterUsername($request->request->get('twittos_username'));
                 $twittos_user->setProfileImageUrl($request->request->get('twittos_profile_image_url'));
                 $twittos_user->setTwitterRealname($request->request->get('twittos_realname'));
                 $twittos_user->setTwitterDescription($request->request->get('twittos_description'));
+                $twittos_user->setTwitterLocation($request->request->get('twittos_location'));
                 $twittos_user->setUpdatedAt(new \DateTime('now'));
             }
 
@@ -766,7 +768,13 @@ private function checkTweet($tweet_id)
 
         if ($twittosInDB) {
             //$id = $twittosInDB->getId();
-            return new JsonResponse(array('retour'=>false,'msg'=>'already added'),200,array('Content-Type', 'application/json'));
+            try{
+              $em->persist($twittos_user);
+              $em->flush();
+              return new JsonResponse(array('retour'=>false,'msg'=>'already added'),200,array('Content-Type', 'application/json'));
+            } catch(\Exception $e) {
+                return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+            }
         } else {
             try {
                 $em->persist($twittos);
@@ -799,6 +807,7 @@ private function checkTweet($tweet_id)
             $tweet->setScreenName($request->request->get('screen_name'));
             $tweet->setUserId($request->request->get('user_id'));
             $tweet->setUserDescription($request->request->get('description'));
+            $tweet->setUserLocation($request->request->get('userlocation'));
             $tweet->setProfileImageUrl($request->request->get('profile_image_url'));
             $tweet->setLocation($request->request->get('location'));
             $tweet->setMediaUrl($request->request->get('media_url'));

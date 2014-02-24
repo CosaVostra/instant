@@ -55,6 +55,11 @@ class Tweet
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $user_location;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $profile_image_url;
 
     /**
@@ -468,5 +473,28 @@ class Tweet
     public function getFromStream()
     {
         return $this->from_stream;
+    }
+
+    /**
+     * Set user_location
+     *
+     * @param string $userLocation
+     * @return Tweet
+     */
+    public function setUserLocation($userLocation)
+    {
+        $this->user_location = $userLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get user_location
+     *
+     * @return string 
+     */
+    public function getUserLocation()
+    {
+        return $this->user_location;
     }
 }
