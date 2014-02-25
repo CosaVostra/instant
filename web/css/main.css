@@ -85,8 +85,7 @@ body {
   text-decoration: underline;
 }
 .tweet_media{
-  width: 20%;
-  margin: auto;
+  text-align: center;
   clear: both;
 }
 #new_tweet_count {

@@ -164,9 +164,12 @@ class InstantController extends Controller
       if($request->request->get('nb') && is_numeric($request->request->get('nb')))
         $nb = $request->request->get('nb');
       $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant_id,$off,$nb);
+      $tweets = Array();
+      if(count($instantWithTweets))
+        $tweets = $instantWithTweets[0]->getTweets();
       return $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array(
             'instant'          => $instant,
-            'tweets'           => $instantWithTweets[0]->getTweets(),
+            'tweets'           => $tweets,
             'editable'         => $editable,
             'off'              => $off,
             'nb'               => $nb,
@@ -190,6 +193,9 @@ class InstantController extends Controller
         $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($entity->getId());
         //$tweets = $entity->getTweets();
         $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($entity->getId(),0,100);
+        $tweets = Array();
+        if(count($instantWithTweets))
+          $tweets = $instantWithTweets[0]->getTweets();
         $editForm = $this->createForm(new InstantType(), $entity);
         //$deleteForm = $this->createDeleteForm($id);
         return $this->render('CosaInstantTimelineBundle:Instant:edit.html.twig', array(
@@ -201,7 +207,7 @@ class InstantController extends Controller
             'twittos_to_alert' => (!empty($twittos_to_alert))?$twittos_to_alert:false,
             'twittos'          => $twittos,
             'keywords'          => $keywords,
-            'tweets'           => $instantWithTweets[0]->getTweets(),
+            'tweets'           => $tweets,
             'off'              => 0,
             'nb'               => 100,
 
@@ -453,12 +459,15 @@ private function checkTweet($tweet_id)
         $instant->setNbViews($instant->getNbViews()+1);
         $instant->setLastView(new \Datetime());
         $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant->getId(),0,100);
+        $tweets = Array();
+        if(count($instantWithTweets))
+          $tweets = $instantWithTweets[0]->getTweets();
         $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getComplete($instant->getId());
         $em->persist($instant);
         $em->flush();
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantWebview.html.twig', array(
             'instant' => $instant,
-            'tweets' => $instantWithTweets[0]->getTweets(),
+            'tweets' => $tweets,
             'twittos' => $twittos,
             'off'              => 0,
             'nb'               => 100,
@@ -486,11 +495,13 @@ private function checkTweet($tweet_id)
         $user = $this->checkUser($username);
         $instant = $this->checkInstant($user,$instant_title);
         $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant->getId(),0,100);
-        //$tweets = $instant->getTweets();
+        $tweets = Array();
+        if(count($instantWithTweets))
+          $tweets = $instantWithTweets[0]->getTweets();
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantPreview.html.twig', array(
             'instant' => $instant,
             'user' => $user,
-            'tweets' => $instantWithTweets[0]->getTweets(),
+            'tweets' => $tweets,
             'off'              => 0,
             'nb'               => 100,
         ));
@@ -944,7 +955,10 @@ private function checkTweet($tweet_id)
             }
           }
           $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant_id,0,100);
-          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $instantWithTweets[0]->getTweets(),'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100));
+          $tweets = Array();
+          if(count($instantWithTweets))
+            $tweets = $instantWithTweets[0]->getTweets();
+          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $tweets,'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100));
           return new JsonResponse(array('retour'=>true,'html'=>$html->getContent()),200,array('Content-Type', 'application/json'));
         }catch(\Exception $e){
           return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));

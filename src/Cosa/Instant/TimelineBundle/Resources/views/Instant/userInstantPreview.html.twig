@@ -15,6 +15,7 @@
 
 {% block javascripts %}
   <script type="text/javascript">
+  $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
     function getNbNewTweets()
     {
       $.ajax({

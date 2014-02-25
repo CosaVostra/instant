@@ -145,6 +145,7 @@
 {% block javascripts %}
   <script src="{{  asset('js/jquery-ui.js') }}"></script>
   <script type="text/javascript">
+    $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
     var controles = false;
     function getNbNewTweets()
     {
@@ -277,7 +278,9 @@
       $('#twitter_result').html('');
       })
       .done(function( retour ) {
-        $('#twitter_result').html(retour);
+        $('#twitter_result').html(retour).load(function(){
+          $('.tweetmediajson').each(function(){$(this).css('maxHeight',$(this).css('width'));});
+        });
         if(addkeyword){
           add_keyword($('#twitter_search').val());
         }
