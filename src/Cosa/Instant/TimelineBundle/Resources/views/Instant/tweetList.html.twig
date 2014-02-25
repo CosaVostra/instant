@@ -1,3 +1,6 @@
 {% for tweet in tweets %}
   {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': editable} %}
 {% endfor %}
+{% if tweets|length == nb %}
+  <button class="more_tweets" onclick="moreTweets({{ instant.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</button>
+{% endif %}
