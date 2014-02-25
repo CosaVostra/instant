@@ -88,3 +88,6 @@ instant_refresh_timeline:
 instant_more_tweets:
     pattern:  /{instant_id}/more/tweets
     defaults: { _controller: CosaInstantTimelineBundle:Instant:moreTweets }
+instant_nb_new_tweets:
+    pattern:  /{instant_id}/nb/new/tweets
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:nbNewTweets }

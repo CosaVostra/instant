@@ -25,12 +25,12 @@
     <div class="clearb"></div>
     <div class="grid4">
       <div id="block-search" class="block">
-        <div class="block-title">
+        <div class="block-title" style="text-align:left;">
           <a href="#" onclick="$('#geoloc').slideToggle();return false;" style="float:right;">adv</a>
           <form>
-            <input id="lastS" type="button" value="<" onclick="lastSearch();" title=""/>
-            <input id="nextS" type="button" value=">" onclick="nextSearch();" title=""/>
-            <input type="text" id="twitter_search" placeholder="{% trans %}terms{% endtrans %} ?" />
+            <input id="lastS" type="button" value="<" onclick="lastSearch();" title="" style="padding:0px;"/>
+            <input id="nextS" type="button" value=">" onclick="nextSearch();" title="" style="padding:0px;"/>
+            <input type="text" id="twitter_search" placeholder="{% trans %}terms{% endtrans %} ?" style="width:120px;"/>
             <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_twitter_search(true);" />
           </form>
           <div id="geoloc" style="display:none;">
@@ -122,7 +122,6 @@
         </div>
       </div>
       <div id="tweet_column2" class="block last">
-        <button onclick="refreshTimeline();" style="float:right;">{% trans %}Refresh{% endtrans %}</button>
         <div class="block-title">
           {% trans %}Timeline{% endtrans %}
         </div>
@@ -147,6 +146,31 @@
   <script src="{{  asset('js/jquery-ui.js') }}"></script>
   <script type="text/javascript">
     var controles = false;
+    function getNbNewTweets()
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_nb_new_tweets',{instant_id:entity.id})}}",
+        data: {
+          {% if tweets|length > 0 %}
+            'last': '{{ tweets.0.twitterID }}',
+          {% endif %}
+        }
+      })
+      .done(function( retour ) {
+        $('#nbnewtweets').remove();
+        if(retour['retour']){
+          if(retour['nb']!='0'){
+            $('#tweet_list2').prepend('<div id="nbnewtweets" onclick="refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
+          }
+        }else{
+          //alert('{% trans %}Problem occured{% endtrans %}');
+        }
+      });
+    }
+    setInterval(function() {
+      getNbNewTweets();
+    }, 10000);
     function showPopups(){
       {% if twittos_to_alert %}
         $('#fade').fadeIn();
@@ -181,10 +205,11 @@
       $('.more_tweets').hide();
       $.ajax({
         type: "POST",
-        url: "{{path('instant_more_tweets',{instant_id:instant.id})}}",
+        url: "{{path('instant_more_tweets',{instant_id:entity.id})}}",
         data: {
           'off': off,
           'nb': nb,
+          'from': 'edit',
         }
       })
       .done(function( retour ) {
@@ -602,7 +627,10 @@
     {
       $.ajax({
         type: "POST",
-        url: "{{path('instant_refresh_timeline',{instant_id:entity.id})}}"
+        url: "{{path('instant_refresh_timeline',{instant_id:entity.id})}}",
+        data: {
+          'from': 'edit',
+        }
       })
       .done(function( retour ) {
         if(retour.retour){

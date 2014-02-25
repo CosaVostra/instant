@@ -445,3 +445,11 @@ body .twitter_result_item {
 .more_tweets{
   width: 100%;
 }
+#nbnewtweets{
+  text-align: center;
+  background: GreenYellow;
+  margin: 2px;
+  border: 1px dotted LawnGreen;
+  padding: 4px 0px;
+  cursor: pointer;
+}

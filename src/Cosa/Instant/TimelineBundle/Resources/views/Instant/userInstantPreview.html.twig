@@ -3,7 +3,6 @@
 {% block body -%}
     <h1>Instant "{{ instant.title }}" {% trans %}preview{% endtrans %}</h1>
     <div id="tweet_column2" class="block last">
-      <button onclick="refreshTimeline();" style="float:right;">{% trans %}Refresh{% endtrans %}</button>
       <div class="block-title">
         {% trans %}Timeline{% endtrans %}
       </div>
@@ -16,6 +15,31 @@
 
 {% block javascripts %}
   <script type="text/javascript">
+    function getNbNewTweets()
+    {
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_nb_new_tweets',{instant_id:instant.id})}}",
+        data: {
+          {% if tweets|length > 0 %}
+            'last': '{{ tweets.0.twitterID }}',
+          {% endif %}
+        }
+      })
+      .done(function( retour ) {
+        $('#nbnewtweets').remove();
+        if(retour['retour']){
+          if(retour['nb']!='0'){
+            $('#tweet_list2').prepend('<div id="nbnewtweets" onclick="refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
+          }
+        }else{
+          //alert('{% trans %}Problem occured{% endtrans %}');
+        }
+      });
+    }
+    setInterval(function() {
+      getNbNewTweets();
+    }, 10000);
     function moreTweets(id,off,nb)
     {
       $('.more_tweets').hide();

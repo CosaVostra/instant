@@ -13,6 +13,25 @@ use Doctrine\ORM\EntityRepository;
 class InstantRepository extends EntityRepository
 {
 
+    public function getNbNewTweets($id,$last = 0)
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('t.twitter_id,t.created_at')
+            ->from('CosaInstantTimelineBundle:Instant', 'i')
+            ->join('i.tweets', 't')
+            ->where('i.id = '.$id)
+            ->orderBy('t.created_at','DESC')
+            ->getQuery();
+        $tweet_ids = $q->getResult();
+        $cpt = 0;
+        foreach($tweet_ids as $tweet_id){
+          if($last==$tweet_id['twitter_id'])
+            break;
+          $cpt++;
+        }
+        return $cpt;
+    }
+
     public function getList($id, $off=0, $nb=100)
     {
         $q = $this->_em->createQueryBuilder()
@@ -20,6 +39,7 @@ class InstantRepository extends EntityRepository
             ->from('CosaInstantTimelineBundle:Instant', 'i')
             ->join('i.tweets', 't')
             ->where('i.id = '.$id)
+            ->orderBy('t.created_at','DESC')
             ->setFirstResult($off)
             ->setMaxResults($nb);
  
