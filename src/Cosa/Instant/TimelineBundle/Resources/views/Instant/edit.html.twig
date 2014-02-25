@@ -176,6 +176,21 @@
         }
       });
     }
+    function moreTweets(id,off,nb)
+    {
+      $('.more_tweets').hide();
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_more_tweets',{instant_id:instant.id})}}",
+        data: {
+          'off': off,
+          'nb': nb,
+        }
+      })
+      .done(function( retour ) {
+        $('#tweet_list2').append(retour);
+      });
+    }
     function js_geo_search()
     {
       $('#autogeo').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
@@ -632,9 +647,13 @@
         return false;
       if(search_ind>0){
         $('#lastS').attr('title',searches[search_ind-1]);
+      }else{
+        $('#lastS').attr('title','');
       }
       if(search_ind<(searches.length-1)){
         $('#nextS').attr('title',searches[search_ind+1]);
+      }else{
+        $('#nextS').attr('title','');
       }
     }
   </script>

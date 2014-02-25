@@ -8,9 +8,7 @@
         {% trans %}Timeline{% endtrans %}
       </div>
       <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
-        {% for tweet in tweets %}
-          {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true} %}
-        {% endfor %}
+        {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100} %}
       </div>
     </div>
     <a href="{{ path('instant_edit' , { 'username':user.twitterUsername, 'instant_title':instant.title}) }}">{% trans %}Back{% endtrans %}</a>
@@ -18,6 +16,21 @@
 
 {% block javascripts %}
   <script type="text/javascript">
+    function moreTweets(id,off,nb)
+    {
+      $('.more_tweets').hide();
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_more_tweets',{instant_id:instant.id})}}",
+        data: {
+          'off': off,
+          'nb': nb,
+        }
+      })
+      .done(function( retour ) {
+        $('#tweet_list2').append(retour);
+      });
+    }
     function refreshTimeline()
     {
       $.ajax({

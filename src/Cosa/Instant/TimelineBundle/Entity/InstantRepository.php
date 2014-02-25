@@ -13,6 +13,19 @@ use Doctrine\ORM\EntityRepository;
 class InstantRepository extends EntityRepository
 {
 
+    public function getList($id, $off=0, $nb=100)
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('t,i')
+            ->from('CosaInstantTimelineBundle:Instant', 'i')
+            ->join('i.tweets', 't')
+            ->where('i.id = '.$id)
+            ->setFirstResult($off)
+            ->setMaxResults($nb);
+ 
+        return $q->getQuery()->getResult();
+    }
+
     public function getLastId()
     {
         try{
@@ -45,18 +58,4 @@ class InstantRepository extends EntityRepository
             ->getResult();
     }
 
-/*    public function getAllByUsername($username)
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT i
-                 FROM CosaInstantTimelineBundle:Instant i,
-                      CosaInstantUserBundle:User u
-                 WHERE u.username=:username
-                 AND i.user=u.id
-                 ORDER BY i.id ASC'
-            )
-            ->setParameter('username',$username)
-            ->getResult();
-    }*/
 }

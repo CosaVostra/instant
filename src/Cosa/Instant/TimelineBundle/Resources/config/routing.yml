@@ -85,3 +85,6 @@ instant_clear:
 instant_refresh_timeline:
     pattern:  /{instant_id}/refresh/timeline
     defaults: { _controller: CosaInstantTimelineBundle:Instant:refreshTimeline }
+instant_more_tweets:
+    pattern:  /{instant_id}/more/tweets
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:moreTweets }
