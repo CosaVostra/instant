@@ -250,7 +250,7 @@ body .twitter_result_item {
   background: green;
   padding:2px;
   color: white;
-  height: 25px;
+  /*height: 25px;*/
   font-size: 20px;
 }
 
