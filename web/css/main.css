@@ -23,6 +23,9 @@ body {
   width: 100%;
   display:inline-block;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 .tweet_content {
   width: 100%;
@@ -118,10 +121,16 @@ body {
 body .twitter_result_item {
   width: 23%;
   border: 0px white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 #twitter_result .twitter_result_item {
   width: auto;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 #fade { /*--Masque opaque noir de fond--*/
@@ -155,12 +164,18 @@ body .twitter_result_item {
   left: 50%;
   margin: 200px 0 0 -200px;
   z-index: 10000;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .twitto {
   clear: left;
   border: 1px solid grey;
   margin: 2px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .twitto .tweet_screen_name {
@@ -178,6 +193,9 @@ body .twitter_result_item {
   border: 1px solid grey;
   margin: 5px;
   padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .clearb {
@@ -220,6 +238,9 @@ body .twitter_result_item {
   padding: 0px 8px 8px 3px;
   width: 400px;
   float: right;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 #user_info .text {
@@ -239,6 +260,9 @@ body .twitter_result_item {
   height:400px;
   border:1px solid black;
   margin-right:1%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .block.last{
@@ -452,4 +476,7 @@ body .twitter_result_item {
   border: 1px dotted LawnGreen;
   padding: 4px 0px;
   cursor: pointer;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }

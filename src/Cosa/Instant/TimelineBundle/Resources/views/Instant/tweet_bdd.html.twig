@@ -5,7 +5,7 @@
       {% if tweet.isRt %}
         <div class="retweet">{% trans %}Retweeted by{% endtrans %} {{ tweet.rtByTwitterRealname }}</div>
       {% endif %}
-      <div class="tweet_id hidden">{{ tweet.twitterId }}</div>
+      <div class="tweet_id hidden bdd">{{ tweet.twitterId }}</div>
       <div class="tweet_image">
         <a href="http://twitter.com/{{ tweet.screenName }}" target="_blank" title="{{ tweet.name }}
 {{ tweet.userDescription }}
