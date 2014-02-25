@@ -48,7 +48,7 @@
         url: "{{path('instant_nb_new_tweets',{instant_id:instant.id})}}",
         data: {
           {% if tweets|length > 0 %}
-            'last': '{{ tweets.0.twitterID }}',
+            'last': $('.tweet_id.hidden:first').html(),
           {% endif %}
         }
       })
