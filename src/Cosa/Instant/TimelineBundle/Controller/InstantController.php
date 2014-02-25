@@ -127,6 +127,7 @@ class InstantController extends Controller
 
     public function moreTweetsAction(Request $request,$instant_id)
     {
+      $em = $this->getDoctrine()->getManager();
       $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->find($instant_id);
       if (!$instant) {
         throw $this->createNotFoundException('Unable to find Instant entity.');
@@ -906,12 +907,14 @@ private function checkTweet($tweet_id)
     public function refreshTimelineAction(Request $request, $instant_id)
     {
         try{
-          $instant = $this->checkInstant2($instant_id);
+          $em = $this->getDoctrine()->getManager();
+          $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->find($instant_id);
+          if (!$instant) {
+            throw $this->createNotFoundException('Unable to find Instant entity.');
+          }
           $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant_id,0,100);
           $editable = true;
-          if($request->request->get('editable')!=null)
-            $editable = $request->request->get('editable');
-          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $instantWithTweets[0]->getTweets(),'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100));
+          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $instantWithTweets[0]->getTweets(),'editable'=>false,'instant'=>$instant,'off'=>0,'nb'=>100));
           return new JsonResponse(array('retour'=>true,'html'=>$html->getContent()),200,array('Content-Type', 'application/json'));
         }catch(\Exception $e){
           return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
