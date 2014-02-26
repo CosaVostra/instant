@@ -253,6 +253,10 @@
       $('#geoloc').hide();
       $('#twitter_result').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
       if(!in_array($('#twitter_search').val(),searches)){
+        var nbCellToDrop = searches.length-search_ind-1;
+        for(var i=0;i<nbCellToDrop;i++){
+          searches.pop();
+        }
         searches.push($('#twitter_search').val());
         search_ind = searches.length-1;
       }else{

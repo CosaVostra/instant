@@ -573,7 +573,7 @@ private function checkTweet($tweet_id)
         $lang = $request->request->get('lang');
         $result_type = $request->request->get('result_type');
         if ($result_type == '')
-            $result_type = 'recent';
+            $result_type = 'mixed';
         //$reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').(($result_type)?'&result_type='.$result_type:''));
         $reply = $cb->search_tweets('count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').'&result_type='.$result_type);
         //echo 'count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').(($result_type)?'&result_type='.$result_type:'');
