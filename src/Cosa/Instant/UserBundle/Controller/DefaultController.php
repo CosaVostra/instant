@@ -74,7 +74,7 @@ class DefaultController extends Controller
               $to = $user->getEmail();
               $subject = 'Email validation';
               $message = "Bonjour ".$user->getTwitterRealname()."\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
-              $headers = "From: instant@cosavostra.com\r\nX-Mailer: PHP/" . phpversion();
+              $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
 
               mail($to, $subject, $message, $headers);
               return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
