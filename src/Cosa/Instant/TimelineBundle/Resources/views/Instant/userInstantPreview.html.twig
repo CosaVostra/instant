@@ -16,6 +16,10 @@
 {% block javascripts %}
   <script type="text/javascript">
   $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
+    function searchFrom(username)
+    {
+      return false;
+    }
     function getNbNewTweets()
     {
       $.ajax({
