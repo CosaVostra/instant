@@ -68,7 +68,7 @@ fos_user:
     firewall_name: secured_area                       # Le nom du firewall derrière lequel on utilisera ces utilisateurs
     user_class:    Cosa\Instant\UserBundle\Entity\User # La classe de l'entité User que nous utilisons
 fos_twitter:
-    file: %kernel.root_dir%/../vendor/twitteroauth/twitteroauth/twitteroauth.php
+    file: %kernel.root_dir%/../vendor/kertz/twitteroauth/twitteroauth/twitteroauth.php
     consumer_key: **********
     consumer_secret: *******
     callback_url: **************/login_check

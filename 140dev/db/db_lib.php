@@ -16,7 +16,7 @@ class db
   public $result;
  
   function connect() {
-    require_once('db_config.php');
+    require('db_config.php');
     if($this->dbh = mysqli_connect($db_host,
       $db_user, $db_password, $db_name)) {
 

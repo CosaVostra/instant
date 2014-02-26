@@ -1,6 +1,7 @@
 I) Chapitre Symfony
 
 I-1 Executer : cp app/config/parameters.yml.dist app/config/parameters.yml
+cp app/config/config.yml.dist app/config/config.yml
 
 I-2 Editer le app/config/parameters.yml ainsi que le app/config/config.yml
 
@@ -25,13 +26,15 @@ I-7 Executer : app/console doctrine:schema:create
 
 (optionnel)
 I-101 Executer en root : chmod -R 777 app/cache/ app/logs/
-
+Peut-etre sera-t-il necessaire de faire rm -rf app/cache/*
 
 II) Chapitre 140dev (Framework pour Twitter Streaming API) :
 
-II-1 Editer le 140dev/db/140dev-config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs
+II-1 Executer : cp 140dev/db/140dev_config.php.dist 140dev/db/140dev_config.php
+Editer le 140dev/db/140dev_config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs
 
-II-2 Editer le 140dev/db/db-config.php; spécifier le paramétrage de la base de données
+II-2 Executer : cp 140dev/db/db_config.php.dist 140dev/db/db_config.php
+Editer le 140dev/db/db_config.php; spécifier le paramétrage de la base de données
 
 II-3 Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)
 
