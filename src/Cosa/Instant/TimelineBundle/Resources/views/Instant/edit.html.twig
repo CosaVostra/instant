@@ -432,7 +432,7 @@
               return false;
             var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
             var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
-            $('#twittos').append(elt);
+            $('#twittos').prepend(elt);
             twittos.push(retour.twitterID);
           }
         }else{
@@ -447,7 +447,7 @@
     {
       $('#autotwittos').hide();
       var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
-      $('#twittos').append(elt);
+      $('#twittos').prepend(elt);
       add_twittos(id_str,screen_name,name,profile_image_url,desc,loc,elt);
     }
     function add_twittos(twitterID,username,name,profile_image_url,desc,loc,elt)
@@ -490,7 +490,7 @@
         twitto.addClass('twitto');
         $('.tweet_image',ui.draggable).clone().appendTo(twitto);
         $('.tweet_screen_name',ui.draggable).clone().appendTo(twitto);
-        twitto.appendTo($(this));
+        twitto.prependTo($(this));
         add_twittos(
           $('.twitterID',ui.draggable).val(),
           $('.twitter_username',ui.draggable).val(),
