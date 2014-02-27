@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd /home/create/instant/140dev/db
 while true; do
-  php /homez.151/cosavost/www/dev/instant/140dev/db/get_tweets.php 2>&1 >/homez.151/cosavost/www/dev/instant/140dev/db/get_tweets.log
+  php /home/create/instant/140dev/db/get_tweets.php > /home/create/instant/140dev/db/get_tweets.log 2>&1
 done

@@ -11,5 +11,5 @@ then
     echo "running"
 else
     echo "launch"
-    /homez.151/cosavost/www/dev/instant/140dev/db/loop_get_tweets.sh &
+    /home/create/instant/140dev/db/loop_get_tweets.sh &
 fi
