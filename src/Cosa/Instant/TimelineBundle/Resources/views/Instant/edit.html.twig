@@ -45,13 +45,13 @@
             <input type="hidden" id="geo_lat" value="" placeholder="set the lat"/>
             <input type="hidden" id="geo_lon" value="" placeholder="set the lon"/>
             <form>
-              <input type="text" id="geo_search" placeholder="{% trans %}location{% endtrans %} ?" />
+              <input type="text" id="geo_search" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/>
               <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_geo_search();" />
             </form>
             <div id="autogeo" style="display:none;"></div>
           </div>
         </div>
-        <div id="twitter_result" style="overflow-y:auto;overflow-x:hidden;height:371px;" class="block-content">
+        <div id="twitter_result" style="overflow-y:auto;overflow-x:hidden;" class="block-content">
         </div>
       </div>
       <div id="block-twittos" class="block">
@@ -147,14 +147,31 @@
   <script type="text/javascript">
     $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
     var controles = false;
+    function checkLocation()
+    {
+      if($('#geo_search').val()==''){
+        $('#geo_lat').val('');
+        $('#geo_lon').val('');
+      }
+    }
+    var lastT = '0';
+    function upLastT()
+    {
+      if($('.tweet_id.hidden.bdd:first')){
+        lastT = $('.tweet_id.hidden.bdd:first').html();
+      }else{
+        lastT = '0';
+      }
+    }
     function getNbNewTweets()
     {
+      upLastT();
       $.ajax({
         type: "POST",
         url: "{{path('instant_nb_new_tweets',{instant_id:entity.id})}}",
         data: {
           {% if tweets|length > 0 %}
-            'last': $('.tweet_id.hidden.bdd:first').html(),
+            'last': lastT,
           {% endif %}
         }
       })

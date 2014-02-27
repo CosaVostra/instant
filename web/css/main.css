@@ -256,7 +256,7 @@ body .twitter_result_item {
 .grid4 .block{
   float:left;
   width:24%;
-  height:400px;
+  min-height:400px;
   border:1px solid black;
   margin-right:1%;
   -webkit-border-radius: 5px;
