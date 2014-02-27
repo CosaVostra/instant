@@ -17,7 +17,7 @@ $oDB = new db;
 while (true) {
 
   // Process all new tweets
-  $query = 'SELECT cache_id, raw_tweet FROM json_cache';
+  $query = 'SELECT cache_id, raw_tweet FROM json_cache LIMIT 100';
   $result = $oDB->select($query);
   while($row = mysqli_fetch_assoc($result)) {
 		
@@ -35,7 +35,7 @@ while (true) {
 		// The streaming API sometimes sends duplicates, 
     // Test the tweet_id before inserting
     $tweet_id = $tweet_object->id_str;
-    if ($oDB->in_table('Tweet','twitter_id=' . $tweet_id )) {continue;}
+//    if ($oDB->in_table('Tweet','twitter_id=' . $tweet_id )) {continue;}
 		
     // Gather tweet data from the JSON object
     // $oDB->escape() escapes ' and " characters, and blocks characters that
@@ -186,7 +186,7 @@ while (true) {
 		
   // You can adjust the sleep interval to handle the tweet flow and 
   // server load you experience
-  sleep(1);
+  //sleep(1);
 }
 
 ?>
