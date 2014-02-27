@@ -170,9 +170,7 @@
         type: "POST",
         url: "{{path('instant_nb_new_tweets',{instant_id:entity.id})}}",
         data: {
-          {% if tweets|length > 0 %}
-            'last': lastT,
-          {% endif %}
+          'last': lastT,
         }
       })
       .done(function( retour ) {
