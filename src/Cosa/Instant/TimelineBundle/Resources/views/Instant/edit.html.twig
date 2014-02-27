@@ -80,7 +80,7 @@
                 </div>
                 <div id="edit_tw_{{ twitto.id }}" style="display:none;">
                   <form>
-                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onblur="return js_save_twittos_desc({{ twitto.id }});">
+                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onblur="$(this).closest('form').find(':submit').click();">
                       {{ twitto.description }}
                     </textarea>
                     <input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc({{ twitto.id }});"/>

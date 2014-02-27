@@ -52,6 +52,38 @@ class DefaultController extends Controller
         ));
     }*/
 
+    public function settingsAction(Request $request)
+    {
+      $user = $this->get('security.context')->getToken()->getUser();
+      $old_email = $user->getEmail();
+      $formBuilder = $this->createFormBuilder($user);
+      $formBuilder->add('email', 'email');
+      $formBuilder->add('optin', 'checkbox', array('required'=>false));
+      $form = $formBuilder->getForm();
+      
+      if ($request->getMethod() == 'POST') {
+        $form->bind($request);
+        if ($form->isValid()){
+          $em = $this->getDoctrine()->getManager();
+          if($user->getEmail()!=$old_email){
+            $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
+            $to = $user->getEmail();
+            $subject = 'Email validation';
+            $message = "Bonjour ".$user->getTwitterRealname()."\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
+            $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+            mail($to, $subject, $message, $headers);
+            $this->get('session')->getFlashBag()->add('notice', 'Your email has been updated, please check your mailbox to confirm it !');
+          }
+          $em->persist($user);
+          $em->flush();
+        }
+      }
+
+      return $this->render('CosaInstantUserBundle:Default:settings.html.twig', array(
+        'form' => $form->createView(),
+      ));
+    }
+
     public function setEmailTmpAction(Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();

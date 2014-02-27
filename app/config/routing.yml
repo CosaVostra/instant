@@ -22,6 +22,10 @@ alert_twittos_tmp:
     pattern:  /alert_twittos_tmp/{id}
     defaults: { _controller: CosaInstantTimelineBundle:Instant:alertTwittosTmp }
 
+account_settings:
+    pattern:  /my_account
+    defaults: { _controller: CosaInstantUserBundle:Default:settings }
+
 cosa_instant_timeline:
     resource: "@CosaInstantTimelineBundle/Resources/config/routing.yml"
     prefix:   /

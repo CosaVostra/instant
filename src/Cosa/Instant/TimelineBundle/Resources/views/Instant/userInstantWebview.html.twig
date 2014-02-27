@@ -27,7 +27,10 @@
             <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
           </div>
           <div class="description">
-            {% if twitto.description!='' %}{{ twitto.description }}{% else %}{{ twitto.user.twitterDescription }}{% endif %}
+            {{ twitto.user.twitterDescription | customlink | raw }}
+          </div>
+          <div class="comment">
+            {{ twitto.description | customlink | raw }}
           </div>
         </div>
       {% endfor %}

@@ -343,11 +343,16 @@ class InstantController extends Controller
             }catch(\Exception $e){
               return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
             }
+            require_once ('codebird.php');
+            \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+            $cb = new \Codebird\Codebird;
+            $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             foreach ($twittos as $twitto) {
+              $user = $twitto->getUser();
+              $reply = $cb->statuses_update('status='.$entity->getMessageType());
               $twitto->setAlerted(true);
               $em->persist($twitto);
               $em->flush();
-              $user = $twitto->getUser();
               // api twitter to send msg
             }
             return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
@@ -553,17 +558,13 @@ private function checkTweet($tweet_id)
         require_once ('codebird.php');
         \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
 
-        //$cb = \Codebird\Codebird::getInstance(); // singleton
         $cb = new \Codebird\Codebird;
-        //$cb->setConsumerKey('vEuuUtMeVP5TAErglQISJw', 'ObGMkwIgFBNAgpYPRmdERN5JtaDZbg1l9Ao67BCFJ0'); // static, see 'Using multiple Codebird instances'
         $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
-//'12510322-GeTDxwl5lXmwwH1ioL5YFGmmNw44TypDxYcO4QoYy', 'ZzKUfXMrxuEBNQLXXCJ9mYnD6sB6eyQ73pLlshapmNFoP');
-        //print_r($cb);
         $lat = $request->request->get('lat');
         $lon = $request->request->get('lon');
         $radius = $request->request->get('radius');
-        if($lat!='' && is_float($lat) && $lon!= '' && is_float($lon)){
-          if($radius=='' || !is_float($radius)){
+        if($lat!='' && is_numeric($lat) && $lon!= '' && is_numeric($lon)){
+          if($radius=='' || !is_numeric($radius)){
             $radius = 10;
           }
           $geocode = "$lat,$lon,".$radius."mi";
@@ -574,14 +575,7 @@ private function checkTweet($tweet_id)
         $result_type = $request->request->get('result_type');
         if ($result_type == '')
             $result_type = 'mixed';
-        //$reply = $cb->search_tweets('result_type=mixed&count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').(($result_type)?'&result_type='.$result_type:''));
-        $reply = $cb->search_tweets('count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').'&result_type='.$result_type);
-        //echo 'count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.$geocode:'').(($lang)?'&lang='.$lang:'').(($result_type)?'&result_type='.$result_type:'');
-        //$reply = $cb->statuses_update('status=Whohoo, I just tweeted!');
-        //print_r($reply);exit;
-        //echo $request->request->get('q');
-        //echo $this->container->parameters["fos_twitter.consumer_key"];
-        //var_dump($this->container->parameters);
+        $reply = $cb->search_tweets('count=100&q='.$request->request->get('q').(($geocode)?'&geocode='.urlencode($geocode):'').(($lang)?'&lang='.$lang:'').'&result_type='.$result_type);
         return $this->render('CosaInstantTimelineBundle:Instant:twitterSearch.html.twig', array(
             'reply' => $reply
         ));
@@ -713,7 +707,7 @@ private function checkTweet($tweet_id)
             \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
             $cb = new \Codebird\Codebird;
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
-            $reply = $cb->users_search('q='.$twittos_username);
+            $reply = $cb->users_search('q='.urlencode($twittos_username));
             $ruser = false;
             $retour = array('retour'=>true,'users'=>array());
             foreach($reply as $repl){
