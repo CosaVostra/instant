@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+  <form action="{{ path('account_settings') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+      <button type="submit">{% trans %}Save{% endtrans %}</button>
+    </p>
+  </form>
+{% endblock %}

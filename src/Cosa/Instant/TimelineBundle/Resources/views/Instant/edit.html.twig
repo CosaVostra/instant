@@ -12,10 +12,8 @@
       var searches = new Array();
       var search_ind = false;
     </script>
-    {% if twittos_to_alert %}
       <div id="fade"></div>
       <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
-    {% endif %}
     <form>
       <input id="title" type="text" value="{{ entity.title }}" onblur="js_cr_instant();"/>
       <input id="description" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="{% trans %}set the description here{% endtrans %}"/>
@@ -80,7 +78,7 @@
                 </div>
                 <div id="edit_tw_{{ twitto.id }}" style="display:none;">
                   <form>
-                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onblur="$(this).closest('form').find(':submit').click();">
+                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onblur="//$(this).closest('form').find(':submit').click();">
                       {{ twitto.description }}
                     </textarea>
                     <input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
@@ -146,7 +144,11 @@
   <script src="{{  asset('js/jquery-ui.js') }}"></script>
   <script type="text/javascript">
     $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
-    var controles = false;
+    {% if twittos_to_alert %}
+      var controles = false;
+    {% else %}
+      var controles = true;
+    {% endif %}
     function checkLocation()
     {
       if($('#geo_search').val()==''){
@@ -188,13 +190,8 @@
       getNbNewTweets();
     }, 10000);
     function showPopups(){
-      {% if twittos_to_alert %}
         $('#fade').fadeIn();
         $('#popup_alert').fadeIn();
-      {% else %}
-        controles = true;
-        $('#publish').click();
-      {% endif %}
     }
     function postTwittosMsg(){
       $.ajax({
@@ -449,6 +446,7 @@
             var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
             $('#twittos').prepend(elt);
             twittos.push(retour.twitterID);
+            controles = false;
           }
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
@@ -489,6 +487,7 @@
           $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+twitterID+'\');">X</button>');
           $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
           twittos.push(twitterID);
+          controles = false;
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }
