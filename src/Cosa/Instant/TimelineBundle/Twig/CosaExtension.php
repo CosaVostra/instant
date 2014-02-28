@@ -47,7 +47,7 @@ class CosaExtension extends \Twig_Extension
         '$1[at]$2.$3',
         '<a href="$1" target="_blank">$1</a>',
         '<a href="http://twitter.com/search?src=hash&q=$1" target="_blank">$1</a> ',
-        '<a href="#" onclick="return searchFrom(\'$1\');">@$1</a> ',
+        '<a href="http://twitter.com/$1" target="_blank" onclick="return searchFrom(\'$1\');">@$1</a> ',
         '@'
       );
       return preg_replace($patterns,$replacements,$text);
