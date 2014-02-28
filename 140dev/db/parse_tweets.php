@@ -27,7 +27,14 @@ while (true) {
     $tweet_object = unserialize(base64_decode($row['raw_tweet']));
     // Delete cached copy of tweet
     $oDB->select("DELETE FROM json_cache WHERE cache_id = $cache_id");
-		
+	
+    // CosaVostra -- A eventuellement decommenter, ca peut peut-etre ameliorer les perf
+    // We check that the tweet's author is part of our users
+    // (the streaming API sends us RT's that we don't need)
+    $query2 = "SELECT 1 FROM fos_user where username_canonical = '".$tweet_object->user->id_str."' LIMIT 1";
+    $result2 = $oDB->select($query2);
+    if (!mysqli_fetch_assoc($result2)) {continue;}
+
 		// Limit tweets tgo a single language,
 		// such as 'en' for English
 //		if ($tweet_object->lang <> 'en') {continue;}
