@@ -25,20 +25,6 @@
       </div>
       <div id="body">
         <div id="flash-messages">
-          <script type="text/javascript">
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-              $('#flash-messages').append('<div class="flash-message flash-notice">{{ flashMessage }}</div>');
-              msg.delay(3000).fadeOut(1000);
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('warning') %}
-              $('#flash-messages').append('<div class="flash-message flash-warning">{{ flashMessage }}</div>');
-              msg.delay(3000).fadeOut(1000);
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('error') %}
-              $('#flash-messages').append('<div class="flash-message flash-error">{{ flashMessage }}</div>');
-              msg.delay(3000).fadeOut(1000);
-            {% endfor %}
-          </script>
          </div>
          {% block body %}{% endblock %}
        </div>
@@ -50,6 +36,17 @@
          </ul> 
        </div>
        <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+       <script type="text/javascript">
+         {% for flashMessage in app.session.flashbag.get('notice') %}
+           $('#flash-messages').append('<div class="flash-message flash-notice">{{ flashMessage }}</div>');
+         {% endfor %}
+         {% for flashMessage in app.session.flashbag.get('warning') %}
+           $('#flash-messages').append('<div class="flash-message flash-warning">{{ flashMessage }}</div>');
+         {% endfor %}
+         {% for flashMessage in app.session.flashbag.get('error') %}
+           $('#flash-messages').append('<div class="flash-message flash-error">{{ flashMessage }}</div>');
+         {% endfor %}
+       </script>
        {% block javascripts %}{% endblock %}
      </div>
     </body>

@@ -40,7 +40,7 @@ class CosaExtension extends \Twig_Extension
       $patterns = array(
         '/(http\S*)/S',
         '/(#\w*)\s*/Su',
-        '/@(\w*)\s*/Su',
+        '/\s*@(\w*)\s*/Su',
       );
       $replacements = array(
         '<a href="$1" target="_blank">$1</a>',

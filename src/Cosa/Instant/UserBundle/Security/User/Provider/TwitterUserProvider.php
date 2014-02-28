@@ -80,6 +80,15 @@ class TwitterUserProvider implements UserProviderInterface
                 $user->setEmail($info->id);
                 $user->setUsername($info->id);//$username);
                 $user->setCreatedAt(new \Datetime());
+                $user->setTwitterDescription($info->description);
+                $user->setTwitterUsername($info->screen_name);
+                $user->setTwitterAccessToken($this->session->get('access_token'));
+                $user->setTwitterAccessTokenSecret($this->session->get('access_token_secret'));
+                $user->setTwitterRealname($info->name);
+                $user->setProfileImageUrl($info->profile_image_url);
+                $user->setTwitterLocation($info->location);
+                $user->setLang($info->lang);
+                $updated = true;
             }
             if($user->getTwitterDescription()!=$info->description){
               $user->setTwitterDescription($info->description);

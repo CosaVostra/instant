@@ -327,7 +327,7 @@ class InstantController extends Controller
         if($entity->getUser()!=$this->get('security.context')->getToken()->getUser()){
             throw new AccessDeniedException();
         }
-
+        $user = $entity->getUser();
         // On crée le FormBuilder grâce à la méthode du contrôleur
         $formBuilder = $this->createFormBuilder($entity);
         $formBuilder->add('messageType', 'textarea');
@@ -348,12 +348,19 @@ class InstantController extends Controller
             $cb = new \Codebird\Codebird;
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             foreach ($twittos as $twitto) {
-              $user = $twitto->getUser();
-              $reply = $cb->statuses_update('status='.$entity->getMessageType());
-              $twitto->setAlerted(true);
-              $em->persist($twitto);
-              $em->flush();
-              // api twitter to send msg
+              $tuser = $twitto->getUser();
+              $message = str_replace('@EXPERT','@'.$tuser->getTwitterUsername(),$entity->getMessageType());
+              $message = str_replace('@JOURNALIST','@'.$user->getTwitterUsername(),$message);
+              $message = str_replace('@INSTANT',$entity->getTitle(),$message);
+              $message = str_replace('@WEBVIEW',$this->get('router')->generate('instant_webview', array('username' => $user->getTwitterUsername(),'instant_title' => $entity->getTitle()),true),$message);
+              $reply = $cb->statuses_update('status='.urlencode($message));
+              if($reply->httpstatus==200){
+                $twitto->setAlerted(true);
+                $em->persist($twitto);
+                $em->flush();
+              }else{
+                break;
+              }
             }
             return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
           }else{
