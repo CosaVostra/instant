@@ -36,16 +36,19 @@ class CosaExtension extends \Twig_Extension
 
     public function customlinkFilter($text)
     {
-    //  setlocale(LC_CTYPE,"fr_FR.ISO-8859-1");
       $patterns = array(
+        '/(\w+)@(\w+)\.(\w+)/S',
         '/(http\S*)/S',
         '/(#\w*)\s*/Su',
-        '/\s*@(\w*)\s*/Su',
+        '/@(\w*)\s*/Su',
+        '/\[at\]/S'
       );
       $replacements = array(
+        '$1[at]$2.$3',
         '<a href="$1" target="_blank">$1</a>',
         '<a href="http://twitter.com/search?src=hash&q=$1" target="_blank">$1</a> ',
         '<a href="#" onclick="return searchFrom(\'$1\');">@$1</a> ',
+        '@'
       );
       return preg_replace($patterns,$replacements,$text);
     }
