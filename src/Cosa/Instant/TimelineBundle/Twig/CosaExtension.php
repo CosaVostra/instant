@@ -20,7 +20,10 @@ class CosaExtension extends \Twig_Extension
           $date = $date2;
         }
         $now = new \DateTime();
-        $diff = $now->diff($date);
+        $di = new \DateInterval('PT1H');
+        $di->invert = 1; // Proper negative date interval
+        //$diff = $now->diff($date);
+        $diff = $now->add($di)->diff($date);
         if($diff->y || $diff->m || $diff->d > 2)
           return $date->format('m-d-Y');
         if($diff->d > 0)
@@ -39,14 +42,15 @@ class CosaExtension extends \Twig_Extension
       $patterns = array(
         '/(\w+)@(\w+)\.(\w+)/S',
         '/(http\S*)/S',
-        '/(#\w*)\s*/Su',
+//        '/(#\w*)\s*/Su',
+        '/#(\w*)\s*/Su',
         '/@(\w*)\s*/Su',
         '/\[at\]/S'
       );
       $replacements = array(
         '$1[at]$2.$3',
         '<a href="$1" target="_blank">$1</a>',
-        '<a href="http://twitter.com/search?src=hash&q=$1" target="_blank">$1</a> ',
+        '<a href="http://twitter.com/search?q=%23$1&src=hash" target="_blank" onclick="return searchWord(\'#$1\');">#$1</a> ',
         '<a href="http://twitter.com/$1" target="_blank" onclick="return searchFrom(\'$1\');">@$1</a> ',
         '@'
       );

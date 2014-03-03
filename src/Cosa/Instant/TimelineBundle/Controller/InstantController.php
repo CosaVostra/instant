@@ -190,7 +190,8 @@ class InstantController extends Controller
         $em = $this->getDoctrine()->getManager();
         $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getComplete($entity->getId());
         $twittos_to_alert = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getTwittosToAlert($entity->getId());
-        $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($entity->getId());
+        //$keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($entity->getId());
+        $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findBy(array('instant' => $entity->getId()), array('id' => 'desc'));
         //$tweets = $entity->getTweets();
         $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($entity->getId(),0,100);
         $tweets = Array();

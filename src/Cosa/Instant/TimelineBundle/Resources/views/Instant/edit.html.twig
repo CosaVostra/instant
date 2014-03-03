@@ -359,30 +359,31 @@
     }
     function add_keyword(keyword)
     {
+      keyword = keyword.trim();
       keyw = keyword.split(' ');
       $.each(keyw, function(key,keywo) {
         var keywor = keywo.toLowerCase();
-        c_keywor = keywor.replace(/'/g,"\\'");
-        if(in_array(keywor, keywords))
-          return false;
-        $.ajax({
-          type: "POST",
-          url: "{{path('instant_add_keyword',{instant_id:entity.id})}}",
-          data: {
-            'keyword': keywor,
-          }
-        })
-        .done(function( retour ) {
-          if(retour.retour){
-            var msg = $('<div class="flash-message flash-notice">{% trans %}Keyword saved{% endtrans %} !</div>');
-            $('#keywords').append($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+c_keywor+'\');">X</button>'+keywor+'</div>'));
-            keywords.push(keywor);
-          }else{
-            var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
-          }
-          $('#flash-messages').append(msg);
-          msg.delay(3000).fadeOut(1000);
-        });
+        if((keywor != '') && !(in_array(keywor, keywords))) {
+          c_keywor = keywor.replace(/'/g,"\\'");
+          $.ajax({
+            type: "POST",
+            url: "{{path('instant_add_keyword',{instant_id:entity.id})}}",
+            data: {
+              'keyword': keywor,
+            }
+          })
+          .done(function( retour ) {
+            if(retour.retour){
+              var msg = $('<div class="flash-message flash-notice">{% trans %}Keyword saved{% endtrans %} !</div>');
+              $('#keywords').prepend($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+c_keywor+'\');">X</button>'+keywor+'</div>'));
+              keywords.push(keywor);
+            }else{
+              var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
+            }
+            $('#flash-messages').append(msg);
+            msg.delay(3000).fadeOut(1000);
+          });
+        }
       });
       return false;
     }
@@ -459,7 +460,7 @@
     function cr_twittos(screen_name,name,profile_image_url,id_str,desc,loc)
     {
       $('#autotwittos').hide();
-      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
+      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+' onclick="return searchFrom(\''+screen_name+'\');">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
       $('#twittos').prepend(elt);
       add_twittos(id_str,screen_name,name,profile_image_url,desc,loc,elt);
     }
@@ -664,6 +665,11 @@
         msg.delay(3000).fadeOut(1000);
       });
       return false;
+    }
+    function searchWord(word)
+    {
+      $('#twitter_search').val(word);
+      return js_twitter_search(false);
     }
     function searchFrom(username)
     {

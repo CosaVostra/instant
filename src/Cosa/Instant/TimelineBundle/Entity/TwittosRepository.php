@@ -19,7 +19,8 @@ class TwittosRepository extends EntityRepository
                 'SELECT t,u
                  FROM CosaInstantTimelineBundle:Twittos t
                  JOIN t.user u
-                 WHERE t.instant=:instant_id'
+                 WHERE t.instant=:instant_id
+                 ORDER BY t.id desc'
             )
             ->setParameter('instant_id',$instant_id)
             ->getResult();
