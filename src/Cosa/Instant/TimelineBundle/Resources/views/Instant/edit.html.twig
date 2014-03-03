@@ -460,7 +460,7 @@
     function cr_twittos(screen_name,name,profile_image_url,id_str,desc,loc)
     {
       $('#autotwittos').hide();
-      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+' onclick="return searchFrom(\''+screen_name+'\');">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
+      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'" onclick="return searchFrom(\''+screen_name+'\');">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
       $('#twittos').prepend(elt);
       add_twittos(id_str,screen_name,name,profile_image_url,desc,loc,elt);
     }
