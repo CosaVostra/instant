@@ -20,10 +20,10 @@ class CosaExtension extends \Twig_Extension
           $date = $date2;
         }
         $now = new \DateTime();
-        $di = new \DateInterval('PT1H');
-        $di->invert = 1; // Proper negative date interval
-        //$diff = $now->diff($date);
-        $diff = $now->add($di)->diff($date);
+        //$di = new \DateInterval('PT1H');
+        //$di->invert = 1; // Proper negative date interval
+        $diff = $now->diff($date);
+        //$diff = $now->add($di)->diff($date);
         if($diff->y || $diff->m || $diff->d > 2)
           return $date->format('m-d-Y');
         if($diff->d > 0)
