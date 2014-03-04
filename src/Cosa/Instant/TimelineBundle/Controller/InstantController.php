@@ -64,7 +64,7 @@ class InstantController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('instant_edit', array('username' => $username, 'instant_title' => $entity->getTitle())));
+            return $this->redirect($this->generateUrl('instant_edit', array('username' => $username, 'instant_title' => $entity->getUrlTitle())));
         }
 
         return $this->render('CosaInstantTimelineBundle:Instant:new.html.twig', array(
@@ -90,9 +90,10 @@ class InstantController extends Controller
         if(empty($last_id) || !isset($last_id['id']))
           $last_id['id'] = 1;
         $entity->setTitle("Draft - ".($last_id['id']+1));
+        $entity->setUrlTitle(urlencode("Draft - ".($last_id['id']+1)));
         $em->persist($entity);
         $em->flush();
-        return $this->redirect($this->generateUrl('instant_edit',array('username'=>$user->getTwitterUsername(),'instant_title'=>$entity->getTitle())));
+        return $this->redirect($this->generateUrl('instant_edit',array('username'=>$user->getTwitterUsername(),'instant_title'=>$entity->getUrlTitle())));
 
       /*  $form   = $this->createForm(new InstantType(), $entity);
 
@@ -258,7 +259,7 @@ class InstantController extends Controller
         //if($request->request->get('bsubmit')=='publish'){
         //    $editForm = $this->save($request, $user->getTwitterUsername(), $instant->getTitle(), true);
         //    if ($editForm === true) {
-              return $this->redirect($this->generateUrl('instant_embed', array('username' => $user->getTwitterUsername(), 'instant_title' => $instant->getTitle())));
+              return $this->redirect($this->generateUrl('instant_embed', array('username' => $user->getTwitterUsername(), 'instant_title' => $instant->getUrlTitle())));
         //    }
         //}else{
         //    $editForm = $this->save($request, $username, $instant_title);
@@ -353,7 +354,7 @@ class InstantController extends Controller
               $message = str_replace('@EXPERT','@'.$tuser->getTwitterUsername(),$entity->getMessageType());
               $message = str_replace('@JOURNALIST','@'.$user->getTwitterUsername(),$message);
               $message = str_replace('@INSTANT',$entity->getTitle(),$message);
-              $message = str_replace('@WEBVIEW',$this->get('router')->generate('instant_webview', array('username' => $user->getTwitterUsername(),'instant_title' => $entity->getTitle()),true),$message);
+              $message = str_replace('@WEBVIEW',$this->get('router')->generate('instant_webview', array('username' => $user->getTwitterUsername(),'instant_title' => $entity->getUrlTitle()),true),$message);
               $reply = $cb->statuses_update('status='.urlencode($message));
               if($reply->httpstatus==200){
                 $twitto->setAlerted(true);
@@ -418,7 +419,7 @@ private function checkTweet($tweet_id)
     private function checkInstant($user,$title)
     {
         $em = $this->getDoctrine()->getManager();
-        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'title'=>urldecode($title)));
+        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'url_title'=>$title));
         if (!$instant) {
             throw $this->createNotFoundException('This instant does not exist');
         } else if ($instant->getUser()!=$user) {
@@ -465,7 +466,7 @@ private function checkTweet($tweet_id)
         if (!$user) {
             throw $this->createNotFoundException('This user does not exist');
         }
-        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'title'=>$instant_title));
+        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'url_title'=>$instant_title));
         if (!$instant) {
             throw $this->createNotFoundException('This instant does not exist');
         }
@@ -499,7 +500,7 @@ private function checkTweet($tweet_id)
             return $tmp;
         }
         $instant = $this->checkInstant2($instant_id);
-        return $this->redirect($this->generateUrl('instant_preview2',array('username'=>$this->get('security.context')->getToken()->getUser()->getTwitterUsername(),'instant_title'=>$instant->getTitle())));
+        return $this->redirect($this->generateUrl('instant_preview2',array('username'=>$this->get('security.context')->getToken()->getUser()->getTwitterUsername(),'instant_title'=>$instant->getUrlTitle())));
     }
 
     public function instantPreviewAction($username,$instant_title)
@@ -677,6 +678,7 @@ private function checkTweet($tweet_id)
     {
         $instant = $this->checkInstant2($instant_id);
         $instant->setTitle($request->request->get('title'));
+        $instant->setUrlTitle(urlencode($request->request->get('title')));
         $instant->setDescription($request->request->get('description'));
         try {
             $em = $this->getDoctrine()->getManager();
@@ -941,7 +943,7 @@ private function checkTweet($tweet_id)
             $instant->removeTweet($tweet);
         }
         $em->flush();
-        return $this->redirect($this->generateUrl('instant_edit', array('username' => $this->get('security.context')->getToken()->getUser()->getTwitterUsername(), 'instant_title' => $instant->getTitle())));
+        return $this->redirect($this->generateUrl('instant_edit', array('username' => $this->get('security.context')->getToken()->getUser()->getTwitterUsername(), 'instant_title' => $instant->getUrlTitle())));
     }
 
     public function refreshTimelineAction(Request $request, $instant_id)

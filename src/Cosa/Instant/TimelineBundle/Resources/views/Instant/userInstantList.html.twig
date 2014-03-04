@@ -20,16 +20,16 @@
                 <td>
                 <ul>
                     <li>
-                        <button onclick="window.open('{{ path('instant_webview', { 'username': user.twitterUsername,'instant_title': entity.title }) }}','_newtab');">{% trans %}Webview{% endtrans %}</button>
+                        <button onclick="window.open('{{ path('instant_webview', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}','_newtab');">{% trans %}Webview{% endtrans %}</button>
                     </li>
                     <li>
-                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">{% trans %}Embed{% endtrans %}</button>
+                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">{% trans %}Embed{% endtrans %}</button>
                     </li>
                     <li>
-                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.title }) }}';">{% trans %}Edit{% endtrans %}</button>
+                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">{% trans %}Edit{% endtrans %}</button>
                     </li>
                     <li>
-                        <form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.title }) }}" method="post">
+                        <form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}" method="post">
                             <input type="hidden" name="_method" value="DELETE" />
                             {{ form_widget(deleteForms[entity.id]) }}
                             <button type="submit" onclick="return confirm('{% trans %}Are you sure ?{% endtrans %}');">{% trans %}Delete{% endtrans %}</button>

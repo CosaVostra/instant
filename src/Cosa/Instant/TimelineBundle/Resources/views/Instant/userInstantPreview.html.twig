@@ -10,7 +10,7 @@
         {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100} %}
       </div>
     </div>
-    <a href="{{ path('instant_edit' , { 'username':user.twitterUsername, 'instant_title':instant.title}) }}">{% trans %}Back{% endtrans %}</a>
+    <a href="{{ path('instant_edit' , { 'username':user.twitterUsername, 'instant_title':instant.urlTitle}) }}">{% trans %}Back{% endtrans %}</a>
 {% endblock %}
 
 {% block javascripts %}

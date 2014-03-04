@@ -29,6 +29,11 @@ class Instant
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $url_title;
+
+    /**
      * @ORM\Column(type="string", length=1000, nullable=true)
      */
     private $description;
@@ -110,6 +115,29 @@ class Instant
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set url_title
+     *
+     * @param string $urlTitle
+     * @return Instant
+     */
+    public function setUrlTitle($urlTitle)
+    {
+        $this->url_title = $urlTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get url_title
+     *
+     * @return string 
+     */
+    public function getUrlTitle()
+    {
+        return $this->url_title;
     }
 
     /**

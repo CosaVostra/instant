@@ -3,5 +3,5 @@
 {% block body -%}
     <h1>{{ instant.title }}</h1>
 
-    <a href="{{ path('instant_view' , {'username':user.twitterUsername,'instant_title':instant.title}) }}">{% trans %}Back{% endtrans %}</a>
+    <a href="{{ path('instant_view' , {'username':user.twitterUsername,'instant_title':instant.urlTitle}) }}">{% trans %}Back{% endtrans %}</a>
 {% endblock %}
