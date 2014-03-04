@@ -291,6 +291,20 @@ class InstantController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
+            $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($entity->getId());
+            foreach ($keywords as $keyword)
+            {
+                $em->remove($keyword);
+            }
+            $twittos_list = $em->getRepository('CosaInstantTimelineBundle:Twittos')->findByInstant($entity->getId());
+            foreach ($twittos_list as $twittos)
+            {
+                $em->remove($twittos);
+            }
+            foreach ($entity->getTweets() as $tweet)
+            {
+                $entity->removeTweet($tweet);
+            }
             $em->remove($entity);
             $em->flush();
         }
