@@ -418,7 +418,7 @@ private function checkTweet($tweet_id)
     private function checkInstant($user,$title)
     {
         $em = $this->getDoctrine()->getManager();
-        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'title'=>$title));
+        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'title'=>urldecode($title)));
         if (!$instant) {
             throw $this->createNotFoundException('This instant does not exist');
         } else if ($instant->getUser()!=$user) {
@@ -747,6 +747,7 @@ private function checkTweet($tweet_id)
               $tuser->setTwitterRealname($ruser->name);
               $tuser->setTwitterDescription($ruser->description);
               $tuser->setEmail($ruser->id_str);
+              $tuser->setEnabled(true);
               $tuser->setPassword('');
               $tuser->setTwitterAccessToken('');
               $tuser->setTwitterAccessTokenSecret('');
@@ -804,6 +805,7 @@ private function checkTweet($tweet_id)
             $user->setTwitterRealname($request->request->get('twittos_realname'));
             $user->setTwitterDescription($request->request->get('twittos_description'));
             $user->setEmail($request->request->get('twittos_id'));
+            $user->setEnabled(true);
             $user->setPassword('');
             $user->setTwitterAccessToken('');
             $user->setTwitterAccessTokenSecret('');
