@@ -325,7 +325,7 @@
     }
     function js_twitter_search2(req) {
       $('#geoloc').hide();
-      $('.more_tweets').hide();
+      $('.more_tweets_search').hide();
       $('#tweet_list').append('<div class="ajax-loader"><img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/></div>');
       $.ajax({
         type: "POST",

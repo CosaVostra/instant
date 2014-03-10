@@ -5,7 +5,7 @@
     {% endfor %}
     {% if reply.search_metadata.next_results is defined %}
       <div>
-        <button class="more_tweets" onclick="js_twitter_search2('{{ reply.search_metadata.next_results }}');">{% trans %}More tweets{% endtrans %}</button>
+        <button class="more_tweets_search" onclick="js_twitter_search2('{{ reply.search_metadata.next_results }}');">{% trans %}More tweets{% endtrans %}</button>
       </div>
     {% endif %}
   </div>
