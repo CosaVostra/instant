@@ -128,6 +128,9 @@
             {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true} %}
             <script type="text/javascript">tweets.push('{{ tweet.twitterID }}');</script>
           {% endfor %}
+          {% if tweets|length == nb %}
+            <button class="more_tweets" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</button>
+          {% endif %}
         </div>
       </div>
       <span class="clearb"></span>
@@ -320,6 +323,45 @@
       });
       return false;
     }
+    function js_twitter_search2(req) {
+      $('#geoloc').hide();
+      $('.more_tweets').hide();
+      $('#tweet_list').append('<div class="ajax-loader"><img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/></div>');
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_twitter_search2')}}",
+        data: {
+          'req': req
+        }
+      })
+      .fail(function() {
+      $('#twitter_result').html('');
+      })
+      .done(function( retour ) {
+        $('#tweet_list').append(retour).load(function(){
+          $('.tweetmediajson').each(function(){$(this).css('maxHeight',$(this).css('width'));});
+        });
+        $( ".twitter_result_item" ).draggable({
+          revert: true,
+          appendTo: 'body',
+          containment: 'window',
+          scroll: false,
+          helper: function(event) {
+                return $(event.target).closest(".ui-draggable").clone().css({
+                    width: $(event.target).closest(".ui-draggable").width()
+                });},
+          cursor: 'move',
+          start: function(event, ui) {
+            ui.position.top -= $(window).scrollTop();
+          },
+          drag: function(event, ui) {
+            ui.position.top -= $(window).scrollTop();
+          }
+        });
+        $('.ajax-loader').hide();
+      });
+      return false;
+    }
     function js_rm_keyword(keyword_id,elt,keyword)
     {
       if(!confirm('Sure ?'))
@@ -355,7 +397,9 @@
       }
     }
     function js_add_keyword() {
-      return add_keyword($('#keyword').val());
+      res = add_keyword($('#keyword').val());
+      $('#keyword').val('');
+      return res;
     }
     function add_keyword(keyword)
     {

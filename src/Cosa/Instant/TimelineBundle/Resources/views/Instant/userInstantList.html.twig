@@ -1,44 +1,94 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <button onclick="document.location.href='{{ path('instant_new', {'username': user.twitterUsername}) }}';">Create a new instant</button>
 
-    <table class="records_list" style="width:100%;">
-        {% for entity in entities %}
-            <tr>
-                <!--<td><a href="{# path('instant_view', { 'username': user.username, 'instant_title': entity.title }) #}">{{ entity.id }}</a></td>-->
-                <td>{{ entity.title }}</td>
-                <td>{{ entity.description }}</td>
-           <!--     <td>{% if entity.createdat %}{{ entity.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.updatedat %}{{ entity.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.finishat %}{{ entity.finishat|date('Y-m-d H:i:s') }}{% endif %}</td>-->
-                <td>{{ entity.status }}</td>
-                <td>{{ entity.nbviews }}</td>
-                <td>{% if entity.lastview %}{{ entity.lastview|date('Y-m-d H:i:s') }}{% endif %}</td>
-     <!--           <td>{{ entity.lang }}</td>
-                <td>{{ entity.messagetype }}</td>-->
-                <td>
-                <ul>
-                    <li>
-                        <button onclick="window.open('{{ path('instant_webview', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}','_newtab');">{% trans %}Webview{% endtrans %}</button>
-                    </li>
-                    <li>
-                        <button onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">{% trans %}Embed{% endtrans %}</button>
-                    </li>
-                    <li>
-                        <button onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">{% trans %}Edit{% endtrans %}</button>
-                    </li>
-                    <li>
-                        <form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}" method="post">
-                            <input type="hidden" name="_method" value="DELETE" />
-                            {{ form_widget(deleteForms[entity.id]) }}
-                            <button type="submit" onclick="return confirm('{% trans %}Are you sure ?{% endtrans %}');">{% trans %}Delete{% endtrans %}</button>
-                        </form>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+      <div class="row">
+        <div class="col-md-12" style="margin-top:50px;">
+        
+        <div class="arrowup"><a href="#top"><img src="./images/arrow.png" /> </a></div>
+        
+          <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sort by&nbsp;&nbsp;</span><span class="sorting-box"><a href="">date&nbsp;▼</a></span>&nbsp;&nbsp;<span class="sorting-box"><a href="">activity&nbsp;▲</a></span> 
+<span class="addinstant">
+<!-- Twig -->      
+<a  href="javascript:void(0);" onclick="document.location.href='{{ path('instant_new', {'username': user.twitterUsername}) }}';"><img src="./images/plus.png" /></a></span></p>
+<br /><br />
+<div class="isotope js-isotope" data-isotope-options='{ "layoutMode": "fitRows", "itemSelector": ".item" }'>
+<!-- Twig -->      
+{% for entity in entities %}
+
+  <div class="item"><p class="in-boxes">
+  <span class="title-upper">
+  <!-- Twig -->      
+  {{ entity.title }}
+  </span>
+  
+  <br /><br />
+<!-- Twig -->  
+{{ entity.description }}
+<br />
+
+<p class="description"><a href="">6 experts</a>, modified on 
+  <!-- Twig -->  
+  {% if entity.updatedat %}{{ entity.updatedat|date('Y-m-d H:i:s') }}{% endif %}
+  <br />
+<table cellpadding="0" cellspacing="0" width="100%" align="center"  class="glyphs character-mapping"><tr class="icons"><td>
+<!-- Twig -->      
+<a  href="javascript:void(0);" onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">
+{% trans %}
+<div class="icon icon-icon-edit"></div>
+{% endtrans %}</a>
+</td>
+<td>
+<!-- Twig -->      
+<a  href="javascript:void(0);" onclick="window.open('{{ path('instant_webview', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}','_newtab');">
+{% trans %}
+<div class="icon icon-icon-mac"></div>
+{% endtrans %}</a>
+
+</td>
+<td>
+<!-- Twig -->      
+<a  href="javascript:void(0);" onclick="document.location.href='{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">
+{% trans %}
+<div class="icon icon-icon-embed"></div>
+{% endtrans %}</a>
+</td>
+<td>
+<!-- Twig --> 
+<form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}" method="post">
+<input type="hidden" name="_method" value="DELETE" />
+{{ form_widget(deleteForms[entity.id]) }}     
+<a  href="javascript:void(0);" onclick="return confirm('{% trans %}Are you sure ?{% endtrans %}');">
+{% trans %}
+<div class="icon icon-icon-embed"></div>
+{% endtrans %}</a>
+</td>
+</tr></table></p>
+</div>
+{% endfor %}
+  <div class="item"></div>
+  <div class="item width2"></div>
+  <div class="item"></div>
+  <div class="item width2"></div>
+  <div class="item"></div>
+  <div class="item width2"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+</div>
+
+          
+        </div>
+        
+        <div class="col-md-4">
+          
+       </div>
+       
+      </div>
+
+      
+<footer>
+        <table width="960" cellpadding="0" cellspacing="0" align="center"><tr><td width="200"></td><td><a href="01.html">HOME</a></td><td><a href="index.html">ABOUT</a></td><td>WHO WE ARE</td><td style="color:#999;">©CREATE!NSTANT2014</td></tr></table></div>
+      </footer>
 
 {% endblock %}

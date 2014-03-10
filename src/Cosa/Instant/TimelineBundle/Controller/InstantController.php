@@ -605,6 +605,22 @@ private function checkTweet($tweet_id)
 
     }
 
+    public function twitterSearch2Action(Request $request)
+    {
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        require_once ('codebird.php');
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+
+        $cb = new \Codebird\Codebird;
+        $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
+        $reply = $cb->search_tweets(ltrim($request->request->get('req'), '?'));
+        return $this->render('CosaInstantTimelineBundle:Instant:twitterSearch2.html.twig', array(
+            'reply' => $reply
+        ));
+
+    }
+
     public function rmKeywordAction($keyword_id)
     {
         try{
