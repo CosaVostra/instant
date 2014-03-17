@@ -55,7 +55,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         <form method="get" action="" >
         <div style="display:inline-block; width:100%; margin:0px; padding:0px;">        
                
-          <a href="#"><div class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><input type="text" id="twitter_search" style="background:none; border:none;"></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
+          <a href="#"><div class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
         </div>
         </form>
 
@@ -83,7 +83,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
               <div style="display:inline-block; width:100%; margin:0px; padding:0px;">
               <div class="geolocation-input">
               <div id="geoloc-enabled" style="display:inline-block;"><span class="icon icon-geo" style="color:#CCCCCC"></span></div>
-              <input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">GO!</a></div>
+              <form><input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/><input type="submit" style="display:none" onclick="return js_geo_search();"/></form></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">GO!</a></div>
               </div> 
             </form>
             <div id="autogeo" style="display:none;"></div>
@@ -182,16 +182,15 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             <script type="text/javascript">tweets.push('{{ tweet.twitterID }}');</script>
           {% endfor %}
           {% if tweets|length == nb %}
+            <div class="more-tweets" style=" background:#f8d0c6; font-weight:500; color:#fff; line-height:20px;text-align:center;" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</div>
             <button class="more_tweets" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</button>
           {% endif %}
         </div>
      </div>
       </div>
-        <div style="height:25px; width:24%; margin-left: 1%; float:left; "><a href="" >
-        <div class="button01">
-        <span class="icon icon-start">
-        </span>&nbsp;start over</div>
-        </a>
+        <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+          <a href="#" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';"><div class="button05"><span class="icon icon-start"> </span>back</div></a>
+          <a href="#" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')"><div class="button01"><span class="icon icon-close"> </span>clear</div></a>
         </div>
          <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
         <a href="" >
@@ -336,6 +335,8 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     }
     function js_geo_search()
     {
+      if ($('#geo_search').val() === '')
+        return false;
       $('#autogeo').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
       $('#autogeo').fadeIn();
       $.ajax({
@@ -348,18 +349,25 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       .done(function( retour ) {
         $('#autogeo').html('');
         if(retour.retour){
+          var places = new Array();
           $.each(retour.datas.result.places , function(key,place) {
-            var lat = 0;
-            var lon = 0;
-            for(var i=0;i<4;i++){
-              lon += place.bounding_box.coordinates[0][i][0];
-              lat += place.bounding_box.coordinates[0][i][1];
+            if ($.inArray(place.full_name+' ('+place.country+')', places) < 0) {
+              places.push(place.full_name+' ('+place.country+')');
+              var lat = 0;
+              var lon = 0;
+              for(var i=0;i<4;i++){
+                lon += place.bounding_box.coordinates[0][i][0];
+                lat += place.bounding_box.coordinates[0][i][1];
+              }
+              lat /= 4;
+              lon /= 4;
+              full_name_escaped = place.full_name.replace("'", "\\'");
+              country_escaped = place.country.replace("'", "\\'");
+              geoenabled = '$(\'#geoloc-enabled\').html(\'<span class=\\\'icon icon-geo\\\' style=\\\'color:green\\\'></span>\');';
+              geosearchval = '$(\'#geo_search\').val(\'+place.full_name+\' (\'+place.country+\');';
+              var elt = $('<div class="geoplace content-box-geo" onclick="$(\'#geo_lat\').val('+lat+');$(\'#geo_lon\').val('+lon+');$(\'#autogeo\').hide();$(\'#geoloc\').slideToggle();'+geoenabled+'$(\'#geo_search\').val(\''+full_name_escaped+' ('+country_escaped+')\');$(\'#geo_search_registered\').val(\''+full_name_escaped+' ('+country_escaped+')\');">'+place.full_name+' ('+place.country+')</div>');
+              $('#autogeo').append(elt);
             }
-            lat /= 4;
-            lon /= 4;
-            geoenabled = '$(\'#geoloc-enabled\').html(\'<span class=\\\'icon icon-geo\\\' style=\\\'color:green\\\'></span>\');';
-            var elt = $('<div class="geoplace" onclick="$(\'#geo_lat\').val('+lat+');$(\'#geo_lon\').val('+lon+');$(\'#geo_search_registered\').val($(\'#geo_search\').val());$(\'#autogeo\').hide();$(\'#geoloc\').slideToggle();'+geoenabled+'">'+lat+':'+lon+'<br/>'+place.full_name+' ('+place.country+')</div>');
-            $('#autogeo').append(elt);
           });
         }else{
           alert(retour.msg);
