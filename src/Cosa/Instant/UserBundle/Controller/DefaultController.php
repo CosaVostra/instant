@@ -66,13 +66,14 @@ class DefaultController extends Controller
         if ($form->isValid()){
           $em = $this->getDoctrine()->getManager();
           if($user->getEmail()!=$old_email){
+            $translator = $this->get('translator');
             $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
             $to = $user->getEmail();
-            $subject = 'Email validation';
-            $message = "Bonjour ".$user->getTwitterRealname()."\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
-            $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+            $subject = $translator->trans('Confirmation email subject');
+            $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
+            $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
             mail($to, $subject, $message, $headers);
-            $this->get('session')->getFlashBag()->add('notice', 'Your email has been updated, please check your mailbox to confirm it !');
+            $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email updated message'));
           }
           $em->persist($user);
           $em->flush();
@@ -99,13 +100,14 @@ class DefaultController extends Controller
 
           if ($form->isValid() && $user->getEmail()!=''){
             try{
+              $translator = $this->get('translator');
               $em = $this->getDoctrine()->getManager();
               $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
               $em->persist($user);
               $em->flush();
               $to = $user->getEmail();
-              $subject = 'Email validation';
-              $message = "Bonjour ".$user->getTwitterRealname()."\r\n\r\nVeuillez, s'il vous plait, ouvrir le lien suivant pour confirmer votre adresse email.\r\n\r\n".$this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)."\r\n\r\nL'équipe de Instant";
+              $subject = $translator->trans('Confirmation email subject');
+              $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
               $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
 
               mail($to, $subject, $message, $headers);
@@ -126,6 +128,7 @@ class DefaultController extends Controller
 
     public function emailValidationAction($token)
     {
+        $translator = $this->get('translator');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('CosaInstantUserBundle:User')->findOneByConfirmationToken($token);
         if(!$user){
@@ -134,7 +137,7 @@ class DefaultController extends Controller
         $user->setConfirmationToken('confirmed');
         $em->persist($user);
         $em->flush();
-        $this->get('session')->getFlashBag()->add('notice', 'Your email has been confirmed !');
+        $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email confirmed message'));
         return $this->redirect($this->generateUrl('homepage'));
     }
 }

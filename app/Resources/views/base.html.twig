@@ -3,31 +3,45 @@
     <head>
         <meta charset="UTF-8" />
         <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/screen.css') }}" media="screen" />
+        <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}" media="screen" />
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/custom2.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/jumbotron.css') }}" />
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}" />
+
+        <script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
     </head>
     <body>
-     <div id="container">
+     <div class="angle2"></div>
+     <div class="container">
       <div id="header">
+        <a href="{{ path('homepage') }}">
+        <div class="logo2" ><img src="{{ asset('images/logo2.png') }}" class="logo2" id="top"/></div>
+        </a>
+        {% block instant_title %}{% endblock %}
         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-          <div id="user_info">
-            <div class="tweet_image">
-              <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}"><img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48"></a>
+          <div class="log">
+            <div id="user_info">
+
+              <div class="text">    <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}">      
+       <img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
+                <a href="{{ path('account_settings') }}" class="tweet-name">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="tweet-logout">{% trans %} Logout {% endtrans %}</a>
+              </div>
+              <div id="email_edit"></div>
+              <span class="clearb"></span>
             </div>
-            <div class="text">
-              <a href="{{ path('account_settings') }}">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="logout">{% trans %} Logout {% endtrans %}</a>
-            </div>
-            <div id="email_edit">{# render(controller('CosaInstantUserBundle:Default:setEmailSmall')) #}</div>
-            <span class="clearb"></span>
           </div>
+          <div style="clear:both;"></div>
         {% endif %}
       </div>
-      <div id="body">
-        <div id="flash-messages">
-         </div>
+     </div>
+        <div id="flash-messages"></div>
          {% block body %}{% endblock %}
-       </div>
        <div id="footer">
          <ul>
            <li><a href="{{ path('homepage') }}">{% trans %} Home {% endtrans %}</a></li>
@@ -35,6 +49,19 @@
            <li><a href="{{ path('who_we_are') }}">{% trans %} Who we are {% endtrans %}</a></li>
          </ul> 
        </div>
+      <footer style="position:relative;">
+        <div align="center">
+          <table width="960" cellpadding="0" cellspacing="0" align="center">
+            <tr>
+              <td width="200"></td>
+              <td><a href="{{ path('homepage') }}">{% trans %} Home {% endtrans %}</a></td>
+              <td><a href="{{ path('about') }}">{% trans %} About {% endtrans %}</a></td>
+              <td><a href="{{ path('who_we_are') }}">{% trans %} Who we are {% endtrans %}</a></td>
+              <td style="color:#999;">©CREATE!NSTANT2014</td>
+            </tr>
+          </table>
+        </div>
+      </footer>
        <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
        <script type="text/javascript">
          {% for flashMessage in app.session.flashbag.get('notice') %}
@@ -47,7 +74,7 @@
            $('#flash-messages').append('<div class="flash-message flash-error">{{ flashMessage }}</div>');
          {% endfor %}
        </script>
+
        {% block javascripts %}{% endblock %}
-     </div>
     </body>
 </html>

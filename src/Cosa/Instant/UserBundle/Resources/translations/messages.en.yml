@@ -1,2 +1,13 @@
-'Signup with Twitter': '__Signup with Twitter'
+'Signup with Twitter': 'Sign in with Twitter'
 Logout: __Logout
+'Confirmation email subject': 'Email validation'
+'Confirmation email message': | 
+  Hi %twitterRealName%,
+  
+  Please click on the link below to confirm your email address.
+  
+  %validationUrl%
+  
+  The Instant Team
+'Email updated message': Your email has been updated, please check your mailbox to confirm it!
+'Email confirmed message': Your email has been confirmed!

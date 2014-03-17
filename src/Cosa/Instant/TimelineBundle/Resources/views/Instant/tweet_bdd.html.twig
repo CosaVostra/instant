@@ -1,23 +1,15 @@
 {% if draggable %}<div class="twitter_result_item ui-widget-content">{% endif %}
-  <div class="tweet">
-    {% if editable %}<button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent(),'{{ tweet.twitterId }}');">X</button>{% endif %}
-    <div class="tweet_content">
+  <div class="content-box">
       {% if tweet.isRt %}
         <div class="retweet">{% trans %}Retweeted by{% endtrans %} {{ tweet.rtByTwitterRealname }}</div>
       {% endif %}
       <div class="tweet_id hidden bdd">{{ tweet.twitterId }}</div>
-      <div class="tweet_image">
-        <a href="http://twitter.com/{{ tweet.screenName }}" target="_blank" title="{{ tweet.name }}
-{{ tweet.userDescription }}
-{{ tweet.userLocation }}"><img src="{{ tweet.profileImageUrl }}" width="48" height="48"></a>
-      </div>
-      <div class="tweet_right">
-        <div class="tweet_screen_name">
-          <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.name }}
-{{ tweet.userDescription }}
-{{ tweet.userLocation }}" onclick="return searchFrom('{{ tweet.screenName }}');">{{ tweet.screenName }}</a>
-          <span class="tweet_name">{{ tweet.name }}</span>
-        </div>
+      <div>
+        <a href="http://twitter.com/{{ tweet.screenName }}" target="_blank" title="{{ tweet.userDescription }}
+{{ tweet.userLocation }}"><img src="{{ tweet.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
+          <a href="http://twitter.com/{{ tweet.screenName }}" title="{{ tweet.userDescription }}
+{{ tweet.userLocation }}" onclick="return searchFrom('{{ tweet.screenName }}');">{{ tweet.name }}</a>
+          <span class="tweet_name">@{{ tweet.screenName }}</span>
         <div class="tweet_text">{{ tweet.text | customlink | raw }}
           <div class="tweet_date">
             <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|datedelta }}</a>
@@ -25,10 +17,18 @@
         </div>
         {% if tweet.mediaUrl!='' %}
           <div class="tweet_media">
-            <a href="{{ tweet.mediaUrl }}" target="_blank""><img class="tweetmedia" src="{{ tweet.mediaUrl }}" style="max-width:50%;height:auto;width:auto;"/></a>
+            <a href="{{ tweet.mediaUrl }}" target="_blank"><img class="tweetmedia" src="{{ tweet.mediaUrl }}" style="max-width:50%;height:auto;width:auto;"/></a>
           </div>
         {% endif %}
       </div>
-    </div>
+     {% if editable %} 
+      <table  align="right"  class="glyphs character-mapping">
+        <tr class="icons" >
+          <td>
+            <a href=""><div class="icon icon-trashing" onclick="return js_rm_tweet({{ tweet.id }},$(this).parent().parent().parent().parent().parent().parent(),'{{ tweet.twitterId }}');"></div></a>
+          </td>
+        </tr>
+      </table>
+      {% endif %}
   </div>
 {% if draggable %}</div>{% endif %}

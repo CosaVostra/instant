@@ -1,0 +1,108 @@
+#popup_alert {
+  display: none; /*--masqué par défaut--*/ 
+  position: fixed;
+  background: #fff;
+  width: 500px; 
+  height: 50%;
+  left: 50%;
+  margin: 200px 0 0 -200px;
+  z-index: 10000;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.tweet_media{
+  text-align: center;
+  clear: both;
+}
+
+#autotwittos {
+  display:none;
+  padding:3px;
+  border:1px solid black;
+  background: white;
+  overflow: auto;
+  height: 200px;
+  text-align: left;
+  margin-bottom: 100px;
+}
+
+#autotwittos .twittos {
+  cursor: pointer;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
+}
+
+#autotwittos .twittos:hover {
+  background: #cdcdcd;
+}
+
+#autotwittos .twittos span.username {
+  color:grey;
+  font-size:20px;
+  font-weight:bold;
+  margin-right:5px;
+}
+
+#autotwittos .twittos span.name {
+  color:black;
+  font-style:italic;
+}
+
+#autotwittos .twittos img {
+  margin-right:5px;
+  float: left;
+}
+
+#autotwittos .twittos span.description {
+  color:black;
+  font-size:10px;
+}
+
+#autotwittos .twittos span.location {
+  color:green;
+  font-size:8px;
+}
+
+#twittosDroppable, #tweetDroppable {
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+#twittosDroppable.ui-state-hover, #tweetDroppable.ui-state-hover {
+  border:1px solid #EA651D !important;
+}
+
+#flash-messages {
+  position: absolute;
+  left: 50%;
+  margin-left: -200px;
+}
+
+.flash-message {
+  border: 1px solid;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.flash-notice
+{
+  border-color: green;
+  margin: 3px 0;
+  padding: 7px;
+  background-color: #75d1b3;
+  color: #ffffff;
+}
+
+.flash-error
+{
+  border-color: red;
+  margin: 3px 0;
+  padding: 7px;
+  background-color: #f33;
+  color: #fff;
+}
+
+

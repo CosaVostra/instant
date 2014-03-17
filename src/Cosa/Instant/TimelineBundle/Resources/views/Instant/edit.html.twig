@@ -4,6 +4,17 @@
   <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
 {% endblock %}
 
+{% block instant_title %}
+      <div class="editable-title">
+    <form>
+      <h2>
+      <input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="js_cr_instant();"/>
+      </h2>
+      <input id="description" class="editable-title3" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="{% trans %}set the description here{% endtrans %}"/>
+      <input style="visibility:hidden;" type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_cr_instant();"/>
+    </form>
+      </div>
+{% endblock %}
 {% block body -%}
     <script type="text/javascript">
       var twittos = new Array();
@@ -14,116 +25,158 @@
     </script>
       <div id="fade"></div>
       <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
-    <form>
-      <input id="title" type="text" value="{{ entity.title }}" onblur="js_cr_instant();"/>
-      <input id="description" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="{% trans %}set the description here{% endtrans %}"/>
-      <input style="visibility:hidden;" type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_cr_instant();"/>
-    </form>
-    <button style="float:right" onclick="window.open('{{ path('instant_preview', { 'instant_id': entity.id }) }}','_newtab');">{% trans %}Preview{% endtrans %}</button>
-    <div class="clearb"></div>
-    <div class="grid4">
-      <div id="block-search" class="block">
-        <div class="block-title" style="text-align:left;">
-          <a href="#" onclick="$('#geoloc').slideToggle();return false;" style="float:right;">adv</a>
+  <div class="container2" style="height: 90%; width:80%;   margin-left: 9%;
+margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
+
+    <div style="height:25px; width:24%; margin-left: 1%; background-color:#efefef;float:left; ">
+      <div class="col-title">Tweets</div>
+    </div>
+    <div style="height:25px; width:24%; margin-left: 1%; background-color:#efefef;float:left; ">
+      <div class="col-title">Who to follow</div>
+    </div>
+    <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+      <div class="col-title">Tweets containing</div>
+    </div>
+    <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+      <div class="col-title">Timeline</div>
+    </div>
+    <div style="clear:both;"></div>
+
+
+
+<div style="height: 90%;overflow:auto; width:24%; border:#ccc 1px solid; margin-left: 1%; float:left; background-color:#fff;">
+
+
+
+
+
+
+        <div class="search-box">
+        <form method="get" action="" >
+        <div style="display:inline-block; width:100%; margin:0px; padding:0px;">        
+               
+          <a href="#"><div class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><input type="text" id="twitter_search" style="background:none; border:none;"></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
+        </div>
+        </form>
+
+                
+          <div id="search-adv" style="display:none;">
+          <div class="sorting-wrap2">
+            <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="recent" checked/>Recent</span>
+            <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="popular" />Popular</span>
+            <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="mixed" />Mixed</span></div><a href="#" onclick="$('#search-adv').slideToggle();return false;" ><span class="icon icon-search-adv-close"></span></a>
           <form>
-            <input id="lastS" type="button" value="<" onclick="lastSearch();" title="" style="padding:0px;"/>
-            <input id="nextS" type="button" value=">" onclick="nextSearch();" title="" style="padding:0px;"/>
-            <input type="text" id="twitter_search" placeholder="{% trans %}terms{% endtrans %} ?" style="width:120px;"/>
-            <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_twitter_search(true);" />
+          <fieldset>
+            <select id = "Languages">
+              <option value = "">All languages</option>
+              <option value = "en">English</option>
+              <option value = "fr">French</option>
+              <option value = "es">Spanish</option>
+            </select>
+          </fieldset>
           </form>
-          <div id="geoloc" style="display:none;">
-            <h4>{% trans %}Lang{% endtrans %}</h4>
-            <input type="text" id="lang" value="" placeholder="set the language (en/fr/es/...)"/>
-            <h4>{% trans %}Result type{% endtrans %}</h4>
-            <input type="radio" name="result_type" value="recent" checked>Recent
-            <input type="radio" name="result_type" value="popular">Popular
-            <input type="radio" name="result_type" value="mixed">Mixed
-            <h4>{% trans %}Geolocation{% endtrans %}</h4>
-            <label>{% trans %}Radius:{% endtrans %}</label><input type="integer" id="geo_radius" value="10" placeholder="{% trans %}set the radius (mi){% endtrans %}" />
-            <input type="hidden" id="geo_lat" value="" placeholder="set the lat"/>
-            <input type="hidden" id="geo_lon" value="" placeholder="set the lon"/>
+          
+            <input type="hidden" id="geo_lat" value="" />
+            <input type="hidden" id="geo_lon" value="" />
+            <input type="hidden" id="geo_search_registered" value="" />
             <form>
-              <input type="text" id="geo_search" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/>
-              <input type="submit" value="{% trans %}Search{% endtrans %}" onClick="return js_geo_search();" />
+              <div style="display:inline-block; width:100%; margin:0px; padding:0px;">
+              <div class="geolocation-input">
+              <div id="geoloc-enabled" style="display:inline-block;"><span class="icon icon-geo" style="color:#CCCCCC"></span></div>
+              <input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">GO!</a></div>
+              </div> 
             </form>
             <div id="autogeo" style="display:none;"></div>
+
           </div>
+                    
+                  
         </div>
-        <div id="twitter_result" style="overflow-y:auto;overflow-x:hidden;" class="block-content">
+
+
+
+
+
+
+
+    <div class="grid4">
+      <div id="block-search" class="block">
+        <div id="twitter_result" style="position:relative;" class="block-content all-the-rest">
         </div>
       </div>
-      <div id="block-twittos" class="block">
-        <div class="block-title">
-          {% trans %}Who To Follow{% endtrans %}
-        </div>
-        <div id="twittos" style="overflow-y:auto;" class="block-content">
+     </div> 
+     </div> 
+ 
+
+<div id="twittosDroppable" style="height: 90%; overflow:auto; width:24%; margin-left: 1%; float:left; background-color:#fff;">
+      <div class="all-the-rest" style="position:relative;">
+        <div id="twittos">
           {% for twitto in twittos %}
-            <div class="twitto">
-              <button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos({{twitto.id}},$(this).parent(),'{{ twitto.user.twitterID }}');">X</button>
-              <div class="tweet_image">
-                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
+            <div class="content-box">
+              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
 {{ twitto.user.twitterDescription }}
-{{ twitto.user.twitterLocation }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
-              </div>
-              <div class="tweet_screen_name">
-                <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
+{{ twitto.user.twitterLocation }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
+              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
 {{ twitto.user.twitterDescription }}
-{{ twitto.user.twitterLocation }}"  onclick="return searchFrom('{{ twitto.user.twitterUsername }}');">{{ twitto.user.twitterUsername }}</a>
-                <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
-              </div>
+{{ twitto.user.twitterLocation }}"  onclick="return searchFrom('{{ twitto.user.twitterUsername }}');">{{ twitto.user.twitterRealname }}</a>
+              <span class="tweet_name">@{{ twitto.user.twitterUsername }}</span>
               <div class="description">
-                <button onclick="$('#p_tw_{{ twitto.id }}').slideToggle();$('#edit_tw_{{ twitto.id }}').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button>
                 <div id="p_tw_{{ twitto.id }}">
                   {{ twitto.description }}
                 </div>
                 <div id="edit_tw_{{ twitto.id }}" style="display:none;">
                   <form>
-                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;" onblur="//$(this).closest('form').find(':submit').click();">
+                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;">
                       {{ twitto.description }}
                     </textarea>
                     <input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
                   </form>
                 </div>
               </div>
+              <table width="55" align="right"  class="glyphs character-mapping">
+                <tr class="icons" >
+                  <td >
+                    <a href="">
+                      <div class="icon icon-comment" onclick="$('#p_tw_{{ twitto.id }}').slideToggle();$('#edit_tw_{{ twitto.id }}').slideToggle();return false;"></div>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="">
+                      <div class="icon icon-trashing" onclick="return js_rm_twittos({{twitto.id}},$(this).parent().parent().parent().parent().parent().parent(),'{{ twitto.user.twitterID }}');"></div>
+                    </a>
+                  </td>
+                </tr>
+              </table>
             </div>
             <script type="text/javascript">twittos.push('{{ twitto.user.twitterID }}');</script>
           {% endfor %}
         </div>
-        <div class="block-footer">
-          <button onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();">{% trans %}ADD A TWITTOS{% endtrans %}</button>
-          <form id="addtw" style="display:none;">
-            <input type="text" id="twittos_username" placeholder="{% trans %}add a twittos{% endtrans %}" />
-            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" />
-            <div id="autotwittos"></div>
-          </form>
-        </div>
       </div>
-      <div id="block-keyword" class="block">
-        <div class="block-title">
-          {% trans %}Keyword{% endtrans %}
-        </div>
+      </div>
+
+<div style="height: 90%; overflow:auto; border:#ccc 1px solid; width:24%; margin-left: 1%; float:left; background-color:#fff;"> 
+      <div id="block-keyword" class="all-the-rest block" style="position:relative;">
         <div id="keywords" style="overflow-y:auto;" class="block-content">
           {% for keyword in keywords %}
-            <div class="keyword">
-              <button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent(),'{{ keyword.keyword }}');">X</button>
+            <div class="content-box">
               {{ keyword.keyword }}
+              <table  align="right"  class="glyphs character-mapping">
+                <tr class="icons" >
+                  <td><a href=""><div class="icon icon-trashing" onclick="return js_rm_keyword({{ keyword.id }},$(this).parent().parent().parent().parent().parent().parent(),'{{ keyword.keyword }}');"></div></a>
+                  </td>
+                </tr>
+              </table>
             </div>
             <script type="text/javascript">keywords.push('{{ keyword.keyword }}');</script>
           {% endfor %}
         </div>
-        <div class="block-footer">
-          <button onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();">{% trans %}ADD A KEYWORD{% endtrans %}</button>
-          <form id="addkw" style="display:none;">
-            <input type="text" id="keyword" placeholder="{% trans %}add a keyword{% endtrans %}" />
-            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" />
-          </form>
-        </div>
       </div>
-      <div id="tweet_column2" class="block last">
-        <div class="block-title">
-          {% trans %}Timeline{% endtrans %}
-        </div>
-        <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
+      </div>
+
+
+<div id="tweetDroppable" style="height: 90%; overflow:auto; width:24%;  margin-left: 1%; float:left; ">
+      <div id="tweet_column2" class="all-the-rest block last" style="position:relative; ">
+        <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
           {% for tweet in tweets %}
             {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true} %}
             <script type="text/javascript">tweets.push('{{ tweet.twitterID }}');</script>
@@ -132,15 +185,63 @@
             <button class="more_tweets" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</button>
           {% endif %}
         </div>
+     </div>
       </div>
+        <div style="height:25px; width:24%; margin-left: 1%; float:left; "><a href="" >
+        <div class="button01">
+        <span class="icon icon-start">
+        </span>&nbsp;start over</div>
+        </a>
+        </div>
+         <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+        <a href="" >
+          <div class="button02" onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();return false;">
+            <span class="icon icon-plus"></span>
+            &nbsp;&nbsp;add an expert by name
+          </div>
+        </a>
+          <form id="addtw" style="display:none;">
+            <input type="text" id="twittos_username" placeholder="{% trans %}add a twittos{% endtrans %}" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" />
+            <div id="autotwittos"></div>
+          </form>
+        </div>
+         <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+         <a href="" >
+        <div class="button02" onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();return false;">
+          <span class="icon icon-plus"></span>
+          &nbsp;&nbsp;add a keyword
+        </div>
+      </a>
+          <form id="addkw" style="display:none;">
+            <input type="text" id="keyword" placeholder="{% trans %}add a keyword{% endtrans %}" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" />
+          </form>
+        </div>
+         <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+        <div style="display:inline-block; width:100%;">
+                <a href="#" >
+                <div class="button03" onclick="return js_save();"><span class="icon icon-saving"></span>&nbsp;&nbsp;save
+                </div>
+                </a>
+                <a href="#" >
+                <div class="button03" onclick="window.open('{{ path('instant_preview', { 'instant_id': entity.id }) }}','_newtab');"><span class="icon icon-previewing"></span>&nbsp;&nbsp;preview
+                </div>
+                </a>
+                <a href="#" >
+                <div class="button04" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}"><span class="icon icon-publish"></span>&nbsp;&nbsp;{% trans %}Publish{% endtrans %}
+                </div>
+                </a></div>
+        </div>
+
+<div style="clear:both;"></div>
       <span class="clearb"></span>
     </div>
-    <button name="bsubmit" id="publish" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}">{% trans %}Publish{% endtrans %}</button>
-    <button name="bsave" id="save" value="save" onclick="return js_save();">Save</button>
     <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">{% trans %}Cancel{% endtrans %}</button>
     <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
         <input type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" />
     </form>
+  </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -154,9 +255,10 @@
     {% endif %}
     function checkLocation()
     {
-      if($('#geo_search').val()==''){
+      if($('#geo_search').val()!=$('#geo_search_registered').val()){
         $('#geo_lat').val('');
         $('#geo_lon').val('');
+        $('#geoloc-enabled').html('<span class="icon icon-geo" style="color:#CCCCCC"></span>');
       }
     }
     var lastT = '0';
@@ -255,7 +357,8 @@
             }
             lat /= 4;
             lon /= 4;
-            var elt = $('<div class="geoplace" onclick="$(\'#geo_lat\').val('+lat+');$(\'#geo_lon\').val('+lon+');$(\'#autogeo\').hide();$(\'#geoloc\').slideToggle();">'+lat+':'+lon+'<br/>'+place.full_name+' ('+place.country+')</div>');
+            geoenabled = '$(\'#geoloc-enabled\').html(\'<span class=\\\'icon icon-geo\\\' style=\\\'color:green\\\'></span>\');';
+            var elt = $('<div class="geoplace" onclick="$(\'#geo_lat\').val('+lat+');$(\'#geo_lon\').val('+lon+');$(\'#geo_search_registered\').val($(\'#geo_search\').val());$(\'#autogeo\').hide();$(\'#geoloc\').slideToggle();'+geoenabled+'">'+lat+':'+lon+'<br/>'+place.full_name+' ('+place.country+')</div>');
             $('#autogeo').append(elt);
           });
         }else{
@@ -289,7 +392,7 @@
           'lat':$('#geo_lat').val(),
           'lon':$('#geo_lon').val(),
           'radius':$('#geo_radius').val(),
-          'lang':$('#lang').val(),
+          'lang':$('#Languages').val(),
           'result_type':$('input[name="result_type"]:checked').val()
         }
       })
@@ -419,7 +522,7 @@
           .done(function( retour ) {
             if(retour.retour){
               var msg = $('<div class="flash-message flash-notice">{% trans %}Keyword saved{% endtrans %} !</div>');
-              $('#keywords').prepend($('<div class="keyword"><button style="float:right;color:red;margin-top:-2px;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_keyword('+retour.id+',$(this).parent(),\''+c_keywor+'\');">X</button>'+keywor+'</div>'));
+              $('#keywords').prepend($('<div class="content-box">'+keywor+'<table align="right" class="glyphs character-mapping"><tr class="icons" ><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_keyword('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+c_keywor+'\');"></div></a></td></tr></table></div>'));
               keywords.push(keywor);
             }else{
               var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
@@ -480,7 +583,7 @@
               c_name = user.name.replace(/'/g,"\\'");
               c_description = user.description.replace(/'/g,"\\'").replace(/[\n\r]/g, '');
               c_location = user.location.replace(/'/g,"\\'").replace(/[\n\r]/g, '');
-              $('#autotwittos').append('<div class="twittos" onclick="cr_twittos(\''+c_screen_name+'\',\''+c_name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\',\''+c_description+'\',\''+c_location+'\');"><img src="'+user.profile_image_url+'"/><div><span class="username">'+user.screen_name+'</span><span class="name">'+user.name+'</span><br/><span class="description">'+user.description+'</span><span style="display:none;">'+user.id_str+'</span><br/><span class="location">'+user.location+'</span></div><div class="clearb"></div></div>');
+              $('#autotwittos').append('<div class="twittos" onclick="cr_twittos(\''+c_screen_name+'\',\''+c_name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\',\''+c_description+'\',\''+c_location+'\');"><img src="'+user.profile_image_url+'"/><div><span class="username">'+user.screen_name+'</span><span class="name">'+user.name+'</span><br/><span class="description">'+user.description+'</span><span style="display:none;">'+user.id_str+'</span><br/><span class="location">'+user.location+'</span></div><div style="clear:both;"></div></div>');
             });
             $('#autotwittos').fadeIn();
             return false;
@@ -488,7 +591,7 @@
             if(in_array(retour.twitterID, twittos))
               return false;
             var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
-            var elt = $('<div class="twitto"><button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+retour.twitterID+'\');">X</button><div class="tweet_image"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'"><img src="'+retour.profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">'+retour.name+'</span></div><div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+            var elt = $('<div class="content-box"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'"><img src="'+retour.profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">@'+retour.username+'</span><div class="description"><div id="p_tw_'+retour.id+'">'+retour.description+'</div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;">'+retour.description+'</textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div><table width="55" align="right"  class="glyphs character-mapping"><tr class="icons" ><td ><a href=""><div class="icon icon-comment" onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;"></div></a></td><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_twittos('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+retour.twitterID+'\');"></div></a></td></tr></table></div>');
             $('#twittos').prepend(elt);
             twittos.push(retour.twitterID);
             controles = false;
@@ -504,7 +607,7 @@
     function cr_twittos(screen_name,name,profile_image_url,id_str,desc,loc)
     {
       $('#autotwittos').hide();
-      var elt = $('<div class="twitto"><div class="tweet_image"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48"></a></div><div class="tweet_screen_name"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'" onclick="return searchFrom(\''+screen_name+'\');">'+screen_name+'</a><span class="tweet_name">'+name+'</span></div></div>');
+      var elt = $('<div class="content-box"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'" onclick="return searchFrom(\''+screen_name+'\');">'+name+'</a><span class="tweet_name">@'+screen_name+'</span></div>');
       $('#twittos').prepend(elt);
       add_twittos(id_str,screen_name,name,profile_image_url,desc,loc,elt);
     }
@@ -529,8 +632,7 @@
       .done(function( retour ) {
         if(retour.retour){
           var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
-          $(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="{% trans %}Remove{% endtrans %}" onclick="return js_rm_twittos('+retour.id+',$(this).parent(),\''+twitterID+'\');">X</button>');
-          $(elt).append('<div class="description"><button onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;">{% trans %}Edit comment{% endtrans %}</button><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;" onblur="return js_save_twittos_desc('+retour.id+');"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div>');
+          $(elt).append('<div class="description"><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="__Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div><table width="55" align="right"  class="glyphs character-mapping"><tr class="icons" ><td ><a href=""><div class="icon icon-comment" onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;"></div></a></td><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_twittos('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+twitterID+'\');"></div></a></td></tr></table>');
           twittos.push(twitterID);
           controles = false;
         }else{
@@ -541,14 +643,13 @@
       });
       return false;
     }
-    $( "#twittos" ).droppable({
+    $( "#twittosDroppable" ).droppable({
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {
         var twitto = $('<div>');
-        twitto.addClass('twitto');
-        $('.tweet_image',ui.draggable).clone().appendTo(twitto);
-        $('.tweet_screen_name',ui.draggable).clone().appendTo(twitto);
+        twitto.addClass('content-box');
+        $('.tweet_user_data',ui.draggable).clone().appendTo(twitto);
         twitto.prependTo($(this));
         add_twittos(
           $('.twitterID',ui.draggable).val(),
@@ -561,7 +662,7 @@
         );
       }
     });
-    $( "#tweet_column2" ).droppable({
+    $( "#tweetDroppable" ).droppable({
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {

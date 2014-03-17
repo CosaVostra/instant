@@ -1,10 +1,66 @@
-{% extends "base.html.twig" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/custom2.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/jumbotron.css') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}" />
 
-{% block body %}
+        <script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    </head>
+    <body>
+     <div class="angle2"></div>
+    <div class="jumbotron">
+      <div class="container">
+        
+      </div>
+    </div>
+
+     <div class="container">
+
+
+      <div class="row">
+        <div class="col-md-8">
+          <img src="{{ asset('images/home-logo.png') }}" alt="home-logo" class="home-logo"/><p> </p>
+        <p class="home-text">Create your first !nstant by selecting Twitter users, tweets and keywords relating to the event you're covering.</p><br />
+        <p><a class="btn btn-primary btn-lg" role="button"><img src="{{ asset('images/home-plus.png') }}" alt="home-plus" class="home-plus"/>create an !nstant now</a></p>
+
   {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
     <a href="{{ path('connect_twitter')}}">{% trans %}Signup with Twitter{% endtrans %}</a>
   {% else %}
     welcome {{app.security.token.user}}
     <a href="{{ path('cosa_instant_user_logout') }}">{% trans %}Logout{% endtrans %}</a>
   {% endif %}
-{% endblock %}
+
+        </div>
+        <div class="col-md-4">
+          <img src="{{ asset('images/home-iphone.png') }}" alt="home-iphone" class="home-iphone"/>
+       </div>
+       
+      </div>
+
+
+
+     </div>
+      <footer>
+        <div align="center">
+          <table width="960" cellpadding="0" cellspacing="0" align="center">
+            <tr>
+              <td width="200"></td>
+              <td><a href="{{ path('homepage') }}">{% trans %} Home {% endtrans %}</a></td>
+              <td><a href="{{ path('about') }}">{% trans %} About {% endtrans %}</a></td>
+              <td><a href="{{ path('who_we_are') }}">{% trans %} Who we are {% endtrans %}</a></td>
+              <td style="color:#999;">©CREATE!NSTANT2014</td>
+            </tr>
+          </table>
+        </div>
+      </footer>
+
+
+    </body>
+</html>
