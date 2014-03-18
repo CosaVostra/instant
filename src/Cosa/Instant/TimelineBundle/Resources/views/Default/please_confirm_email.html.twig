@@ -5,17 +5,29 @@
 {% endblock %}
 
 {% block body %}
-  <h1>{% trans %}Email confirmation{% endtrans %}</h1>
-  {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
-    <a href="#" onclick="$('#email_form').slideToggle();">{% trans %}Set your email{% endtrans %}</a>
-  {% endif %}
-  <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};">
-    <h2>{% trans %}Please set your email{% endtrans %}</h2>
+<div class="container">
+
+  <div class="row" style="margin-top:50px; margin-right:15px; margin-left:-10px;">
+    <div class="col-md-7">
+      <h4>{% trans %}Email confirmation{% endtrans %}</h4>
+      <div class="button05" style="width:30%; text-align:center; padding:5px; cursor:pointer;" onclick="$('#email_form').slideToggle();"><a href="#" >{% trans %}Set your email{% endtrans %}</a></div>
+      <br />
+      <div id="email_form" style="display:none;">
+        <h4>{% trans %}Please set your email{% endtrans %}</h4>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
-    <h3>{% trans %}Then{% endtrans %}</h3>
-  </div>
-  <h2>{% trans %}Confirm it{% endtrans %}</h2>
-  <span>{% trans %}Check your email box and open the confirmation link{% endtrans %}</span>
+      </div> 
+      <br />
+      <span class="icon icon-arrow-d" style="font-size:30px; color:#666;"></span>
+      <h4>{% trans %}Confirm it{% endtrans %}</h4>
+      <span>{% trans %}Check your email box and open the confirmation link{% endtrans %}</span>
+    </div> 
+  </div> 
+</div> 
+<br/>
+<br/>
+<br/>
+<br/>
+{% include "::footer.html.twig" %}
 {% endblock %}
 
 {% block javascripts %}

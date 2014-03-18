@@ -1,7 +1,14 @@
 <div class="well">
   <form method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary" onclick="postEmail();return false;" />
+  {# Génération du label. #}
+  {{ form_label(form.email) }}
+
+  {# Affichage des erreurs pour ce champ précis. #}
+  {{ form_errors(form.email) }}
+
+  {# Génération de l'input. #}
+  {{ form_widget(form.email, { 'attr': {'class': 'conf-contact'} }) }}
+    <input type="submit" class="button04" onclick="postEmail();return false;" />
   </form>
 </div>
 

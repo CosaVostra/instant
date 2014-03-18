@@ -241,6 +241,9 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         <input type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" />
     </form>
   </div>
+
+{% include "::footer_relative.html.twig" %}
+
 {% endblock %}
 
 {% block javascripts %}
