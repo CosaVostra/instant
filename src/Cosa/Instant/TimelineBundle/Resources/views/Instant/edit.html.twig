@@ -52,12 +52,10 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
 
 
         <div class="search-box">
-        <form method="get" action="" >
         <div style="display:inline-block; width:100%; margin:0px; padding:0px;">        
                
-          <a href="#"><div class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
+          <a href="#"><div class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
         </div>
-        </form>
 
                 
           <div id="search-adv" style="display:none;">
@@ -79,11 +77,11 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             <input type="hidden" id="geo_lat" value="" />
             <input type="hidden" id="geo_lon" value="" />
             <input type="hidden" id="geo_search_registered" value="" />
-            <form>
+            <form onsubmit="return js_geo_search();">
               <div style="display:inline-block; width:100%; margin:0px; padding:0px;">
               <div class="geolocation-input">
               <div id="geoloc-enabled" style="display:inline-block;"><span class="icon icon-geo" style="color:#CCCCCC"></span></div>
-              <form><input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/><input type="submit" style="display:none" onclick="return js_geo_search();"/></form></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">GO!</a></div>
+              <input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %}location{% endtrans %} ?" onblur="checkLocation();"/><input type="submit" style="display:none" onclick="return js_geo_search();"/></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">GO!</a></div>
               </div> 
             </form>
             <div id="autogeo" style="display:none;"></div>
@@ -182,8 +180,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             <script type="text/javascript">tweets.push('{{ tweet.twitterID }}');</script>
           {% endfor %}
           {% if tweets|length == nb %}
-            <div class="more-tweets" style=" background:#f8d0c6; font-weight:500; color:#fff; line-height:20px;text-align:center;" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</div>
-            <button class="more_tweets" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</button>
+            <div class="more_tweets" style=" background:#f8d0c6; font-weight:500; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</div>
           {% endif %}
         </div>
      </div>
