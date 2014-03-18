@@ -4,7 +4,7 @@
   {% endfor %}
   <form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary" onclick="postTwittosMsg();return false;" />
+    <input type="submit" class="btn btn-primary" onclick="return false;" />
     <input type="button" class="btn btn-primary" onclick="controles=true;$('#publish').click();return false;" value="{% trans %}Skip{% endtrans %}" /> 
   </form>
 </div>

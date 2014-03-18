@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
         <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/screen.css') }}" media="screen" />
-        <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}" media="screen" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/custom2.css') }}" />
@@ -12,8 +11,12 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}" />
 
+        <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
         <script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
+        <script src="{{ asset('js/lightbox-2.6.min.js') }}"></script>
+        <script src="{{ asset('js/modernizr.custom.js') }}"></script>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}" media="screen" />
 
     </head>
     <body>
@@ -43,7 +46,6 @@
         <div id="flash-messages"></div>
          {% block body %}{% endblock %}
 
-       <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
        <script type="text/javascript">
          {% for flashMessage in app.session.flashbag.get('notice') %}
            $('#flash-messages').append('<div class="flash-message flash-notice">{{ flashMessage }}</div>');
