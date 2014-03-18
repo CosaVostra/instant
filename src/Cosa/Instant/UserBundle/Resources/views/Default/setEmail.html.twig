@@ -8,6 +8,8 @@
 
   {# Génération de l'input. #}
   {{ form_widget(form.email, { 'attr': {'class': 'conf-contact'} }) }}
+
+  {{ form_widget(form._token) }}
     <input type="submit" class="button04" onclick="postEmail();return false;" />
   </form>
 </div>

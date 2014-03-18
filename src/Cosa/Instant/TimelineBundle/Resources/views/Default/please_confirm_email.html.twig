@@ -10,9 +10,11 @@
   <div class="row" style="margin-top:50px; margin-right:15px; margin-left:-10px;">
     <div class="col-md-7">
       <h4>{% trans %}Email confirmation{% endtrans %}</h4>
+  {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
       <div class="button05" style="width:30%; text-align:center; padding:5px; cursor:pointer;" onclick="$('#email_form').slideToggle();"><a href="#" >{% trans %}Set your email{% endtrans %}</a></div>
       <br />
-      <div id="email_form" style="display:none;">
+  {% endif %}
+  <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};">
         <h4>{% trans %}Please set your email{% endtrans %}</h4>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
       </div> 
