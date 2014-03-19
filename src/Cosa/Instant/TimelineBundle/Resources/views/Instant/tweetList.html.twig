@@ -1,5 +1,5 @@
 {% for tweet in tweets %}
-  {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': editable} %}
+  {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': editable, 'icons': true} %}
 {% endfor %}
 {% if tweets|length == nb %}
   <div class="more_tweets" style=" background:#f8d0c6; font-weight:500; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="moreTweets({{ instant.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</div>

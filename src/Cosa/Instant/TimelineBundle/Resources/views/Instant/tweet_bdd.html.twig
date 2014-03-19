@@ -21,7 +21,7 @@
           </div>
         {% endif %}
       </div>
-     {% if editable %} 
+      {% if editable %} 
       <table  align="right"  class="glyphs character-mapping">
         <tr class="icons" >
           <td>
@@ -29,6 +29,15 @@
           </td>
         </tr>
       </table>
+      {% endif %}
+      {% if icons %}
+<div style="clear: both;"></div>
+                       <div class="tweet_icons">
+                       <a href="https://twitter.com/intent/tweet?in_reply_to={{ tweet.twitterId }}"><span class="icon icon-tweet-reply"></span></a>
+                       <a href="https://twitter.com/intent/retweet?tweet_id={{ tweet.twitterId }}"><span class="icon icon-tweet-retweet"></span></a>
+                       <a href="https://twitter.com/intent/favorite?tweet_id={{ tweet.twitterId }}"><span class="icon icon-tweet-fav"></span></a>
+                       <a href="https://twitter.com/intent/user?user_id={{ tweet.userId }}"><span class="icon icon-tweet-add"></span></a>
+                       </div>
       {% endif %}
   </div>
 {% if draggable %}</div>{% endif %}

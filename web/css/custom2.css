@@ -107,3 +107,28 @@
 
 .content-box-geo { padding:10px; border-bottom:#efefef 1px solid; background-color:#FFFFFF; padding-bottom:10px; cursor:pointer; }
 
+.tweet_icons {
+  margin-top: 0;
+}
+
+.content-box {
+  padding-bottom: 10px;
+}
+
+.pre-iphone-header-full {
+  color: white;
+  text-align: center;
+  font-weight: 500;
+  line-height: 250%;
+  text-transform: uppercase;
+}
+
+.pre-iphone-description-full {
+    background-color: #CCCCCC;
+    color: #666666;
+    font-weight: 500;
+    height: 20%;
+    line-height: 250%;
+    text-align: center;
+    text-transform: none;
+}

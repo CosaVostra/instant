@@ -3,11 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom2.css') }}" />
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
   </head>
-  <body style="font-size:200%;margin:auto;width: 50%;background: white;">
+  <body style="margin:auto;width: 50%;background: white;">
     <div id="webview">
       <div id="body">
         {% block body %}{% endblock %}

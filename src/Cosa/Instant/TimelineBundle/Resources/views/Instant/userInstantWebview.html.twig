@@ -1,20 +1,32 @@
 {% extends '::webview.html.twig' %}
 
 {% block body -%}
-    <div id="title">
-      {{ instant.title }}
-      <div class="tabs" style="text-align:center;width:100%;">
-        <div class="timeline" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','grey');$('.whotofollow').css('background','grey');$('.whotofollow').css('color','white');" style="width:50%;float:left;background:white;color:grey;">
-          {% trans %}Timeline{% endtrans %}
+  <div style="height:95px; width:50%; margin-left: 0;margin-right: 0; float:left; position:fixed; top:0;">
+    <div  class="col-title-pre-full">
+      <div class="pre-iphone-header-full" style="">{{ instant.title }}
+        <div class="pre-iphone-menu-full" style="">
+          <a href=""><img src="{{ asset('images/pre-menu.png') }}"  alt=""/></a> 
         </div>
-        <div class="whotofollow" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).css('background','white');$(this).css('color','grey');$('.timeline').css('background','grey');$('.timeline').css('color','white');" style="width:50%;float:left;color:white;background:grey;">
-          {% trans %}Who to follow{% endtrans %}
+        <div class="pre-iphone-logo-full" style=" ">
+          <a href=""><img src="{{ asset('images/pre-logo.png') }}"  alt=""/></a>
         </div>
-        <div class="clearb"></div>
+        <div style="clear:both;"></div>
+        <div class="pre-iphone-description-full" style="">{{ instant.description }}</div>
+      </div>
+      <div class="pre-iphone-nav-full">
+        <a><div class="pre-iphone-nav-tab1-full" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-full2').css('background','#ea651d');$('.pre-iphone-nav-full2').css('color','white');" style="">
+                         {% trans %}Timeline{% endtrans %}
+                          </div></a>
+        <a><div class="pre-iphone-nav-full2" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-tab1-full').css('background','#ea651d');$('.pre-iphone-nav-tab1-full').css('color','white');">
+                          {% trans %}Who to follow{% endtrans %}
+                        </div></a>
+        <div style="clear:both;"></div>
       </div>
     </div>
+ </div>
+ 
     <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
-      {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100} %}
+      {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100, 'icons': true} %}
     </div>
     <div id="whotofollow_list" style="display:none;" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
       {% for twitto in twittos %}

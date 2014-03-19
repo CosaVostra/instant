@@ -176,7 +176,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       <div id="tweet_column2" class="all-the-rest block last" style="position:relative; ">
         <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
           {% for tweet in tweets %}
-            {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true} %}
+            {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true, 'icons': false} %}
             <script type="text/javascript">tweets.push('{{ tweet.twitterID }}');</script>
           {% endfor %}
           {% if tweets|length == nb %}
