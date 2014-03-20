@@ -109,10 +109,7 @@
 
 .tweet_icons {
   margin-top: 0;
-}
-
-.content-box {
-  padding-bottom: 10px;
+  margin-bottom: -20px;
 }
 
 .pre-iphone-header-full {
@@ -132,3 +129,30 @@
     text-align: center;
     text-transform: none;
 }
+
+#webview #footer {
+  width: 100%;
+}
+#webview {
+  font-size: 1em;
+}
+#webview #tweet_list2, #webview #whotofollow_list {
+  font-size: 100%;
+  margin: 1em 0 3em;
+}
+.iconTable {
+  height: 20px;
+}
+
+.tweet_icons3 {
+  float: right;
+  font-size: 2em;
+}
+.tweet_icons3 a {
+  color: #CCCCCC;
+}
+.tweet_icons3 a:hover {
+  color: #EA651D;
+}
+
+

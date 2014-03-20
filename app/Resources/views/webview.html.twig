@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="background:#aaaaaa;">
+<html>
   <head>
     <meta charset="UTF-8" />
     <title>!nstant | {% block title %}{% trans %}Welcome{% endtrans %}!{% endblock %}</title>
@@ -10,16 +10,31 @@
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+    <script src="{{ asset('js/lightbox-2.6.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}" media="screen" />
   </head>
-  <body style="margin:auto;width: 50%;background: white;">
+{% if webview %}
+  <body style="background: white;">
+{% else %}
+  <body style="background: #666666;">
+{% endif %}
     <div id="webview">
+{% if webview %}
+ <div id="body">
+{% else %}
+ <div id="body" style="width:50%; margin: auto;">
+{% endif %}
       <div id="body">
         {% block body %}{% endblock %}
       </div>
-      <div id="footer">
+{% if webview %}
+ <div id="footer">
+{% else %}
+ <div id="footer" style="width:50%; margin: auto;">
+{% endif %}
         {% block footer %}{% endblock %}
       </div>
-      <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
       {% block javascripts %}{% endblock %}
     </div>
   </body>

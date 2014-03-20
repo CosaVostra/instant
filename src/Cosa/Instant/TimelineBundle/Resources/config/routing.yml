@@ -31,6 +31,9 @@ instant_update:
 #instant_view:
 #    pattern:  /{username}/{instant_title}
 #    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstant }
+instant_view:
+    pattern:  /{username}/{instant_title}/view
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantView }
 instant_webview:
     pattern:  /{username}/{instant_title}/webview
     defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantWebview }

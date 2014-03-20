@@ -187,7 +187,10 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       </div>
         <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
           <a href="#" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';"><div class="button05"><span class="icon icon-start"> </span>back</div></a>
-          <a href="#" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')"><div class="button01"><span class="icon icon-close"> </span>clear</div></a>
+          <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
+            <input id="clear_btn" type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" style="display: none;"/>
+          <a href="#" onclick="$('#clear_btn').click();"><div class="button01"><span class="icon icon-close"></span>{% trans %}Clear{% endtrans %}</div></a>
+          </form>
         </div>
          <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
         <a href="" >

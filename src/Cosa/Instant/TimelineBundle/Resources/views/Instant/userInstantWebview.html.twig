@@ -1,7 +1,11 @@
 {% extends '::webview.html.twig' %}
 
 {% block body -%}
-  <div style="height:95px; width:50%; margin-left: 0;margin-right: 0; float:left; position:fixed; top:0;">
+{% if webview %} 
+ <div style="height:95px; width:100%; margin-left: 0;margin-right: 0; float:left; position:fixed; top:0;">
+{% else %}
+ <div style="height:95px; width:50%; margin: auto; float:left; position:fixed; top:0;">
+{% endif %}
     <div  class="col-title-pre-full">
       <div class="pre-iphone-header-full" style="">{{ instant.title }}
         <div class="pre-iphone-menu-full" style="">
@@ -11,7 +15,6 @@
           <a href=""><img src="{{ asset('images/pre-logo.png') }}"  alt=""/></a>
         </div>
         <div style="clear:both;"></div>
-        <div class="pre-iphone-description-full" style="">{{ instant.description }}</div>
       </div>
       <div class="pre-iphone-nav-full">
         <a><div class="pre-iphone-nav-tab1-full" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-full2').css('background','#ea651d');$('.pre-iphone-nav-full2').css('color','white');" style="">
@@ -28,22 +31,20 @@
     <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
       {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100, 'icons': true} %}
     </div>
-    <div id="whotofollow_list" style="display:none;" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
+
+    <div id="whotofollow_list" style="display:none;overflow-y:auto;overflow-x:hidden; background: white;" class="block-content">
       {% for twitto in twittos %}
-        <div class="twitto">
-          <div class="tweet_image">
-            <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48"></a>
-          </div>
-          <div class="tweet_screen_name">
-            <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">{{ twitto.user.twitterUsername }}</a>
-            <span class="tweet_name">{{ twitto.user.twitterRealname }}</span>
-          </div>
-          <div class="description">
-            {{ twitto.user.twitterDescription | customlink | raw }}
-          </div>
-          <div class="comment">
-            {{ twitto.description | customlink | raw }}
-          </div>
+        <div class=  "content-box-pre-full">
+          <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">
+            <img src="{{ twitto.user.profileImageUrl }}" width="48" height="48" class="twitter-img">
+          </a>
+          <a href="http://twitter.com/{{ twitto.user.twitterUsername }}">{{ twitto.user.twitterRealname }}</a><span class="tweet_name">@{{ twitto.user.twitterUsername }}</span>
+          <div class="tweet_icons3">
+            <a href="https://twitter.com/intent/user?user_id={{ twitto.user.twitterId }}"><span class="icon icon-tweet-add"></span></a>
+          </div><br />
+          {{ twitto.user.twitterDescription | customlink | raw }}
+          <br />
+          {{ twitto.description | customlink | raw }}
         </div>
       {% endfor %}
     </div>

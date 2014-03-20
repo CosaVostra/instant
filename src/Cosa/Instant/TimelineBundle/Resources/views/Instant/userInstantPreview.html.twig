@@ -1,6 +1,43 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+  <div class="container">
+    <div class="row" style="margin-top:50px;">
+      <div class="col-md-12"  >
+            <div style="background:url({{ asset('images/pre-back03.png') }}) repeat bottom center; height:700px; margin-top:-10px;" id="iphone">
+            
+            <div class="iphone-pre" style=" position:relative; height:650px; background:url({{ asset('images/pre-iphone01.png') }}) no-repeat center center; padding-left: 450px; ">
+
+
+<style>
+#wrapper { width: 245px; height: 435px; padding: 0; overflow: hidden; }
+#scaled-frame { width: 318px; height: 565px; border: 0px; }
+#scaled-frame {
+    zoom: 0.77;
+    -moz-transform: scale(0.77);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.77);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.77);
+    -webkit-transform-origin: 0 0;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ #scaled-frame  { zoom: 1;  }
+}
+</style>
+
+<div id="wrapper"><iframe id="scaled-frame" src="{{ path('instant_webview', { 'username': user.twitterusername, 'instant_title': instant.urlTitle }) }}"></iframe></div>
+
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
     <h1>Instant "{{ instant.title }}" {% trans %}preview{% endtrans %}</h1>
     <div id="tweet_column2" class="block last">
       <div class="block-title">

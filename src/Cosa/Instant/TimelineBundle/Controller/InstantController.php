@@ -473,7 +473,7 @@ private function checkTweet($tweet_id)
     * @param string $username The user name
     * @param string $instant_title The instant title
     */
-    public function userInstantWebviewAction($username,$instant_title)
+    public function userInstantWebviewAction($username,$instant_title,$webview = true)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$username));
@@ -499,7 +499,19 @@ private function checkTweet($tweet_id)
             'twittos' => $twittos,
             'off'              => 0,
             'nb'               => 100,
+            'webview'          => $webview,
         ));
+    }
+
+    /**
+    * Show Instant webview code from a given user
+    *
+    * @param string $username The user name
+    * @param string $instant_title The instant title
+    */
+    public function userInstantViewAction($username,$instant_title)
+    {
+        return $this->userInstantWebviewAction($username,$instant_title,false);
     }
 
     /**

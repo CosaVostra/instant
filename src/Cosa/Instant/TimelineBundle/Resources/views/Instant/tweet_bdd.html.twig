@@ -17,7 +17,7 @@
         </div>
         {% if tweet.mediaUrl!='' %}
           <div class="tweet_media">
-            <a href="{{ tweet.mediaUrl }}" target="_blank"><img class="tweetmedia" src="{{ tweet.mediaUrl }}" style="max-width:50%;height:auto;width:auto;"/></a>
+            <a href="{{ tweet.mediaUrl }}"  data-lightbox="{{ tweet.id }}"><img class="tweetmedia" src="{{ tweet.mediaUrl }}" style="max-width:50%;height:auto;width:auto;"/></a>
           </div>
         {% endif %}
       </div>
