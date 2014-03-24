@@ -8,8 +8,8 @@ please_confirm_email:
     pattern:  /{username}/please/confirm/your/email
     defaults: { _controller: CosaInstantTimelineBundle:Default:pleaseConfirmEmail }
 instant_list:
-    pattern:  /{username}/instants
-    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantList }
+    pattern:  /{username}/instants/{order}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantList, order: undefined }
 instant_new:
     pattern:  /{username}/instant/new
     defaults: { _controller: CosaInstantTimelineBundle:Instant:new }

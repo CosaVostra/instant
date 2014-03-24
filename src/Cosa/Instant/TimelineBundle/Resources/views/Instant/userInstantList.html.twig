@@ -2,13 +2,36 @@
 
 {% block body -%}
 
+
+{% if entities|length == 0 %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8" style="margin-top:50px;">
+       
+        <div class="home1-text">Create your first !nstant by selecting Twitter users, tweets and keywords relating to the event you're covering.<br />
+          <span class="arrow-home1"><img src="{{ asset('images/home1-arrow.png') }}"  width="200"/></span>
+        </div>
+      </div>
+   
+      <div class="col-md-4" style="margin-top:50px;">
+        <span class="addinstant-home1"><a href=""><span class="icon icon-plus"></span> <br />create an !nstant</a> </span>
+      </div>
+    </div>
+  </div>
+{% else %}
+
   <div class="container">
       <div class="row">
         <div class="col-md-12" style="margin-top:50px;">
         
         <div class="arrowup"><a href="#top"><img src="{{ asset('images/arrow.png') }}" /> </a></div>
         
-          <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sort by&nbsp;&nbsp;</span><span class="sorting-box"><a href="">date&nbsp;▼</a></span>&nbsp;&nbsp;<span class="sorting-box"><a href="">activity&nbsp;▲</a></span> 
+  {% if app.session.get('order')  == 'desc' %}
+          <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sorted by&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'asc'}) }}">date&nbsp;▼</a></span>
+  {% else %}
+          <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sorted by&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'desc'}) }}">date&nbsp;▲</a></span>
+  {% endif %}
+
 <span class="addinstant" onclick="document.location.href='{{ path('instant_new', {'username': user.twitterUsername}) }}';">
 <!-- Twig -->      
 <a  href="#"><img src="{{ asset('images/plus.png') }}" /></a></span></p>
@@ -23,7 +46,7 @@
   </header>
   
   <div class="item-article">{{ entity.description }}</div>
-  <p class="description" ><a href="">6 experts</a>, modified on 15 avril 1912 <br /></p>
+  <p class="description" >{{ nbTwittos[entity.id] }} experts - modified on {{ entity.updatedAt|date('m/d/Y') }}<br /></p>
   
   <article>
     <table cellpadding="0" cellspacing="0" width="100%" align="center"  class="glyphs character-mapping">
@@ -64,6 +87,8 @@
 <br/>
 <br/>
 <br/>
+{% endif %}
+
 {% include "::footer.html.twig" %}
 
 {% endblock %}

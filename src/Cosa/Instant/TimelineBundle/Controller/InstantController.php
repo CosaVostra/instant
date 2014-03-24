@@ -448,22 +448,36 @@ private function checkTweet($tweet_id)
     * @param string $username The username
     *
     */
-    public function userInstantListAction($username)
+    public function userInstantListAction($username, $order)
     {
         if(($tmp=$this->userEmailIsConfirmed())!==true){
             return $tmp;
         }
         $em = $this->getDoctrine()->getManager();
         $user = $this->checkUser($username);
-        $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findByUser($user->getId());
+        //$entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findByUser($user->getId());
+        $session = $this->getRequest()->getSession();
+        $order_session = $session->get('order');
+        if (($order === 'undefined') && $order_session)
+          $order = $order_session;
+        if ($order === 'asc') {
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('user' => $user->getId()), array('created_at' => 'asc'));
+          $session->set('order', 'asc');
+        } else {
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('user' => $user->getId()), array('created_at' => 'desc'));
+          $session->set('order', 'desc');
+        }
         $deleteForms = array();
+        $nbTwittos = array();
         foreach ($entities as $entity) {
             $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+            $nbTwittos[$entity->getId()] = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getNbTwittos($entity->getId());
         }
         return $this->render('CosaInstantTimelineBundle:Instant:userInstantList.html.twig', array(
             'entities' => $entities,
             'deleteForms' => $deleteForms,
             'user' => $user,
+            'nbTwittos' => $nbTwittos,
         ));
     }
 

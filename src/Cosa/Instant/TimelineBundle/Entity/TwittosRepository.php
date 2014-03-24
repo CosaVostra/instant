@@ -39,4 +39,17 @@ class TwittosRepository extends EntityRepository
             ->setParameter('instant_id',$instant_id)
             ->getResult();
     }
+
+    public function getNbTwittos($instant_id)
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('count(t.instant)')
+           ->from('CosaInstantTimelineBundle:Twittos', 't')
+           ->where('t.instant = :instant_id')
+           ->setParameter('instant_id', $instant_id);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 }
