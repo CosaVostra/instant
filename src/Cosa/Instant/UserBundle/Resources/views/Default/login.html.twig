@@ -28,10 +28,9 @@
         <div class="col-md-8">
           <img src="{{ asset('images/home-logo.png') }}" alt="home-logo" class="home-logo"/><p> </p>
         <p class="home-text">Create your first !nstant by selecting Twitter users, tweets and keywords relating to the event you're covering.</p><br />
-        <p><a class="btn btn-primary btn-lg" role="button"><img src="{{ asset('images/home-plus.png') }}" alt="home-plus" class="home-plus"/>create an !nstant now</a></p>
 
   {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
-    <a href="{{ path('connect_twitter')}}">{% trans %}Signup with Twitter{% endtrans %}</a>
+<span class="button-twitter-home" style="float:left;" onclick="document.location.href='{{ path('connect_twitter')}}'"><a href="#"><span class="icon icon-z-tw" style="padding-top:2px;"></span>&nbsp;&nbsp;Sign up with twitter</a></span>
   {% else %}
     welcome {{app.security.token.user}}
     <a href="{{ path('cosa_instant_user_logout') }}">{% trans %}Logout{% endtrans %}</a>

@@ -1,6 +1,8 @@
 {% extends '::webview.html.twig' %}
 
 {% block body -%}
+<div id="mobile-menu" style="display:none;">
+</div>
 {% if webview %} 
  <div style="height:95px; width:100%; margin-left: 0;margin-right: 0; float:left; position:fixed; top:0;">
 {% else %}
@@ -9,7 +11,8 @@
     <div  class="col-title-pre-full">
       <div class="pre-iphone-header-full" style="">{{ instant.title }}
         <div class="pre-iphone-menu-full" style="">
-          <a href=""><img src="{{ asset('images/pre-menu.png') }}"  alt=""/></a> 
+          <input id="menu-value" type="hidden" value="hidden">
+          <a href="#" onclick="if ($('#menu-value').val() == 'hidden') {$('#mobile-menu').show('slide',{direction:'left'},1000); $('#menu-value').val('shown');} else {$('#mobile-menu').hide('slide',{direction:'left'},1000); $('#menu-value').val('hidden');}"><img src="{{ asset('images/pre-menu.png') }}"  alt=""/></a> 
         </div>
         <div class="pre-iphone-logo-full" style=" ">
           <a href=""><img src="{{ asset('images/pre-logo.png') }}"  alt=""/></a>

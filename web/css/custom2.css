@@ -156,4 +156,9 @@
   color: #EA651D;
 }
 
-
+#mobile-menu {
+  background-color: rgba(200, 200, 200, 0.8);
+  width: 400px;
+  height: 600px;
+  position: fixed;
+}
