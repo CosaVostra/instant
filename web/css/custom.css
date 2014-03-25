@@ -6,11 +6,7 @@ body
 {background: url(http://createinstant.com/images/bg.jpg) no-repeat top center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;background-size: cover; font-family: 'Open Sans', sans-serif; font-weight:300;line-height:1.5em !important; color:#666;background-color:#fff; text-align:justify; padding-top: 50px; padding-bottom: 20px;height:100%; font-size: 12px;}
  
 html {height: 100%;}
- input:focus { 
-    outline: none !important;
-    border-color: #ccc;
-    box-shadow: 0 0 10px #ccc;
-}
+input:focus {}
  
   textarea:focus { 
     outline: none !important;

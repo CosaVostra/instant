@@ -26,7 +26,8 @@
   overflow: auto;
   height: 200px;
   text-align: left;
-  margin-bottom: 100px;
+  margin-top: -200px;
+  z-index: 999;
 }
 
 #autotwittos .twittos {
@@ -162,3 +163,13 @@
   height: 600px;
   position: fixed;
 }
+
+.clickable {
+  cursor: pointer;
+  color : #333333;
+}
+.not-clickable {
+  cursor: auto;
+  color : #CCCCCC;
+}
+

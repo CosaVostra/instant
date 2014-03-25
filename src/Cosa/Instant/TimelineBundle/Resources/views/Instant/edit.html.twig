@@ -54,7 +54,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         <div class="search-box">
         <div style="display:inline-block; width:100%; margin:0px; padding:0px;">        
                
-          <a href="#"><div class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
+          <a href="#"><div id="last-search" class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div id="next-search" class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
         </div>
 
                 
@@ -110,7 +110,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       <div class="all-the-rest" style="position:relative;">
         <div id="twittos">
           {% for twitto in twittos %}
-            <div class="content-box">
+            <div class="content-box" style="z-index: 1;">
               <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}
 {{ twitto.user.twitterDescription }}
 {{ twitto.user.twitterLocation }}"><img src="{{ twitto.user.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
@@ -185,38 +185,41 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         </div>
      </div>
       </div>
-        <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
-          <a href="#" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';"><div class="button05"><span class="icon icon-start"> </span>back</div></a>
-          <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
-            <input id="clear_btn" type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" style="display: none;"/>
+      <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+        <a href="#" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';"><div class="button05"><span class="icon icon-start"> </span>back</div></a>
+        <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
+          <input id="clear_btn" type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" style="display: none;"/>
           <a href="#" onclick="$('#clear_btn').click();"><div class="button01"><span class="icon icon-close"></span>{% trans %}Clear{% endtrans %}</div></a>
-          </form>
-        </div>
-         <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
-        <a href="" >
+        </form>
+      </div>
+      <div style="height:25px; width:24%; margin-left: 1%; float:left; position:relative;">
+        <a href="#" >
           <div class="button02" onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();return false;">
             <span class="icon icon-plus"></span>
             &nbsp;&nbsp;add an expert by name
           </div>
         </a>
-          <form id="addtw" style="display:none;">
-            <input type="text" id="twittos_username" placeholder="{% trans %}add a twittos{% endtrans %}" />
-            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" />
-            <div id="autotwittos"></div>
-          </form>
-        </div>
-         <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
-         <a href="" >
-        <div class="button02" onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();return false;">
-          <span class="icon icon-plus"></span>
-          &nbsp;&nbsp;add a keyword
-        </div>
-      </a>
-          <form id="addkw" style="display:none;">
-            <input type="text" id="keyword" placeholder="{% trans %}add a keyword{% endtrans %}" />
-            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" />
-          </form>
-        </div>
+        <form id="addtw" style="display:none;">
+          <div id="autotwittos"></div>
+          <div class="add-input">
+            <input type="text" id="twittos_username" placeholder="{% trans %}add a twittos{% endtrans %}" style="background:none; border:none;"/>
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" style="display:none;" />
+          </div><a href="" ><span class="button06" onClick="return js_add_twittos();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %}ADD{% endtrans %}</span></a>
+        </form>
+      </div>
+      <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
+        <a href="" >
+          <div class="button02" onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();return false;">
+            <span class="icon icon-plus"></span>&nbsp;&nbsp;add a keyword
+          </div>
+        </a>
+        <form id="addkw" style="display:none;">
+          <div class="add-input">
+            <input type="text" id="keyword" placeholder="{% trans %}add a keyword{% endtrans %}" style="background:none; border:none;" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" style="display:none;" />
+          </div><a href="" ><span class="button06" onClick="return js_add_keyword();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %}ADD{% endtrans %}</span></a>
+        </form>
+      </div>
          <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
         <div style="display:inline-block; width:100%;">
                 <a href="#" >
@@ -232,14 +235,6 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
                 </div>
                 </a></div>
         </div>
-
-<div style="clear:both;"></div>
-      <span class="clearb"></span>
-    </div>
-    <button id="cancel" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';">{% trans %}Cancel{% endtrans %}</button>
-    <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
-        <input type="submit" value="{% trans %}Clear{% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" />
-    </form>
   </div>
 
 {% include "::footer_relative.html.twig" %}
@@ -606,6 +601,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             $('#twittos').prepend(elt);
             twittos.push(retour.twitterID);
             controles = false;
+            $('#twittos_username').val('');
           }
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
@@ -618,6 +614,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     function cr_twittos(screen_name,name,profile_image_url,id_str,desc,loc)
     {
       $('#autotwittos').hide();
+      $('#twittos_username').val('');
       var elt = $('<div class="content-box"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'" onclick="return searchFrom(\''+screen_name+'\');">'+name+'</a><span class="tweet_name">@'+screen_name+'</span></div>');
       $('#twittos').prepend(elt);
       add_twittos(id_str,screen_name,name,profile_image_url,desc,loc,elt);
@@ -844,6 +841,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     }
     function nextSearch()
     {
+      $('#next-search').addClass('not-clickable').removeClass('clickable');
       if(search_ind===false)
         return false;
       if(search_ind<(searches.length-1)){

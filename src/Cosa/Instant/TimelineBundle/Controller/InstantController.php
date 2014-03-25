@@ -160,10 +160,13 @@ class InstantController extends Controller
       }
       $off = 0;
       $nb = 100;
+      $icons = false;
       if($request->request->get('off') && is_numeric($request->request->get('off')))
         $off = $request->request->get('off');
       if($request->request->get('nb') && is_numeric($request->request->get('nb')))
         $nb = $request->request->get('nb');
+      if($request->request->get('icons') && ($request->request->get('icons') == 'true'))
+        $icons = true;
       $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant_id,$off,$nb);
       $tweets = Array();
       if(count($instantWithTweets))
@@ -174,6 +177,7 @@ class InstantController extends Controller
             'editable'         => $editable,
             'off'              => $off,
             'nb'               => $nb,
+            'icons'            => $icons,
         ));
     }
 
@@ -1020,7 +1024,7 @@ private function checkTweet($tweet_id)
           $tweets = Array();
           if(count($instantWithTweets))
             $tweets = $instantWithTweets[0]->getTweets();
-          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $tweets,'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100));
+          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $tweets,'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100,'icons'=>false));
           return new JsonResponse(array('retour'=>true,'html'=>$html->getContent()),200,array('Content-Type', 'application/json'));
         }catch(\Exception $e){
           return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
