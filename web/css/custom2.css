@@ -175,3 +175,11 @@
 .addinstant-home1 {
   cursor: pointer;
 }
+.arrowup {
+  bottom: 0;
+  right: 0;
+}
+.item {
+  cursor: pointer;
+}
+

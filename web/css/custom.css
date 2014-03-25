@@ -687,7 +687,7 @@ div#content {
 body.menu-active div#content { left: 284px; border-radius: 7px 0 0 7px; }
 body.menu-active div#content .menu-trigger { left: 294px; }
 
-.button-twitter-home {background:#28a9e0; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; width:30%; margin-right:1%; vertical-align:bottom; margin-top:20px; line-height:2em; cursor:pointer; }
+.button-twitter-home {background:#28a9e0; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; width:220px; margin-right:1%; vertical-align:bottom; margin-top:20px; line-height:2em; cursor:pointer; }
 .button-twitter-home a{ padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; text-transform:uppercase; }
 .button-twitter-home:hover{ background:#ccc; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; }
 

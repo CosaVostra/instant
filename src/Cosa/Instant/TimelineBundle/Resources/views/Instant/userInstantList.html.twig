@@ -24,7 +24,9 @@
       <div class="row">
         <div class="col-md-12" style="margin-top:50px;">
         
-        <div class="arrowup"><a href="#top"><img src="{{ asset('images/arrow.png') }}" /> </a></div>
+        {% if entities|length > 11 %}
+        <div class="arrowup"><a href="#top"><img src="{{ asset('images/arrow.png') }}" /></a></div>
+        {% endif %}
         
   {% if app.session.get('order')  == 'desc' %}
           <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sorted by&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'asc'}) }}">date&nbsp;▼</a></span>
@@ -40,14 +42,15 @@
 <!-- Twig -->      
 {% for entity in entities %}
   <div class="item">
-  <header>
-  <p class="in-boxes">
-  <span class="title-upper">{{ entity.title }}</span>
-  </header>
+    <div onclick="document.location.href='{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}';">
+      <header>
+        <p class="in-boxes"><span class="title-upper">{{ entity.title }}</span></p>
+      </header>
   
-  <div class="item-article">{{ entity.description }}</div>
-  <p class="description" >{{ nbTwittos[entity.id] }} experts - modified on {{ entity.updatedAt|date('m/d/Y') }}<br /></p>
-  
+      <div class="item-article">{{ entity.description }}</div>
+      <p class="description" >{{ nbTwittos[entity.id] }} experts - created on {{ entity.createdAt|date('d M Y') }}<br /></p>
+    </div>
+
   <article>
     <table cellpadding="0" cellspacing="0" width="100%" align="center"  class="glyphs character-mapping">
       <tr class="icons">

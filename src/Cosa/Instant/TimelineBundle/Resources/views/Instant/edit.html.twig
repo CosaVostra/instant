@@ -203,7 +203,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           <div id="autotwittos"></div>
           <div class="add-input">
             <input type="text" id="twittos_username" placeholder="{% trans %}add a twittos{% endtrans %}" style="background:none; border:none;"/>
-            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" style="display:none;" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_twittos();" style="visibility: hidden;" />
           </div><a href="" ><span class="button06" onClick="return js_add_twittos();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %}ADD{% endtrans %}</span></a>
         </form>
       </div>
@@ -216,7 +216,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         <form id="addkw" style="display:none;">
           <div class="add-input">
             <input type="text" id="keyword" placeholder="{% trans %}add a keyword{% endtrans %}" style="background:none; border:none;" />
-            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" style="display:none;" />
+            <input type="submit" value="{% trans %}ADD{% endtrans %}" onClick="return js_add_keyword();" style="visibility: hidden;" />
           </div><a href="" ><span class="button06" onClick="return js_add_keyword();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %}ADD{% endtrans %}</span></a>
         </form>
       </div>
