@@ -161,7 +161,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       {% else %}
         <div id="twittos-blank" class="edit-first" style="display: none;">
       {% endif %}
-          Once you'll drag and drop your Tweet form the 'TWEETS' column to the 'TIMELINE', this section will be automatically populated by Tweeters profiles!<br /><br />You can then decide to add a little comment or to delete them from your list.<br /><br />You can even add your favourite Tweeters by clicking on the button at the bottom of the section. <br /><a data-lightbox="How to 2" href="{{ asset('images/screenshot01.jpg') }}"><div class="help-button">?&nbsp;&nbsp;&nbsp;help</div></a>
+          Yadiyadiyada<br /><br />You can then decide to add a little comment or to delete them from your list.<br /><br />You can even add your favourite Tweeters by clicking on the button at the bottom of the section. <br /><a data-lightbox="How to 2" href="{{ asset('images/screenshot01.jpg') }}"><div class="help-button">?&nbsp;&nbsp;&nbsp;help</div></a>
           <a data-lightbox="How to 2" href="{{ asset('images/screenshot02.jpg') }}" style="display: none;"></a> 
           <a data-lightbox="How to 2" href="{{ asset('images/screenshot03.jpg') }}" style="display: none;"></a> 
           <a data-lightbox="How to 2" href="{{ asset('images/screenshot04.jpg') }}" style="display: none;"></a> 
@@ -698,14 +698,14 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       });
       return false;
     }
-    $( "#twittos" ).droppable({
+    $( "#twittosDroppable" ).droppable({
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {
         var twitto = $('<div>');
         twitto.addClass('content-box');
         $('.tweet_user_data',ui.draggable).clone().append('<div>'+$('.twitter_description',ui.draggable).val()+'</div>').appendTo(twitto);
-        twitto.prependTo($(this));
+        twitto.prependTo($('#twittos'));
         add_twittos(
           $('.twitterID',ui.draggable).val(),
           $('.twitter_username',ui.draggable).val(),
