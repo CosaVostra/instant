@@ -5,7 +5,7 @@
         <a href="http://twitter.com/{{ tweet.user.screen_name }}" target="_blank" title="{{ tweet.user.description }}
 {{ tweet.user.location }}"><img src="{{ tweet.user.profile_image_url }}" width="48" height="48" class="twitter-img"></a>
         <a href="http://twitter.com/{{ tweet.user.screen_name }}" title="{{ tweet.user.description }}
-{{ tweet.user.location }}" onclick="return searchFrom(\"{{ tweet.user.screen_name }}\");">{{ tweet.user.name }}</a>
+{{ tweet.user.location }}" onclick="return searchFrom('{{ tweet.user.screen_name }}');">{{ tweet.user.name }}</a>
         <span>@{{ tweet.user.screen_name }}</span>
         <input type="hidden" class="twitterID" value="{{ tweet.user.id_str }}"/>
         <input type="hidden" class="twitter_username" value="{{ tweet.user.screen_name }}"/>

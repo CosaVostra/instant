@@ -710,6 +710,13 @@ body.menu-active div#content .menu-trigger { left: 294px; }
 
 .arrow-home1 { float:right; }
 
+/* Edit 1st time */ 
+.edit-first {color:#ccc; padding:20px; } 
+ 
+.help-button {background-color:#efefef; padding:5px; color:#FFFFFF; font-size:1em; display:inline-block; width:100%; vertical-align:bottom; margin-top:20px; line-height:1.2em; } 
+.help-button a{ color:#fff;padding:2px; color:#FFFFFF; display:inline-block; text-transform:uppercase; } 
+.help-button:hover{ background-color:#cccccc; } 
+
 
 /* Responsive */
 

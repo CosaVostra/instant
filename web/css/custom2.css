@@ -24,47 +24,24 @@
   border:1px solid black;
   background: white;
   overflow: auto;
-  height: 200px;
+  height: 400px;
   text-align: left;
-  margin-top: -200px;
+  margin-top: -400px;
   z-index: 999;
 }
 
-#autotwittos .twittos {
+#autotwittos .content-box {
   cursor: pointer;
-  margin-bottom: 5px;
-  border-bottom: 1px solid grey;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
-#autotwittos .twittos:hover {
-  background: #cdcdcd;
+#autotwittos .content-box:hover {
+  background: #EFEFEF;
 }
 
-#autotwittos .twittos span.username {
-  color:grey;
-  font-size:20px;
-  font-weight:bold;
-  margin-right:5px;
-}
-
-#autotwittos .twittos span.name {
-  color:black;
-  font-style:italic;
-}
-
-#autotwittos .twittos img {
-  margin-right:5px;
-  float: left;
-}
-
-#autotwittos .twittos span.description {
-  color:black;
-  font-size:10px;
-}
-
-#autotwittos .twittos span.location {
-  color:green;
-  font-size:8px;
+#autotwittos .content-box span.location {
+  color: #75D1B3;
 }
 
 #twittosDroppable, #tweetDroppable {
@@ -182,4 +159,9 @@
 .item {
   cursor: pointer;
 }
-
+.twitter_result_item .content-box {
+  padding-bottom: 0;
+}
+#twittos .description {
+  padding: 0;
+}

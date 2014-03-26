@@ -99,11 +99,17 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
 
     <div class="grid4">
       <div id="block-search" class="block">
-        <div id="twitter_result" style="position:relative;" class="block-content all-the-rest">
+        <div id="twitter_result" style="position:relative;" class="block-content all-the-rest"></div>
+        <div id="search-blank" class="edit-first" style="display: block;">
+          The results of your research will automatically populate this column.<br /><br />Drag and drop them in the 'TIMELINE' to create your !nstant. <br /><a id="screenshot01" data-lightbox="How to" href="{{ asset('images/screenshot01.jpg') }}"><div class="help-button">?&nbsp;&nbsp;&nbsp;help</div></a>
         </div>
       </div>
      </div> 
-     </div> 
+     </div>
+     <a data-lightbox="How to" href="{{ asset('images/screenshot02.jpg') }}" style="display: none;"></a> 
+     <a data-lightbox="How to" href="{{ asset('images/screenshot03.jpg') }}" style="display: none;"></a> 
+     <a data-lightbox="How to" href="{{ asset('images/screenshot04.jpg') }}" style="display: none;"></a> 
+     <a data-lightbox="How to" href="{{ asset('images/screenshot05.jpg') }}" style="display: none;"></a> 
  
 
 <div id="twittosDroppable" style="height: 90%; overflow:auto; width:24%; margin-left: 1%; float:left; background-color:#fff;">
@@ -118,15 +124,16 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
 {{ twitto.user.twitterDescription }}
 {{ twitto.user.twitterLocation }}"  onclick="return searchFrom('{{ twitto.user.twitterUsername }}');">{{ twitto.user.twitterRealname }}</a>
               <span class="tweet_name">@{{ twitto.user.twitterUsername }}</span>
+                <div >
+                  {{ twitto.user.twitterDescription }}
+                </div>
               <div class="description">
                 <div id="p_tw_{{ twitto.id }}">
                   {{ twitto.description }}
                 </div>
                 <div id="edit_tw_{{ twitto.id }}" style="display:none;">
                   <form>
-                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;">
-                      {{ twitto.description }}
-                    </textarea>
+                    <textarea id="txta_{{ twitto.id }}" rows="4" style="width:96%;">{{ twitto.description }}</textarea>
                     <input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc({{ twitto.id }});"/>
                   </form>
                 </div>
@@ -149,6 +156,17 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             <script type="text/javascript">twittos.push('{{ twitto.user.twitterID }}');</script>
           {% endfor %}
         </div>
+      {% if twittos|length == 0 %}
+        <div id="twittos-blank" class="edit-first" style="display: block;">
+      {% else %}
+        <div id="twittos-blank" class="edit-first" style="display: none;">
+      {% endif %}
+          Once you'll drag and drop your Tweet form the 'TWEETS' column to the 'TIMELINE', this section will be automatically populated by Tweeters profiles!<br /><br />You can then decide to add a little comment or to delete them from your list.<br /><br />You can even add your favourite Tweeters by clicking on the button at the bottom of the section. <br /><a data-lightbox="How to 2" href="{{ asset('images/screenshot01.jpg') }}"><div class="help-button">?&nbsp;&nbsp;&nbsp;help</div></a>
+          <a data-lightbox="How to 2" href="{{ asset('images/screenshot02.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 2" href="{{ asset('images/screenshot03.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 2" href="{{ asset('images/screenshot04.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 2" href="{{ asset('images/screenshot05.jpg') }}" style="display: none;"></a> 
+        </div>
       </div>
       </div>
 
@@ -168,6 +186,17 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             <script type="text/javascript">keywords.push('{{ keyword.keyword }}');</script>
           {% endfor %}
         </div>
+      {% if keywords|length == 0 %}
+        <div id="keywords-blank" class="edit-first" style="display: block;">
+      {% else %}
+        <div id="keywords-blank" class="edit-first" style="display: none;">
+      {% endif %}
+          Here's the list of your 'KEYWORDS'!<br /><br />They will automatically populate this section after each Search.<br /><br />You can even add them by clicking on the button at the bottom of the section. <br /><a data-lightbox="How to 3" href="{{ asset('images/screenshot01.jpg') }}"><div class="help-button">?&nbsp;&nbsp;&nbsp;help</div></a>
+          <a data-lightbox="How to 3" href="{{ asset('images/screenshot02.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 3" href="{{ asset('images/screenshot03.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 3" href="{{ asset('images/screenshot04.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 3" href="{{ asset('images/screenshot05.jpg') }}" style="display: none;"></a> 
+        </div>
       </div>
       </div>
 
@@ -182,6 +211,17 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           {% if tweets|length == nb %}
             <div class="more_tweets" style=" background:#f8d0c6; font-weight:500; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="moreTweets({{ entity.id }},{{ off + nb }},{{ nb }});">{% trans %}More tweets{% endtrans %}</div>
           {% endif %}
+        </div>
+      {% if tweets|length == 0 %}
+        <div id="tweets-blank" class="edit-first" style="display: block;">
+      {% else %}
+        <div id="tweets-blank" class="edit-first" style="display: none;">
+      {% endif %}
+          And finally the 'TIMELINE'.<br /><br />This is the column where to 'drop' the 'TWEETS' who 'dragged'. You can compose your timeline, save it, preview it and publish it! <br /><a data-lightbox="How to 4" href="{{ asset('images/screenshot01.jpg') }}"><div class="help-button">?&nbsp;&nbsp;&nbsp;help</div></a>
+          <a data-lightbox="How to 4" href="{{ asset('images/screenshot02.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 4" href="{{ asset('images/screenshot03.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 4" href="{{ asset('images/screenshot04.jpg') }}" style="display: none;"></a> 
+          <a data-lightbox="How to 4" href="{{ asset('images/screenshot05.jpg') }}" style="display: none;"></a> 
         </div>
      </div>
       </div>
@@ -375,6 +415,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     }
     function js_twitter_search(addkeyword) {
       $('#geoloc').hide();
+      $('#search-blank').css('display', 'none');
       $('#twitter_result').html('<img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/>');
       if(!in_array($('#twitter_search').val(),searches)){
         var nbCellToDrop = searches.length-search_ind-1;
@@ -403,9 +444,11 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         }
       })
       .fail(function() {
-      $('#twitter_result').html('');
+        $('#twitter_result').html('');
+        $('#search-blank').css('display', 'block');
       })
       .done(function( retour ) {
+        $('#search-blank').css('display', 'none');
         $('#twitter_result').html(retour).load(function(){
           $('.tweetmediajson').each(function(){$(this).css('maxHeight',$(this).css('width'));});
         });
@@ -444,7 +487,8 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         }
       })
       .fail(function() {
-      $('#twitter_result').html('');
+        $('#twitter_result').html('');
+        $('#search-blank').css('display', 'block');
       })
       .done(function( retour ) {
         $('#tweet_list').append(retour).load(function(){
@@ -530,6 +574,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
               var msg = $('<div class="flash-message flash-notice">{% trans %}Keyword saved{% endtrans %} !</div>');
               $('#keywords').prepend($('<div class="content-box">'+keywor+'<table align="right" class="glyphs character-mapping"><tr class="icons" ><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_keyword('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+c_keywor+'\');"></div></a></td></tr></table></div>'));
               keywords.push(keywor);
+              $('#keywords-blank').css('display', 'none');
             }else{
               var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
             }
@@ -547,7 +592,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         msg.delay(3000).fadeOut(1000);
     }
     function js_add_twittos() {
-      return add_twittos2($('#twittos_username').val());
+      return add_twittos2($('#twittos_username').val().replace(/^@/, ''));
     }
     function js_rm_twittos(twittos_id,elt,twitter_id)
     {
@@ -589,7 +634,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
               c_name = user.name.replace(/'/g,"\\'");
               c_description = user.description.replace(/'/g,"\\'").replace(/[\n\r]/g, '');
               c_location = user.location.replace(/'/g,"\\'").replace(/[\n\r]/g, '');
-              $('#autotwittos').append('<div class="twittos" onclick="cr_twittos(\''+c_screen_name+'\',\''+c_name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\',\''+c_description+'\',\''+c_location+'\');"><img src="'+user.profile_image_url+'"/><div><span class="username">'+user.screen_name+'</span><span class="name">'+user.name+'</span><br/><span class="description">'+user.description+'</span><span style="display:none;">'+user.id_str+'</span><br/><span class="location">'+user.location+'</span></div><div style="clear:both;"></div></div>');
+              $('#autotwittos').append('<div class="content-box" onclick="cr_twittos(\''+c_screen_name+'\',\''+c_name+'\',\''+user.profile_image_url+'\',\''+user.id_str+'\',\''+c_description+'\',\''+c_location+'\');"><img src="'+user.profile_image_url+'" width="48" height="48" class="twitter-img"/><a href="#">'+user.name+'</a><span class="tweet_name">&nbsp;@'+user.screen_name+'</span><div>'+user.description+'</div><span style="display:none;">'+user.id_str+'</span><span class="location">'+user.location+'</span></div>');
             });
             $('#autotwittos').fadeIn();
             return false;
@@ -597,9 +642,10 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             if(in_array(retour.twitterID, twittos))
               return false;
             var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
-            var elt = $('<div class="content-box"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'"><img src="'+retour.profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">@'+retour.username+'</span><div class="description"><div id="p_tw_'+retour.id+'">'+retour.description+'</div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;">'+retour.description+'</textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div><table width="55" align="right"  class="glyphs character-mapping"><tr class="icons" ><td ><a href=""><div class="icon icon-comment" onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;"></div></a></td><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_twittos('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+retour.twitterID+'\');"></div></a></td></tr></table></div>');
+            var elt = $('<div class="content-box"><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'"><img src="'+retour.profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+retour.username+'" title="'+retour.name+"\r\n"+retour.description+"\r\n"+retour.location+'" onclick="return searchFrom(\''+retour.username+'\');">'+retour.username+'</a><span class="tweet_name">&nbsp;@'+retour.username+'</span><div>'+retour.description+'</div><div class="description"><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div><table width="55" align="right"  class="glyphs character-mapping"><tr class="icons" ><td ><a href=""><div class="icon icon-comment" onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;"></div></a></td><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_twittos('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+retour.twitterID+'\');"></div></a></td></tr></table></div>');
             $('#twittos').prepend(elt);
             twittos.push(retour.twitterID);
+            $('#twittos-blank').css('display', 'none');
             controles = false;
             $('#twittos_username').val('');
           }
@@ -615,7 +661,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     {
       $('#autotwittos').hide();
       $('#twittos_username').val('');
-      var elt = $('<div class="content-box"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'" onclick="return searchFrom(\''+screen_name+'\');">'+name+'</a><span class="tweet_name">@'+screen_name+'</span></div>');
+      var elt = $('<div class="content-box"><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'"><img src="'+profile_image_url+'" width="48" height="48" class="twitter-img"></a><a href="http://twitter.com/'+screen_name+'" title="'+name+"\r\n"+desc+"\r\n"+loc+'" onclick="return searchFrom(\''+screen_name+'\');">'+name+'</a><span class="tweet_name">&nbsp;@'+screen_name+'</span><div>'+desc+'</div></div>');
       $('#twittos').prepend(elt);
       add_twittos(id_str,screen_name,name,profile_image_url,desc,loc,elt);
     }
@@ -642,6 +688,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           var msg = $('<div class="flash-message flash-notice">{% trans %}Twittos saved{% endtrans %} !</div>');
           $(elt).append('<div class="description"><div id="p_tw_'+retour.id+'"></div><div id="edit_tw_'+retour.id+'" style="display:none;"><form><textarea id="txta_'+retour.id+'" rows="4" style="width:96%;"></textarea><input type="submit" value="__Save" onclick="return js_save_twittos_desc('+retour.id+');"/></form></div></div><table width="55" align="right"  class="glyphs character-mapping"><tr class="icons" ><td ><a href=""><div class="icon icon-comment" onclick="$(\'#p_tw_'+retour.id+'\').slideToggle();$(\'#edit_tw_'+retour.id+'\').slideToggle();return false;"></div></a></td><td><a href=""><div class="icon icon-trashing" onclick="return js_rm_twittos('+retour.id+',$(this).parent().parent().parent().parent().parent().parent(),\''+twitterID+'\');"></div></a></td></tr></table>');
           twittos.push(twitterID);
+          $('#twittos-blank').css('display', 'none');
           controles = false;
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
@@ -651,13 +698,13 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       });
       return false;
     }
-    $( "#twittosDroppable" ).droppable({
+    $( "#twittos" ).droppable({
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function( event, ui ) {
         var twitto = $('<div>');
         twitto.addClass('content-box');
-        $('.tweet_user_data',ui.draggable).clone().appendTo(twitto);
+        $('.tweet_user_data',ui.draggable).clone().append('<div>'+$('.twitter_description',ui.draggable).val()+'</div>').appendTo(twitto);
         twitto.prependTo($(this));
         add_twittos(
           $('.twitterID',ui.draggable).val(),
@@ -723,6 +770,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           //var msg = $('<div class="flash-message flash-notice">Timeline saved !</div>');
           //$(elt).prepend('<button style="float:right;color:red;font-weight:bold;" title="Remove" onclick="return js_rm_tweet('+retour.id+',$(this).parent(),\''+twitter_id+'\');">X</button>');
           tweets.push(twitter_id);
+          $('#tweets-blank').css('display', 'none');
           refreshTimeline();
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
@@ -865,5 +913,11 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         $('#nextS').attr('title','');
       }
     }
+    $('document').ready(function(){
+      if ($.cookie('tutorial_viewed') != 'TRUE'){
+        $('#screenshot01').trigger('click');
+        $.cookie('tutorial_viewed', 'TRUE', { expires: 365, path: '/' });
+      }
+    });
   </script>
 {% endblock %}
