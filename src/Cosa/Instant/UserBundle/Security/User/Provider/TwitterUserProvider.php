@@ -87,6 +87,7 @@ class TwitterUserProvider implements UserProviderInterface
                 $user->setTwitterRealname($info->name);
                 $user->setProfileImageUrl($info->profile_image_url);
                 $user->setTwitterLocation($info->location);
+                $user->setOptin(1);
                 $user->setLang($info->lang);
                 $updated = true;
             }

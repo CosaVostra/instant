@@ -814,7 +814,7 @@ private function checkTweet($tweet_id)
               $tuser->setTwitterAccessToken('');
               $tuser->setTwitterAccessTokenSecret('');
               $tuser->setTwitterLocation($ruser->location);
-              $tuser->setOptin(0);
+              $tuser->setOptin(1);
               $tuser->setCreatedAt(new \DateTime('now'));
               $tuser->setUpdatedAt(new \DateTime('now'));
               $tuser->setLoginCount(0);
@@ -872,7 +872,7 @@ private function checkTweet($tweet_id)
             $user->setTwitterAccessToken('');
             $user->setTwitterAccessTokenSecret('');
             $user->setTwitterLocation($request->request->get('twittos_location'));
-            $user->setOptin(0);
+            $user->setOptin(1);
             $user->setCreatedAt(new \DateTime('now'));
             $user->setUpdatedAt(new \DateTime('now'));
             $user->setLoginCount(0);

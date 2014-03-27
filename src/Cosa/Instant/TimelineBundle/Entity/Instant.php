@@ -377,8 +377,8 @@ class Instant
         $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->created_at = new \Datetime();
         $this->updated_at = new \Datetime();
-        $this->finish_at = new \Datetime();
-        $this->finish_at->modify('+5 day');
+        $this->finish_at = new \Datetime('2999-01-01');
+        //$this->finish_at->modify('+5 day');
     }
 
     /**

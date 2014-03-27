@@ -9,19 +9,23 @@
 
   <div class="row" style="margin-top:50px; margin-right:15px; margin-left:-10px;">
     <div class="col-md-7">
-      <h4>{% trans %}Email confirmation{% endtrans %}</h4>
-  {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
-      <div class="button05" style="width:30%; text-align:center; padding:5px; cursor:pointer;" onclick="$('#email_form').slideToggle();"><a href="#" >{% trans %}Set your email{% endtrans %}</a></div>
-      <br />
-  {% endif %}
-  <div id="email_form" style="display:{% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}block{% else %}none{% endif %};">
-        <h4>{% trans %}Please set your email{% endtrans %}</h4>
+  {% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}
+      <div>
+          <h4>{% trans %}Please set your email{% endtrans %}</h4>
+          <span>A confirmation link will then be sent to you.</span>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
       </div> 
-      <br />
-      <span class="icon icon-arrow-d" style="font-size:30px; color:#666;"></span>
-      <h4>{% trans %}Confirm it{% endtrans %}</h4>
-      <span>{% trans %}Check your email box and open the confirmation link{% endtrans %}</span>
+  {% endif %}
+  {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
+      <div>
+          <h4>Please confirm!</h4>
+          <span>Your e-mail has been set, please click on the link sent to you to confirm it.</span>
+          <br/>
+          <br/>
+          <span>You can modify your e-mail or resent the confirmation message.</span>
+    {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
+      </div> 
+  {% endif %}
     </div> 
   </div> 
 </div> 
@@ -35,6 +39,7 @@
 {% block javascripts %}
   <script type="text/javascript">
     function postEmail(){
+      $('#ajax-loader').css("visibility", "visible");
       $.ajax({
         type: "POST",
         url: "{{path('set_email_tmp')}}",
@@ -49,8 +54,10 @@
         }else{
           var msg = $('<div class="flash-message flash-error">{% trans %}An error has occured{% endtrans %} !</div>');
         }
-        $('#flash-messages').append(msg);
-        msg.delay(3000).fadeOut(1000);
+        //$('#flash-messages').append(msg);
+        $('#ajax-loader').css("visibility", "hidden");
+        window.location.reload(true);
+        //msg.delay(3000).fadeOut(1000);
       });
     }
   </script>

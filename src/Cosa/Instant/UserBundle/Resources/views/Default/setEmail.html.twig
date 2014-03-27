@@ -11,6 +11,7 @@
 
   {{ form_widget(form._token) }}
     <input type="submit" class="button04" onclick="postEmail();return false;" />
+    <img id="ajax-loader" src="{{ asset('images/ajax-loader.gif') }}" alt="loading..." style="margin-left: 10px; visibility: hidden;"/>
   </form>
 </div>
 

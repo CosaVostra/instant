@@ -71,7 +71,7 @@ class DefaultController extends Controller
             $to = $user->getEmail();
             $subject = $translator->trans('Confirmation email subject');
             $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
-            $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+            $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
             mail($to, $subject, $message, $headers);
             $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email updated message'));
           }
@@ -137,7 +137,7 @@ class DefaultController extends Controller
         $user->setConfirmationToken('confirmed');
         $em->persist($user);
         $em->flush();
-        $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email confirmed message'));
+        //$this->get('session')->getFlashBag()->add('notice', $translator->trans('Email confirmed message'));
         return $this->redirect($this->generateUrl('homepage'));
     }
 }
