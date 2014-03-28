@@ -54,3 +54,19 @@ Clear: __Clear
 'Instant saved': '__Instant saved'
 'Who to follow': '__Who to follow'
 'Click here to Embed': '__Click here to Embed'
+edit_instant.column1_blank: |
+  The results of your search will be displayed here.
+
+  Drag and drop them in the next column to add their authors to your 'Who To Follow' list.
+edit_instant.column2_blank: |
+  Your 'Whot To Follow' lists contains the experts most relevant to the subject of your !nstant.
+
+  Once added to your list, you can explain why you think they should be followed on this specific subject.
+edit_instant.column3_blank: |
+  !nstant is all about experts and keywords. Here's the list of terms your !nstant will be built on.
+
+  Tweets by your selected experts matching those keywords will be added automatically to your !nstant.
+edit_instant.column4_blank: |
+  This is your !nstant's Timeline.
+
+  It will update automatically with tweets from your Who To Follow experts matching your selected terms, but you can also build it by drag-and-dropping tweets from your search results.
