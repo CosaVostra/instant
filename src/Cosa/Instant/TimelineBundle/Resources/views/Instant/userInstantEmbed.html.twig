@@ -23,7 +23,7 @@
         Use this address to launch a webview from within your app. See the <a href="">FAQ</a> for help on using it on <a href="">IOS</a> or <a href="">ANDROID</a> apps.
     </div>
 
-    <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost }}{{ path('instant_view' , {'username':user.twitterUsername,'instant_title':instant.urlTitle}) }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>&nbsp;&nbsp;Share on Twitter</a></div>
+    <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_view' , {'username':user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>&nbsp;&nbsp;Share on Twitter</a></div>
     <div class="button-facebook"><a href=""><span class="icon icon-z-fb"></span>&nbsp;&nbsp;Share on Facebook</a></div>   
     <div style="clear:both;"></div>
     <br /><br />
