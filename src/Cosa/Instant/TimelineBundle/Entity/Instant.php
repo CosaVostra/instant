@@ -102,7 +102,7 @@ class Instant
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = substr($title, 0, 45);
 
         return $this;
     }
@@ -148,7 +148,7 @@ class Instant
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = substr($description, 0, 145);
 
         return $this;
     }

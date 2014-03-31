@@ -465,11 +465,11 @@ p.tweet_icons{ margin-bottom:0px; padding-bottom:0px; }
 .button-rss a{ padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; }
 .button-rss:hover{ background:#ccc; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block;   }
 
-.button-twitter { background:#90c8db; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; width:32%; margin-right:1%; vertical-align:top; margin-top:20px;}
+.button-twitter { background:#90c8db; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; width:23.5%; margin-right:1%; vertical-align:top; margin-top:20px;}
 .button-twitter a{ padding:5px; color:#FFFFFF; font-size:18px; display:inline-block;   }
 .button-twitter:hover{ background:#ccc; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; }
 
-.button-facebook { background:#507bbe; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; width:32%; vertical-align:top; margin-top:20px;}
+.button-facebook { background:#507bbe; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; width:23.5%; vertical-align:top; margin-top:20px;}
 .button-facebook a{ padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; }
 .button-facebook:hover{ background:#ccc; padding:5px; color:#FFFFFF; font-size:18px; display:inline-block; }
 

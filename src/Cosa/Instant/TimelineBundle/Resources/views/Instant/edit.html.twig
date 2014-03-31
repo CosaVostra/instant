@@ -1,28 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
 {% endblock %}
 
 {% block instant_title %}
-      <div class="editable-title">
-    <form>
-      <h2>
-      <input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="js_cr_instant();"/>
-      </h2>
-      <input id="description" class="editable-title3" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" placeholder="{% trans %}set the description here{% endtrans %}"/>
-      <input style="visibility:hidden;" type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_cr_instant();"/>
-    </form>
-      </div>
+<div class="editable-title">
+  <form>
+    <h2><input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="js_cr_instant();" maxlength="40" /></h2>
+    <input id="description" class="editable-title3" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" maxlength="140" placeholder="{% trans %}set the description here{% endtrans %}"/>
+    <input style="visibility:hidden;" type="submit" value="{% trans %}Save{% endtrans %}" onclick="return js_cr_instant();"/>
+  </form>
+</div>
 {% endblock %}
 {% block body -%}
-    <script type="text/javascript">
-      var twittos = new Array();
-      var keywords = new Array();
-      var tweets = new Array();
-      var searches = new Array();
-      var search_ind = false;
-    </script>
+<script type="text/javascript">
+  var twittos = new Array();
+  var keywords = new Array();
+  var tweets = new Array();
+  var searches = new Array();
+  var search_ind = false;
+</script>
       <div id="fade"></div>
       <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
   <div class="container2" style="height: 90%; width:80%;   margin-left: 9%;
@@ -45,10 +43,6 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
 
 
 <div style="height: 90%;overflow:auto; width:24%; border:#ccc 1px solid; margin-left: 1%; float:left; background-color:#fff;">
-
-
-
-
 
 
         <div class="search-box">

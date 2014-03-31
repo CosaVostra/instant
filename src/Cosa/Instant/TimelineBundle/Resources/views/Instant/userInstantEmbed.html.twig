@@ -24,7 +24,7 @@
     </div>
 
     <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_view' , {'username':user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>&nbsp;&nbsp;Share on Twitter</a></div>
-    <div class="button-facebook"><a href=""><span class="icon icon-z-fb"></span>&nbsp;&nbsp;Share on Facebook</a></div>   
+    <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_view' , {'username':user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}"><span class="icon icon-z-fb"></span>&nbsp;&nbsp;Share on Facebook</a></div>   
     <div style="clear:both;"></div>
     <br /><br />
   </div>
@@ -34,5 +34,8 @@
 
 
   </div>
+
+{% include "::footer.html.twig" %}
+
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 {% endblock %}

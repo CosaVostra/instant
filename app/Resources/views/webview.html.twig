@@ -20,22 +20,23 @@
   <body style="background: #666666;">
 {% endif %}
     <div id="webview">
-{% if webview %}
- <div id="body">
-{% else %}
- <div id="body" style="width:50%; margin: auto;">
-{% endif %}
+      {% if webview %}
+      <div id="body">
+      {% else %}
+      <div id="body" style="width:50%; margin: auto;">
+      {% endif %}
         {% block body %}{% endblock %}
- </div>
-{% if webview %}
- <div id="footer">
-{% else %}
- <div id="footer" style="width:50%; margin: auto;">
-{% endif %}
-        {% block footer %}{% endblock %}
+
+        {% if webview %}
+        <div id="footer">
+        {% else %}
+        <div id="footer" style="width:50%; margin: auto;">
+        {% endif %}
+          {% block footer %}{% endblock %}
+        </div>
       </div>
-      {% block javascripts %}{% endblock %}
-      <script src="/instant/web/js/jquery-ui.js"></script>
     </div>
+    {% block javascripts %}{% endblock %}
+    <script src="/instant/web/js/jquery-ui.js"></script>
   </body>
 </html>

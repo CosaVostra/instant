@@ -36,18 +36,8 @@
 
   </div>
 
-
-
-    <h1>Instant "{{ instant.title }}" {% trans %}preview{% endtrans %}</h1>
-    <div id="tweet_column2" class="block last">
-      <div class="block-title">
-        {% trans %}Timeline{% endtrans %}
-      </div>
-      <div id="tweet_list2" class="block-content" style="height:371px;overflow-y:auto;overflow-x:hidden;">
-        {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100, 'icons': true} %}
-      </div>
-    </div>
     <a href="{{ path('instant_edit' , { 'username':user.twitterUsername, 'instant_title':instant.urlTitle}) }}">{% trans %}Back{% endtrans %}</a>
+
 {% endblock %}
 
 {% block javascripts %}

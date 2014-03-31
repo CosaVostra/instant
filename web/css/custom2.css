@@ -165,3 +165,6 @@
 #twittos .description {
   padding: 0;
 }
+.angle2 {
+z-index: -1;
+}
