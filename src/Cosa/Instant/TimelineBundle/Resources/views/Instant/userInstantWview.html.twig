@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Fixed Top Navbar Example for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('css/bootstrap2.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/webview.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">{{ instant.title }}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          {{ instant.description }} 
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li class="active"><a href="./">Fixed top</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      <div class="pre-iphone-nav-full">
+        <a><div class="pre-iphone-nav-tab1-full" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-full2').css('background','#ea651d');$('.pre-iphone-nav-full2').css('color','white');" style="">
+                         {% trans %}Timeline{% endtrans %}
+                          </div></a>
+        <a><div class="pre-iphone-nav-full2" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-tab1-full').css('background','#ea651d');$('.pre-iphone-nav-tab1-full').css('color','white');">
+                          {% trans %}Who to follow{% endtrans %}
+                        </div></a>
+        <div style="clear:both;"></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+
+        <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
+          {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100, 'icons': true} %}
+        </div>
+
+        <div id="whotofollow_list" style="display:none;overflow-y:auto;overflow-x:hidden; background: white;" class="block-content">
+          {% for twitto in twittos %}
+            <div class=  "content-box-pre-full">
+              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}" title="{{ twitto.user.twitterRealname }}">
+                <img src="{{ twitto.user.profileImageUrl }}" width="48" height="48" class="twitter-img">
+              </a>
+              <a href="http://twitter.com/{{ twitto.user.twitterUsername }}">{{ twitto.user.twitterRealname }}</a><span class="tweet_name">@{{ twitto.user.twitterUsername }}</span>
+              <div class="tweet_icons3">
+                <a href="https://twitter.com/intent/user?user_id={{ twitto.user.twitterId }}"><span class="icon icon-tweet-add"></span></a>
+              </div><br />
+              {{ twitto.user.twitterDescription | customlink | raw }}
+              <br />
+              {{ twitto.description | customlink | raw }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <h1>Navbar example</h1>
+        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>To see the difference between static and fixed top navbars, just scroll.</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <div id="footer" class="navbar-fixed-bottom">
+      <div class="container">
+        <p class="text-muted">Place sticky footer content here.</p>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript">
+      $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
+      function searchFrom(username)
+      {
+        return true;
+      }
+      function getNbNewTweets()
+      {
+        $.ajax({
+          type: "POST",
+          url: "{{path('instant_nb_new_tweets',{instant_id:instant.id})}}",
+          data: {
+            {% if tweets|length > 0 %}
+              'last': $('.tweet_id.hidden:first').html(),
+            {% endif %}
+          }
+        })
+        .done(function( retour ) {
+          $('#nbnewtweets').remove();
+          if(retour['retour']){
+            if(retour['nb']!='0'){
+              $('#tweet_list2').prepend('<div id="nbnewtweets" onclick="refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
+            }
+          }else{
+            //alert('{% trans %}Problem occured{% endtrans %}');
+          }
+        });
+      }
+      setInterval(function() {
+        getNbNewTweets();
+      }, 10000);
+      function moreTweets(id,off,nb)
+      {
+        $('.more_tweets').hide();
+        $.ajax({
+          type: "POST",
+          url: "{{path('instant_more_tweets',{instant_id:instant.id})}}",
+          data: {
+            'off': off,
+            'nb': nb,
+            'icons': 'true',
+          }
+        })
+        .done(function( retour ) {
+          $('#tweet_list2').append(retour);
+        });
+      }
+      function refreshTimeline()
+      {
+        $.ajax({
+          type: "POST",
+          url: "{{path('instant_refresh_timeline',{instant_id:instant.id})}}",
+          data: {
+            'editable':false,
+          }
+        })
+        .done(function( retour ) {
+          if(retour.retour){
+            $('#tweet_list2').html(retour.html);
+            var msg = $('<div class="flash-message flash-notice">{% trans %}Timeline refreshed{% endtrans %} !</div>');
+          }else{
+            var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+          }
+          $('#flash-messages').append(msg);
+          msg.delay(3000).fadeOut(1000);
+        });
+        return false;
+      }
+    </script>
+  </body>
+</html>
+

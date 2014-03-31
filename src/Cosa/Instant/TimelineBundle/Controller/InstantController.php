@@ -491,6 +491,42 @@ private function checkTweet($tweet_id)
     * @param string $username The user name
     * @param string $instant_title The instant title
     */
+    public function userInstantWviewAction($username,$instant_title,$webview = true)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$username));
+        if (!$user) {
+            throw $this->createNotFoundException('This user does not exist');
+        }
+        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'url_title'=>$instant_title));
+        if (!$instant) {
+            throw $this->createNotFoundException('This instant does not exist');
+        }
+        $instant->setNbViews($instant->getNbViews()+1);
+        $instant->setLastView(new \Datetime());
+        $instantWithTweets = $em->getRepository('CosaInstantTimelineBundle:Instant')->getList($instant->getId(),0,100);
+        $tweets = Array();
+        if(count($instantWithTweets))
+          $tweets = $instantWithTweets[0]->getTweets();
+        $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getComplete($instant->getId());
+        $em->persist($instant);
+        $em->flush();
+        return $this->render('CosaInstantTimelineBundle:Instant:userInstantWview.html.twig', array(
+            'instant' => $instant,
+            'tweets' => $tweets,
+            'twittos' => $twittos,
+            'off'              => 0,
+            'nb'               => 100,
+            'webview'          => $webview,
+        ));
+    }
+
+    /**
+    * Show Instant webview code from a given user
+    *
+    * @param string $username The user name
+    * @param string $instant_title The instant title
+    */
     public function userInstantWebviewAction($username,$instant_title,$webview = true)
     {
         $em = $this->getDoctrine()->getManager();
