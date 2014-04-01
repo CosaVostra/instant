@@ -1,11 +1,13 @@
 body {
-  min-height: 2000px;
   padding-top: 70px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
+  font-family: 'Open Sans',sans-serif;
+  background-color: #666666;
 }
 
 .navbar-header {
   float: none;
+  background-color: #333333;
 }
 .navbar-toggle {
   float : left;
@@ -32,17 +34,27 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-.navbar-brand {
+.navbar-default .navbar-brand {
   text-align : center;
   width: 80%;
+  color: white;
+}
+.navbar-default .navbar-brand:hover {
+  color: white;
+}
+
+
+.container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 #footer {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
+  height: 40px;
+  background-color: #CDCDCD;
 }
 
 .container {
@@ -51,6 +63,136 @@ body {
   padding: 0 15px;
 }
 .container .text-muted {
-  margin: 20px 0;
+  margin: 5px 5px;
+  text-align: right;
+  color: black;
+  font-size: 80%;
+}
+a {
+  color: #EA651D;
+}
+a:hover {
+  color: #EA651D;
+  text-decoration: underline;
 }
 
+
+.content-box {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #EFEFEF;
+    padding: 20px 20px 30px;
+    text-align: left;
+}
+.content-box .twitter-img {
+    height: 25px;
+    padding-right: 5px;
+    width: 30px;
+}
+img.twitter-img {
+    border-radius: 150px;
+    height: 25px;
+    padding-right: 5px;
+    width: 30px;
+}
+.tweet_name {
+    color: #999999;
+    font-size: 90%;
+}
+.tweet_date {
+    color: #999999;
+    font-size: 90%;
+}
+
+
+@charset "UTF-8"; @font-face {
+  font-family: "untitled-font-1"; src:url("../fonts/untitled-font-1.eot"); src:url("../fonts/untitled-font-1.eot?#iefix") format("embedded-opentype"), url("../fonts/untitled-font-1.woff") format("woff"), url("../fonts/untitled-font-1.ttf") format("truetype"), url("../fonts/untitled-font-1.svg#untitled-font-1") format("svg"); font-weight: normal; font-style: normal;  }
+
+[data-icon]:before {
+  font-family: "untitled-font-1" !important; content: attr(data-icon); font-style: normal !important; font-weight: normal !important; font-variant: normal !important; text-transform: none !important; speak: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "untitled-font-1" !important; font-style: normal !important; font-weight: normal !important; font-variant: normal !important; text-transform: none !important; speak: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"]:before,
+[class*=" icon-"]:before a:hover {
+  text-transform: none !important; text-decoration:none; }
+
+.icon-tweet-add:before {
+  content: "o";
+}
+.icon-tweet-fav:before {
+  content: "s";
+}
+.icon-tweet-reply:before {
+  content: "t";
+}
+.icon-tweet-retweet:before {
+  content: "u";
+}
+
+.tweet_icons span {
+  color: #CCCCCC;
+  font-size: 150%;
+  padding: 0 12px;
+  width: 100%;
+}
+
+.tweet_icons {
+  margin-bottom: -20px;
+  margin-top: 0;
+}
+.tweet_icons, .tweet_icons p {
+  border-top: 1px solid #EFEFEF;
+  line-height: 0.5em;
+  padding-bottom: 0 !important;
+  padding-top: 5px;
+  width: 100%;
+  text-decoration: none;
+}
+.tweet_icons span:hover {
+  color: #EA651D;
+}
+.tweet_icons a:hover {
+  text-decoration: none;
+}
+.tweet_media {
+  text-align: center;
+  padding-bottom: 5px;
+}
+.tweet_icons3 {
+  float: right;
+  font-size: 200%;
+}
+.tweet_icons3 span {
+  color: #CCCCCC;
+}
+.tweet_icons3 span:hover {
+  color: #EA651D;
+}
+.tweet_icons3 a:hover {
+  text-decoration: none;
+}
+.pre-iphone-nav-tab-selected {
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #333333;
+    float: left;
+    line-height: 250%;
+    text-align: center;
+    width: 50%;
+    cursor: auto; 
+}
+.pre-iphone-nav-tab-not-selected {
+    background: none repeat scroll 0 0 #EA651D;
+    color: #FFFFFF;
+    float: left;
+    line-height: 250%;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+}
+.content-box-pre-full {
+    border-bottom: 1px solid #CCCCCC;
+    padding: 15px 20px 5px;
+}
+.container {
+    padding: 0 0;
+}

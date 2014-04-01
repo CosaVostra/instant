@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/webview.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}" media="screen" />
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -35,7 +36,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">{{ instant.title }}</a>
+          <span class="navbar-brand">{{ instant.title }}</span>
         </div>
         <div class="navbar-collapse collapse">
           {{ instant.description }} 
@@ -63,21 +64,18 @@
           </ul>
         </div><!--/.nav-collapse -->
       <div class="pre-iphone-nav-full">
-        <a><div class="pre-iphone-nav-tab1-full" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-full2').css('background','#ea651d');$('.pre-iphone-nav-full2').css('color','white');" style="">
-                         {% trans %}Timeline{% endtrans %}
-                          </div></a>
-        <a><div class="pre-iphone-nav-full2" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).css('background','white');$(this).css('color','#333333');$('.pre-iphone-nav-tab1-full').css('background','#ea651d');$('.pre-iphone-nav-tab1-full').css('color','white');">
-                          {% trans %}Who to follow{% endtrans %}
-                        </div></a>
+        <div id="tab1" class="pre-iphone-nav-tab-selected" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).attr('class', 'pre-iphone-nav-tab-selected');$('#tab2').attr('class', 'pre-iphone-nav-tab-not-selected');" >
+          {% trans %}Timeline{% endtrans %}
+        </div>
+        <div id="tab2" class="pre-iphone-nav-tab-not-selected" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).attr('class', 'pre-iphone-nav-tab-selected');$('#tab1').attr('class', 'pre-iphone-nav-tab-not-selected');">
+          {% trans %}Who to follow{% endtrans %}
+        </div>
         <div style="clear:both;"></div>
       </div>
       </div>
     </div>
 
     <div class="container">
-
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
 
         <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
           {% include 'CosaInstantTimelineBundle:Instant:tweetList.html.twig' with {'tweets': tweets, 'draggable': false, 'editable': false, 'instant': instant, 'off': 0, 'nb': 100, 'icons': true} %}
@@ -100,27 +98,24 @@
           {% endfor %}
         </div>
 
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
-      </div>
-
-    </div> <!-- /container -->
-
     <div id="footer" class="navbar-fixed-bottom">
       <div class="container">
-        <p class="text-muted">Place sticky footer content here.</p>
+        <p class="text-muted">Instant by <a href="http://twitter.com/{{ instant.user.twitterUsername }}" target="_blank">{{ instant.user.twitterRealname }}</a><br/>
+        Powered by Instant
+        </p>
       </div>
     </div>
+
+    </div> <!-- /container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+    <script src="{{ asset('js/lightbox-2.6.min.js') }}"></script>
     <script type="text/javascript">
       $('.tweetmedia').each(function(){$(this).css('maxHeight',$(this).css('width'));});
       function searchFrom(username)
