@@ -11,3 +11,4 @@ Logout: __Logout
   The Instant Team
 'Email updated message': Your email has been updated, please check your mailbox to confirm it!
 'Email confirmed message': Your email has been confirmed!
+'Profile.email_already_used': E-mail address already used by another user

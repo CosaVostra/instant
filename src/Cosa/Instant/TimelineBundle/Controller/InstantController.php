@@ -1060,7 +1060,7 @@ private function checkTweet($tweet_id)
           $tweets = Array();
           if(count($instantWithTweets))
             $tweets = $instantWithTweets[0]->getTweets();
-          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $tweets,'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100,'icons'=>false));
+          $html = $this->render('CosaInstantTimelineBundle:Instant:tweetList.html.twig', array('tweets' => $tweets,'editable'=>$editable,'instant'=>$instant,'off'=>0,'nb'=>100,'icons'=>true));
           return new JsonResponse(array('retour'=>true,'html'=>$html->getContent()),200,array('Content-Type', 'application/json'));
         }catch(\Exception $e){
           return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));

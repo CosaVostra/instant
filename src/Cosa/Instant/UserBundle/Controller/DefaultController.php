@@ -66,14 +66,21 @@ class DefaultController extends Controller
         if ($form->isValid()){
           $em = $this->getDoctrine()->getManager();
           if($user->getEmail()!=$old_email){
-            $translator = $this->get('translator');
-            $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
-            $to = $user->getEmail();
-            $subject = $translator->trans('Confirmation email subject');
-            $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
-            $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
-            mail($to, $subject, $message, $headers);
-            $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email updated message'));
+            if (is_null($em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('emailCanonical' => $user->getEmail())))) {
+              $translator = $this->get('translator');
+              $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
+              $to = $user->getEmail();
+              $subject = $translator->trans('Confirmation email subject');
+              $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
+              $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+              mail($to, $subject, $message, $headers);
+              $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email updated message'));
+            }
+            else { // E-mail address already used by another user
+              $translator = $this->get('translator');
+              $this->get('session')->getFlashBag()->add('error', $translator->trans('Profile.email_already_used'));
+              $user->setEmail($old_email);
+            }
           }
           $em->persist($user);
           $em->flush();
@@ -99,21 +106,27 @@ class DefaultController extends Controller
           $form->bind($request);
 
           if ($form->isValid() && $user->getEmail()!=''){
-            try{
+            $em = $this->getDoctrine()->getManager();
+            if (is_null($em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('emailCanonical' => $user->getEmail())))) {
+              try{
+                $translator = $this->get('translator');
+                $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
+                $em->persist($user);
+                $em->flush();
+                $to = $user->getEmail();
+                $subject = $translator->trans('Confirmation email subject');
+                $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
+                $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+  
+                mail($to, $subject, $message, $headers);
+                return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
+              }catch(\Exception $e){
+                return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+              }
+            }
+            else { // E-mail address already used by another user
               $translator = $this->get('translator');
-              $em = $this->getDoctrine()->getManager();
-              $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
-              $em->persist($user);
-              $em->flush();
-              $to = $user->getEmail();
-              $subject = $translator->trans('Confirmation email subject');
-              $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
-              $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
-
-              mail($to, $subject, $message, $headers);
-              return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
-            }catch(\Exception $e){
-              return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
+              $this->get('session')->getFlashBag()->add('error', $translator->trans('Profile.email_already_used'));
             }
           }else{
             return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
