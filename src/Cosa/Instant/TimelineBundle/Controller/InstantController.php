@@ -493,6 +493,9 @@ private function checkTweet($tweet_id)
     */
     public function userInstantWviewAction($username,$instant_title,$webview = true)
     {
+        $request = $this->getRequest();
+        $request->setLocale($request->getPreferredLanguage(array('en', 'fr')));
+//        $this->get('session')->set('_locale', 'de_DE');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$username));
         if (!$user) {

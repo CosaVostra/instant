@@ -40,17 +40,20 @@
           {{ instant.title }}
         </div>
         <div class="navbar-collapse collapse">
-          {{ instant.description }} 
+          <br/> 
+          {{ instant.description }}<br/><br/>
+          <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ path(app.request.attributes.get('_route'), {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle}) }}"><span class="icon icon-z-fb"></span>Share on Facebook</a></div><br/>
+          <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ path(app.request.attributes.get('_route'), {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle}) }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>Share on Twitter</a></div><br/>
           <ul class="nav navbar-nav">
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="../navbar/"></a></li>
+            <li><a href="../navbar/"></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Default</a></li>
-            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li><a href="../navbar/"></a></li>
+            <li><a href="../navbar-static-top/"></a></li>
           </ul>
         </div><!--/.nav-collapse -->
-      <div class="pre-iphone-nav-full">
+      <div id="tab" class="pre-iphone-nav-full">
         <div id="tab1" class="pre-iphone-nav-tab-selected" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).attr('class', 'pre-iphone-nav-tab-selected');$('#tab2').attr('class', 'pre-iphone-nav-tab-not-selected');" >
           {% trans %}Timeline{% endtrans %}
         </div>
@@ -88,7 +91,7 @@
     <div id="footer" class="navbar-fixed-bottom">
       <div class="container">
         <p class="text-muted">Instant by <a href="http://twitter.com/{{ instant.user.twitterUsername }}" target="_blank">{{ instant.user.twitterRealname }}</a><br/>
-        Powered by Instant
+        Powered by <a href='http://createinstant.com' target='_blank'>Instant</a>
         </p>
       </div>
     </div>
@@ -124,7 +127,7 @@
           $('#nbnewtweets').remove();
           if(retour['retour']){
             if(retour['nb']!='0'){
-              $('#tweet_list2').prepend('<div id="nbnewtweets" class="more_tweets" style="background:#f8d0c6; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
+              $('#tab').append('<div id="nbnewtweets" class="more_tweets" style="background:#f8d0c6; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
             }
           }else{
             //alert('{% trans %}Problem occured{% endtrans %}');

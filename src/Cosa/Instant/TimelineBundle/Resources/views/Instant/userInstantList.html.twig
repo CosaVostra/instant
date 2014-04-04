@@ -55,7 +55,7 @@
     <table cellpadding="0" cellspacing="0" width="100%" align="center"  class="glyphs character-mapping">
       <tr class="icons">
         <td><a href="{{ path('instant_edit', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}"><div class="icon icon-edit"></div></a></td>
-        <td><a href="{{ path('instant_view', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}" target="instant_newtab"><div class="icon icon-view"></div></a></td>
+        <td><a href="{{ path('instant_wview', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}" target="instant_newtab"><div class="icon icon-view"></div></a></td>
         <td><a href="{{ path('instant_embed', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}"><div class="icon icon-embed"></div></a></td>
         <td>
           <form action="{{ path('instant_delete', { 'username': user.twitterUsername,'instant_title': entity.urlTitle }) }}" method="post">
