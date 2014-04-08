@@ -42,8 +42,8 @@
         <div class="navbar-collapse collapse">
           <br/> 
           {{ instant.description }}<br/><br/>
-          <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ path(app.request.attributes.get('_route'), {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle}) }}"><span class="icon icon-z-fb"></span>Share on Facebook</a></div><br/>
-          <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ path(app.request.attributes.get('_route'), {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle}) }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>Share on Twitter</a></div><br/>
+          <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview' , {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}"><span class="icon icon-z-fb"></span>Share on Facebook</a></div><br/>
+          <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>Share on Twitter</a></div><br/>
           <ul class="nav navbar-nav">
             <li><a href="../navbar/"></a></li>
             <li><a href="../navbar/"></a></li>
