@@ -126,7 +126,7 @@
           $('#nbnewtweets').remove();
           if(retour['retour']){
             if(retour['nb']!='0'){
-              $('#tab').append('<div id="nbnewtweets" class="more_tweets" style="background:#f8d0c6; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
+              $('#tab').append('<div id="nbnewtweets" class="more_tweets" style="background:#f8d0c6; color:#fff; line-height:20px;text-align:center; cursor:pointer;" onclick="$('.more_tweets').hide();refreshTimeline();" title="click to refresh">'+retour['nb']+' new Tweets !</div>');
             }
           }else{
             //alert('{% trans %}Problem occured{% endtrans %}');
