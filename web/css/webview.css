@@ -32,9 +32,11 @@ body {
   background-color: #555555;
 }
 .navbar-collapse {
-  border-top: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-  background-color: #CDCDCD;
+  border-top: 0px solid transparent;
+  box-shadow: inset 0 0px 0 rgba(255,255,255,0.1);
+  background-color: #555555;
+  color: white;
+  padding: 0 20px!important;
 }
 .navbar-collapse.collapse {
   display: none!important;
@@ -85,14 +87,13 @@ body {
   color: black;
   font-size: 80%;
 }
-a {
+a, a:focus {
   color: #EA651D;
 }
 a:hover {
   color: #EA651D;
   text-decoration: underline;
 }
-
 
 .content-box {
     background-color: #FFFFFF;
@@ -206,4 +207,10 @@ img.twitter-img {
 .content-box-pre-full {
     border-bottom: 1px solid #CCCCCC;
     padding: 15px 20px 5px;
+}
+.view_wtf_twitter_desc {
+  color: #999999;
+}
+.view_wtf_twitto_desc {
+  color: #333333;
 }

@@ -352,12 +352,21 @@ class InstantController extends Controller
         $formBuilder = $this->createFormBuilder($entity);
         $formBuilder->add('messageType', 'textarea');
         $form = $formBuilder->getForm();
+        $wviewid_url = $this->get('router')->generate('instant_wview_id', array('username' => $user->getTwitterUsername(),'instant_id' => $entity->getId()),true);
+        $message_displayed = $form["messageType"]->getData();
+        $message_displayed = str_replace('@JOURNALIST', '@'.$user->getTwitterUsername(), $message_displayed);
+        $message_displayed = str_replace('@WVIEW', $wviewid_url, $message_displayed);
+        $form["messageType"]->setData($message_displayed);
         $twittos = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getTwittosToAlert($entity->getId());
         if ($request->getMethod() == 'POST') {
           $form->bind($request);
           if ($form->isValid()) {
             try{
               $em = $this->getDoctrine()->getManager();
+              $message_stored = $entity->getMessageType();
+              $message_stored = str_replace('@'.$user->getTwitterUsername(), '@JOURNALIST', $message_stored);
+              $message_stored = str_replace($wviewid_url, '@WVIEW', $message_stored);
+              $entity->setMessageType($message_stored);
               $em->persist($entity);
               $em->flush();
             }catch(\Exception $e){
@@ -372,7 +381,7 @@ class InstantController extends Controller
               $message = str_replace('@EXPERT','@'.$tuser->getTwitterUsername(),$entity->getMessageType());
               $message = str_replace('@JOURNALIST','@'.$user->getTwitterUsername(),$message);
               $message = str_replace('@INSTANT',$entity->getTitle(),$message);
-              $message = str_replace('@WEBVIEW',$this->get('router')->generate('instant_webview', array('username' => $user->getTwitterUsername(),'instant_title' => $entity->getUrlTitle()),true),$message);
+              $message = str_replace('@WVIEW', $wviewid_url, $message);
               $reply = $cb->statuses_update('status='.urlencode($message));
               if($reply->httpstatus==200){
                 $twitto->setAlerted(true);
@@ -522,6 +531,27 @@ private function checkTweet($tweet_id)
             'nb'               => 100,
             'webview'          => $webview,
         ));
+    }
+
+    /**
+    * Show Instant webview code from a given user
+    *
+    * @param string $username The user name
+    * @param string $instant_id The instant id
+    */
+    public function userInstantWviewIdAction($username,$instant_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('twitter_username'=>$username));
+        if (!$user) {
+            throw $this->createNotFoundException('This user does not exist');
+        }
+        $instant = $em->getRepository('CosaInstantTimelineBundle:Instant')->findOneBy(array('user'=>$user->getId(),'id'=>$instant_id));
+        if (!$instant) {
+            throw $this->createNotFoundException('This instant does not exist');
+        }
+        $wview_url = $this->get('router')->generate('instant_wview', array('username' => $username,'instant_title' => $instant->getUrlTitle()),true);
+        return $this->redirect($wview_url);
     }
 
     /**

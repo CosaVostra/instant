@@ -1,10 +1,17 @@
 <div class="well">
-  {% for twitto in twittos %}
-    <span class="twittos">{{ twitto.user.twitterUsername }}</span>
-  {% endfor %}
+  <h4>Alert the experts you selected!</h4>
+  <div>One tweet will be generated for each new expert.</div>
+  <br/>
   <form method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary" onclick="return false;" />
+
+  {# Affichage des erreurs pour ce champ précis. #}
+  {{ form_errors(form.messageType) }}
+
+  {# Génération de l'input. #}
+  {{ form_widget(form.messageType, { 'attr': {'class': 'message-to-twittos'} }) }}
+
+  {{ form_widget(form._token) }}
+    <input type="submit" class="btn btn-primary" onclick="postTwittosMsg();return false;" />
     <input type="button" class="btn btn-primary" onclick="controles=true;$('#publish').click();return false;" value="{% trans %}Skip{% endtrans %}" /> 
   </form>
 </div>

@@ -74,9 +74,9 @@ class Instant
     private $lang;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true, options={"default":"Dear @EXPERT, @JOURNALIST add you as Who to follow in @INSTANT instant on http://createinstant.com @WEBVIEW"})
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default":"Dear @EXPERT, @JOURNALIST designated you as an expert @WVIEW"})
      */
-    private $message_type = "Dear @EXPERT, @JOURNALIST add you as Who to follow in @INSTANT instant on http://createinstant.com @WEBVIEW";
+    private $message_type = "Dear @EXPERT, @JOURNALIST designated you as an expert @WVIEW";
 
     /**
      * @ORM\ManyToOne(targetEntity="Cosa\Instant\UserBundle\Entity\User")

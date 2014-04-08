@@ -61,10 +61,58 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           <form>
           <fieldset>
             <select id = "Languages">
-              <option value = "">All languages</option>
-              <option value = "en">English</option>
-              <option value = "fr">French</option>
-              <option value = "es">Spanish</option>
+              <option value="" selected="selected">Any Language</option>
+              <option value="en">English (English)</option>
+              <option value="es">Spanish (Español)</option>
+              <option value="fr">French (Français)</option>
+              <option value="am">Amharic (አማርኛ)</option>
+              <option value="ar">Arabic (العربية)</option>
+              <option value="bg">Bulgarian (Български)</option>
+              <option value="bn">Bengali (বাংলা)</option>
+              <option value="bo">Tibetan (བོད་སྐད)</option>
+              <option value="chr">Cherokee (ᏣᎳᎩ)</option>
+              <option value="da">Danish (Dansk)</option>
+              <option value="de">German (Deutsch)</option>
+              <option value="dv">Maldivian (ދިވެހި)</option>
+              <option value="el">Greek (Ελληνικά)</option>
+              <option value="fa">Persian (فارسی)</option>
+              <option value="fi">Finnish (Suomi)</option>
+              <option value="gu">Gujarati (ગુજરાતી)</option>
+              <option value="iw">Hebrew (עברית)</option>
+              <option value="hi">Hindi (हिंदी)</option>
+              <option value="hu">Hungarian (Magyar)</option>
+              <option value="hy">Armenian (Հայերեն)</option>
+              <option value="in">Indonesian (Bahasa Indonesia)</option>
+              <option value="is">Icelandic (Íslenska)</option>
+              <option value="it">Italian (Italiano)</option>
+              <option value="iu">Inuktitut (ᐃᓄᒃᑎᑐᑦ)</option>
+              <option value="ja">Japanese (日本語)</option>
+              <option value="ka">Georgian (ქართული)</option>
+              <option value="km">Khmer (ខ្មែរ)</option>
+              <option value="kn">Kannada (ಕನ್ನಡ)</option>
+              <option value="ko">Korean (한국어)</option>
+              <option value="lo">Lao (ລາວ)</option>
+              <option value="lt">Lithuanian (Lietuvių)</option>
+              <option value="ml">Malayalam (മലയാളം)</option>
+              <option value="my">Myanmar (မြန်မာဘာသာ)</option>
+              <option value="ne">Nepali (नेपाली)</option>
+              <option value="nl">Dutch (Nederlands)</option>
+              <option value="no">Norwegian (Norsk)</option>
+              <option value="or">Oriya (ଓଡ଼ିଆ)</option>
+              <option value="pa">Panjabi (ਪੰਜਾਬੀ)</option>
+              <option value="pl">Polish (Polski)</option>
+              <option value="pt">Portuguese (Português)</option>
+              <option value="ru">Russian (Русский)</option>
+              <option value="si">Sinhala (සිංහල)</option>
+              <option value="sv">Swedish (Svenska)</option>
+              <option value="ta">Tamil (தமிழ்)</option>
+              <option value="te">Telugu (తెలుగు)</option>
+              <option value="th">Thai (ไทย)</option>
+              <option value="tl">Tagalog (Tagalog)</option>
+              <option value="tr">Turkish (Türkçe)</option>
+              <option value="ur">Urdu (ﺍﺭﺩﻭ)</option>
+              <option value="vi">Vietnamese (Tiếng Việt)</option>
+              <option value="zh">Chinese (中文)</option>
             </select>
           </fieldset>
           </form>
@@ -270,7 +318,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
                 </div>
                 </a>
                 <a href="#" >
-                <div class="button04" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}"><span class="icon icon-publish"></span>&nbsp;&nbsp;{% trans %}Publish{% endtrans %}
+                <div id="publish" class="button04" onclick="if(!controles){showPopups();return false;}else{document.location.href='{{ path('instant_update', { 'instant_id': entity.id }) }}';}"><span class="icon icon-publish"></span>&nbsp;&nbsp;{% trans %}Publish{% endtrans %}
                 </div>
                 </a></div>
         </div>

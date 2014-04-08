@@ -16,9 +16,6 @@ input:focus {}
  
 textarea { resize: none; }
 
-input[type=button] {
-	border:none; background:none; padding:0; margin:0; text-transform: uppercase; color:#fff; vertical-align:top; padding-left:5px; height:18px; }
-
 a
 {color:#ea651d;text-decoration:none; font-weight:500; cursor:pointer;}
 
@@ -28,10 +25,6 @@ a:hover,a:focus
 a:focus
 {outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px; }
 
-
-.btn-primary:hover{ filter: url(filters.svg#grayscale); /* Firefox 3.5+ */filter: gray; /* IE5+ */-webkit-filter: grayscale(1); /* Webkit Nightlies & Chrome Canary */}
-
-.btn-primary:hover{ filter: url(filters.svg#grayscale); /* Firefox 3.5+ */filter: gray; /* IE5+ */-webkit-filter: grayscale(1); /* Webkit Nightlies & Chrome Canary */}
 
 .title-upper
 {font-size:16px;margin:.67em 0; text-transform:uppercase; color:#676767; font-weight: 600; text-align:left!important; }
@@ -311,7 +304,7 @@ select:focus{
 outline:none; }
 #search-adv{ margin-top:0px; }
 
-#Languages{text-align:center;  width:100%; font-size:12px; color:#666;background-color:#ffffff;padding:0px; margin-top:0px; border-bottom:#ccc 1px solid;}
+#Languages{width:100%; font-size:12px; color:#666;background-color:#ffffff;padding:0px; margin-top:0px; border-bottom:#ccc 1px solid;}
 select {
 
       border:#ccc 0px solid; border-radius:0px; -webkit-appearance: none; /*Removes default chrome and safari style*/
@@ -545,12 +538,15 @@ form .button02:hover{ background-color:#666; color:#FFFFFF; text-decoration:none
 .col-md-5{ border-left:#efefef 1px solid; padding:20px;}
 
 /* Confirmation */
-.well { background:#efefef; border-radius:0px;-webkit-box-shadow:0px;box-shadow:0px;}
+.well { background:#efefef; border-radius:0px;-webkit-box-shadow:0px;box-shadow:0px;margin-bottom:0;}
 
 .conf-contact{ width:50%; height:25px; padding-left:5px; vertical-align:top; display:inline-block; margin-left:5px;  border:#ccc 1px solid; background:#FFFFFF; margin-top:-5px;}
 
 .well .button04{ background-color:#75d1b3; padding:4px 5px 5px 5px; width:20%; color:#FFFFFF; display:inline-block; text-decoration:none; text-transform:uppercase; margin-top:-5px; font-size:10px; vertical-align: middle; margin-left:10px; height:25px; border:0px;}
 .well .button04:hover{ background-color:#ccc; }
+
+.message-to-twittos{ width:50%; height:100px; padding-left:5px; vertical-align:top; display:inline-block; border:#ccc 1px solid; background:#FFFFFF;}
+
 /*
   Menu
 */

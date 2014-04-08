@@ -100,3 +100,8 @@ instant_more_tweets:
 instant_nb_new_tweets:
     pattern:  /{instant_id}/nb/new/tweets
     defaults: { _controller: CosaInstantTimelineBundle:Instant:nbNewTweets }
+instant_wview_id:
+    pattern:  /{username}/{instant_id}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:userInstantWviewId }
+    requirements:
+        instant_id:  \d+

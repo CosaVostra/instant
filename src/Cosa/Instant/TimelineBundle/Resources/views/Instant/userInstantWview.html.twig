@@ -80,10 +80,9 @@
               <a href="http://twitter.com/{{ twitto.user.twitterUsername }}">{{ twitto.user.twitterRealname }}</a><span class="tweet_name">@{{ twitto.user.twitterUsername }}</span>
               <div class="tweet_icons3">
                 <a href="https://twitter.com/intent/user?user_id={{ twitto.user.twitterId }}"><span class="icon icon-tweet-add"></span></a>
-              </div><br />
-              {{ twitto.user.twitterDescription | customlink | raw }}
-              <br />
-              {{ twitto.description | customlink | raw }}
+              </div>
+              <div class="view_wtf_twitter_desc">{{ twitto.user.twitterDescription | customlink | raw }}</div>
+              <div class="view_wtf_twitto_desc">{{ twitto.description | customlink | raw }}</div>
             </div>
           {% endfor %}
         </div>
