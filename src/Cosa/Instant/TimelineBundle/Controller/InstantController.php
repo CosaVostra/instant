@@ -656,6 +656,9 @@ private function checkTweet($tweet_id)
     private function userEmailIsConfirmed()
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        if (!is_object($user))
+          return $this->redirect($this->generateUrl('login'));
+        else
         if($user->getConfirmationToken()!='confirmed'){
             return $this->redirect($this->generateUrl('please_confirm_email',array('username'=>$user->getTwitterUsername())));
         }
