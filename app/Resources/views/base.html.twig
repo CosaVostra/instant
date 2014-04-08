@@ -28,19 +28,21 @@
         <div class="logo2" ><img src="{{ asset('images/logo2.png') }}" class="logo2" id="top"/></div>
         </a>
         {% block instant_title %}{% endblock %}
-        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-          <div class="log">
-            <div id="user_info">
-
-              <div class="text">    <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}">      
-       <img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
-                <a href="{{ path('account_settings') }}" class="tweet-name">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="tweet-logout">{% trans %} Logout {% endtrans %}</a>
+        {% if app.user %}
+          {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+            <div class="log">
+              <div id="user_info">
+  
+                <div class="text">    <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}">      
+         <img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
+                  <a href="{{ path('account_settings') }}" class="tweet-name">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="tweet-logout">{% trans %} Logout {% endtrans %}</a>
+                </div>
+                <div id="email_edit"></div>
+                <span class="clearb"></span>
               </div>
-              <div id="email_edit"></div>
-              <span class="clearb"></span>
             </div>
-          </div>
-          <div style="clear:both;"></div>
+            <div style="clear:both;"></div>
+          {% endif %}
         {% endif %}
       </div>
      </div>
