@@ -564,8 +564,6 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     }
     function js_rm_keyword(keyword_id,elt,keyword)
     {
-      if(!confirm('Sure ?'))
-        return false;
       $.ajax({
         type: "GET",
         url: "{{path('instant_rm_keyword',{keyword_id:0})}}"+keyword_id,
