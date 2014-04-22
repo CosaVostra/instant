@@ -373,7 +373,7 @@ class InstantController extends Controller
               return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));
             }
             require_once ('codebird.php');
-            \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+            \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]);
             $cb = new \Codebird\Codebird;
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             foreach ($twittos as $twitto) {
@@ -669,19 +669,100 @@ private function checkTweet($tweet_id)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         require_once ('codebird.php');
-        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]);
         $cb = new \Codebird\Codebird;
         $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
         $reply = $cb->geo_search('query='.$request->request->get('q'));
         return new JsonResponse(array('retour'=>true,'datas'=>$reply),200,array('Content-Type', 'application/json'));
     }
 
-    public function twitterSearchAction(Request $request)
-    {
-
+    public function searchLastTweetsAction(Request $request, $instant_id) {
         $user = $this->get('security.context')->getToken()->getUser();
         require_once ('codebird.php');
-        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]);
+
+        $cb = new \Codebird\Codebird;
+        $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
+        $result_type = 'recent';
+        $reply = $cb->search_tweets('count=100&q='.$request->request->get('q').'&result_type='.$result_type);
+        //$tweets = json_decode($reply, true);
+
+        $instant = $this->checkInstant2($instant_id);
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('CosaInstantTimelineBundle:Tweet');
+        $keywords = $em->getRepository('CosaInstantTimelineBundle:Keyword')->findByInstant($instant->getId());
+
+        // We add to the timeline the first 3 tweets containing at least one keyword
+        $count = 0;
+        foreach($reply->statuses as $repl){
+          $text = $repl->text;
+          $has_keyword = false;
+          if (empty($keywords)) {
+            $count++;
+            $has_keyword = true;
+          } else {
+            foreach($keywords as $keyword) {
+              if (stripos($text, $keyword->getKeyword()) !== false) {
+                $count++;
+                $has_keyword = true;
+                break;
+              }
+            }
+          }
+
+          if ($has_keyword) {
+            // Is this tweet already attached to this instant?
+            $hasTweet = false;
+    
+            $tweet = $repository->findOneBy(array('twitter_id' => $repl->id));
+    
+            if (!$tweet) {
+              $tweet = new Tweet();
+              $tweet->setTwitterId($repl->id);
+              $tweet->setText($repl->text);
+              $tweet->setName($repl->user->name);
+              $tweet->setScreenName($repl->user->screen_name);
+              $tweet->setUserId($repl->user->id);
+              $tweet->setUserDescription($repl->user->description);
+              $tweet->setUserLocation($repl->user->location);
+              $tweet->setProfileImageUrl($repl->user->profile_image_url);
+              if (isset($repl->geo))
+                $tweet->setLocation($repl->geo->coordinates[0].'|'.$repl->geo->coordinates[1]);
+              if (isset($repl->entities->media))
+                $tweet->setMediaUrl($repl->entities->media[0]->media_url);
+              $date = new \DateTime($repl->created_at);
+              $tweet->setCreatedAt($date);
+              $tweet->setIsRt(0);
+            } else {
+              if ($instant->hasTweet($tweet))
+                $hasTweet = true;
+            }
+    
+            if (!$hasTweet) {
+              $instant->addTweet($tweet);
+              try {
+                  $em->persist($instant);
+                  $em->flush();
+              } catch(\Exception $e) {
+                  return new JsonResponse(array('retour'=>false,'message'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
+              }
+            }
+          }
+
+          if ($count >= 3)
+            break;
+  
+        }
+
+        return new JsonResponse(array('retour'=>true, 'nb'=>$count),200,array('Content-Type', 'application/json'));
+
+    }
+
+    public function twitterSearchAction(Request $request)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        require_once ('codebird.php');
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]);
 
         $cb = new \Codebird\Codebird;
         $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
@@ -712,7 +793,7 @@ private function checkTweet($tweet_id)
 
         $user = $this->get('security.context')->getToken()->getUser();
         require_once ('codebird.php');
-        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+        \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]);
 
         $cb = new \Codebird\Codebird;
         $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
@@ -846,7 +927,7 @@ private function checkTweet($tweet_id)
         if(!$tuser){ // on cherche chez twitter
           try{
             require_once ('codebird.php');
-            \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]); // static, see 'Using multiple Codebird instances'
+            \Codebird\Codebird::setConsumerKey($this->container->parameters["fos_twitter.consumer_key"], $this->container->parameters["fos_twitter.consumer_secret"]);
             $cb = new \Codebird\Codebird;
             $cb->setToken($user->getTwitterAccessToken(), $user->getTwitterAccessTokenSecret());
             $reply = $cb->users_search('q='.urlencode($twittos_username));
@@ -998,7 +1079,7 @@ private function checkTweet($tweet_id)
     public function addTweetAction(Request $request, $instant_id)
     {
         $instant = $this->checkInstant2($instant_id);
-        // Is this tweet already attached to this instant ?
+        // Is this tweet already attached to this instant?
         $hasTweet = false;
 
         $repository = $this->getDoctrine()

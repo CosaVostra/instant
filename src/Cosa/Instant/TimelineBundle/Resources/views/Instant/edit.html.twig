@@ -250,6 +250,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
 <div id="tweetDroppable" style="height: 90%; overflow:auto; width:24%;  margin-left: 1%; float:left; ">
       <div id="tweet_column2" class="all-the-rest block last" style="position:relative; ">
         <div id="tweet_list2" class="block-content" style="overflow-y:auto;overflow-x:hidden;">
+          <div id="searching_tweet_user" style="display: none;"><img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/> </div>
           {% for tweet in tweets %}
             {% include 'CosaInstantTimelineBundle:Instant:tweet_bdd.html.twig' with {'tweet': tweet, 'draggable': false, 'editable': true, 'icons': false} %}
             <script type="text/javascript">tweets.push('{{ tweet.twitterID }}');</script>
@@ -693,6 +694,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
             $('#twittos-blank').css('display', 'none');
             controles = false;
             $('#twittos_username').val('');
+            js_search_last_tweets(retour.username);
           }
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.msg+'</div>');
@@ -735,11 +737,33 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           twittos.push(twitterID);
           $('#twittos-blank').css('display', 'none');
           controles = false;
+          js_search_last_tweets(username);
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
         }
         $('#flash-messages').append(msg);
         msg.delay(3000).fadeOut(1000);
+      });
+      return false;
+    }
+    function js_search_last_tweets(username) {
+      $('#searching_tweet_user').show();
+      $.ajax({
+        type: "POST",
+        url: "{{path('instant_search_last_tweets',{instant_id:entity.id})}}",
+        data: {
+          'q': encodeURIComponent('from:'+username),
+        }
+      })
+      .done(function( retour ) {
+        if(retour.retour){
+          refreshTimeline();
+        }else{
+          $('#searching_tweet_user').hide();
+          var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');
+          $('#flash-messages').append(msg);
+          msg.delay(3000).fadeOut(1000);
+        }
       });
       return false;
     }
@@ -902,7 +926,12 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       })
       .done(function( retour ) {
         if(retour.retour){
-          $('#tweet_list2').html(retour.html);
+          var wheel = '<div id="searching_tweet_user" style="display: none;"><img src="{{ asset('images/ajax-loader.gif') }}" alt="loading..."/> </div>';
+          if (retour.html.length == 0)
+            $('#tweets-blank').css('display', 'block');
+          else
+            $('#tweets-blank').css('display', 'none');
+          $('#tweet_list2').html(wheel+retour.html);
           var msg = $('<div class="flash-message flash-notice">{% trans %}Timeline refreshed{% endtrans %} !</div>');
         }else{
           var msg = $('<div class="flash-message flash-error">'+retour.retour+'</div>');

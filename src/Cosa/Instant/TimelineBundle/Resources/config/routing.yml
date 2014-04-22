@@ -61,6 +61,9 @@ instant_twitter_search2:
 instant_geo_search:
     pattern:  /geo-search
     defaults: { _controller: CosaInstantTimelineBundle:Instant:geoSearch }
+instant_search_last_tweets:
+    pattern:  /{instant_id}/search-last-tweets
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:searchLastTweets }
 instant_add_keyword:
     pattern:  /{instant_id}/add-keyword
     defaults: { _controller: CosaInstantTimelineBundle:Instant:addKeyword }
