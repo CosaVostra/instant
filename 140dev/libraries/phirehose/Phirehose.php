@@ -154,6 +154,8 @@ abstract class Phirehose
   protected $tcpBackoffMax  = 16;
   protected $httpBackoff  = 10;
   protected $httpBackoffMax  = 240;
+  protected $hostPort = 80;
+  protected $secureHostPort = 443;
   
   /**
    * Create a new Phirehose object attached to the appropriate twitter stream method.
@@ -464,6 +466,10 @@ abstract class Phirehose
         //Process each full tweet inside $this->buff
         while(1){
            $eol = strpos($this->buff,"\r\n");  //Find next line ending
+           if($eol===0) {  // if 0, then buffer starts with "\r\n", so trim it and loop again
+             $this->buff = substr($this->buff,$eol+2);  // remove the "\r\n" from line start
+             continue; // loop again
+           }
            if($eol===false)break;   //Time to get more data
            $enqueueStart = microtime(TRUE);
            $this->enqueueStatus(substr($this->buff,0,$eol));
@@ -600,7 +606,7 @@ abstract class Phirehose
       }
       
       // Filter takes additional parameters
-      if ($this->method == self::METHOD_FILTER && count($this->trackWords) > 0) {
+      if (($this->method == self::METHOD_FILTER || $this->method == self::METHOD_USER) && count($this->trackWords) > 0) {
         $requestParams['track'] = implode(',', $this->trackWords);
       }
       if ( ($this->method == self::METHOD_FILTER || $this->method == self::METHOD_SITE)
@@ -624,7 +630,7 @@ abstract class Phirehose
        */
       $errNo = $errStr = NULL;
       $scheme = ($urlParts['scheme'] == 'https') ? 'ssl://' : 'tcp://';
-      $port = ($urlParts['scheme'] == 'https') ? 443 : 80;
+      $port = ($urlParts['scheme'] == 'https') ? $this->secureHostPort : $this->hostPort;
       
       /**
        * We must perform manual host resolution here as Twitter's IP regularly rotates (ie: DNS TTL of 60 seconds) and
@@ -701,7 +707,7 @@ abstract class Phirehose
       // Consume each header response line until we get to body
       while ($hLine = trim(fgets($this->conn, 4096))) {
         $respHeaders .= $hLine."\n";
-        if($hLine=='Transfer-Encoding: chunked')$isChunking=true;
+        if(strtolower($hLine) == 'transfer-encoding: chunked') $isChunking = true;
       }
       
       // If we got a non-200 response, we need to backoff and retry
@@ -759,12 +765,12 @@ abstract class Phirehose
     
   }
 
-	protected function getAuthorizationHeader($url,$requestParams)
-	{
+    protected function getAuthorizationHeader($url,$requestParams)
+    {
         throw new Exception("Basic auth no longer works with Twitter. You must derive from OauthPhirehose, not directly from the Phirehose class.");
-		$authCredentials = base64_encode($this->username . ':' . $this->password);
-		return "Basic: ".$authCredentials;
-	}
+        $authCredentials = base64_encode($this->username . ':' . $this->password);
+        return "Basic: ".$authCredentials;
+    }
   
   /**
    * Method called as frequently as practical (every 5+ seconds) that is responsible for checking if filter predicates
@@ -844,6 +850,28 @@ abstract class Phirehose
    * @return NULL
    */
   public function heartbeat() {}
+  
+  /**
+   * Set host port
+   *
+   * @param string $host
+   * @return void
+   */
+  public function setHostPort($port)
+  {
+    $this->hostPort = $port;
+  }
+ 
+  /**
+   * Set secure host port
+   *
+   * @param int $port
+   * @return void
+   */
+  public function setSecureHostPort($port)
+  {
+    $this->secureHostPort = $port;
+  }
 
 } // End of class
 
