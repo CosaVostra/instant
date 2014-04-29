@@ -78,4 +78,12 @@ class InstantRepository extends EntityRepository
             ->getResult();
     }
 
+    public function getNbInstant()
+    {
+      return $this->createQueryBuilder('i')
+                  ->select('COUNT(i)')
+                  ->getQuery()
+                  ->getSingleScalarResult();
+    }
+
 }

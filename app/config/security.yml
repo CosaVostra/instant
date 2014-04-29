@@ -49,4 +49,5 @@ security:
         - { path: /refresh/timeline, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: /more/tweets, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: /nb/new/tweets, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/public_instants, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/.*, role: [ROLE_USER] }

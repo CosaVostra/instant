@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+  <div class="container">
+      <div class="row">
+        <div class="col-md-12" style="margin-top:50px;">
+        
+          <p class="title-upper-all"><span class="title-upper">Last published !nstants</span></p>
+
+<br /><br />
+<div class="isotope js-isotope" data-isotope-options='{ "layoutMode": "fitRows", "itemSelector": ".item" }'>
+<!-- Twig -->      
+{% for entity in entities %}
+  <div class="item">
+    <div onclick="document.location.href='{{ path('instant_wview', { 'username': entity.user.twitterUsername,'instant_title': entity.urlTitle }) }}';">
+      <header>
+        <p class="in-boxes"><span class="title-upper">{{ entity.title }}</span></p>
+      </header>
+  
+      <div class="item-article">{{ entity.description }}</div>
+      <p class="description" >{{ nbTwittos[entity.id] }} experts - created on {{ entity.createdAt|date('d M Y') }}<br /></p>
+    </div>
+
+  </div>
+
+{% endfor %}
+</div>
+
+          
+        </div>
+        
+        <div class="col-md-4">
+          
+       </div>
+       
+       </div>
+       </div>
+<br/>
+<br/>
+<br/>
+<br/>
+
+{% include "::footer.html.twig" %}
+
+{% endblock %}

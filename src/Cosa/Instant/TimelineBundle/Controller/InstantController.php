@@ -1184,4 +1184,43 @@ private function checkTweet($tweet_id)
         }
     }
 
+    public function stat01Action()
+    {
+      $nbInstant = $this->getDoctrine()
+                         ->getManager()
+                         ->getRepository('CosaInstantTimelineBundle:Instant')
+                         ->getNbInstant();
+
+      return $this->render('CosaInstantTimelineBundle:Instant:stat01.html.twig', array(
+            'nbInstant'          => $nbInstant,
+        ));
+    }
+
+    public function publicInstantListAction($order)
+    {
+        $em = $this->getDoctrine()->getManager();
+/*
+        $session = $this->getRequest()->getSession();
+        $order_session = $session->get('order');
+        if (($order === 'undefined') && $order_session)
+          $order = $order_session;
+        if ($order === 'asc') {
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'asc'), 12);
+          $session->set('order', 'asc');
+        } else {
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'desc'), 12);
+          $session->set('order', 'desc');
+        }
+*/
+        $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'desc'), 12);
+        $nbTwittos = array();
+        foreach ($entities as $entity) {
+            $nbTwittos[$entity->getId()] = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getNbTwittos($entity->getId());
+        }
+        return $this->render('CosaInstantTimelineBundle:Instant:publicInstantList.html.twig', array(
+            'entities' => $entities,
+            'nbTwittos' => $nbTwittos,
+        ));
+    }
+
 }
