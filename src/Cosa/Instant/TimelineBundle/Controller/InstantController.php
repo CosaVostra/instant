@@ -1199,20 +1199,19 @@ private function checkTweet($tweet_id)
     public function publicInstantListAction($order)
     {
         $em = $this->getDoctrine()->getManager();
-/*
+
         $session = $this->getRequest()->getSession();
-        $order_session = $session->get('order');
+        $order_session = $session->get('public_order');
         if (($order === 'undefined') && $order_session)
           $order = $order_session;
-        if ($order === 'asc') {
-          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'asc'), 12);
-          $session->set('order', 'asc');
+        if ($order === 'date_asc') {
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'asc'), 24);
+          $session->set('public_order', 'date_asc');
         } else {
-          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'desc'), 12);
-          $session->set('order', 'desc');
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'desc'), 24);
+          $session->set('public_order', 'date_desc');
         }
-*/
-        $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'desc'), 12);
+
         $nbTwittos = array();
         foreach ($entities as $entity) {
             $nbTwittos[$entity->getId()] = $em->getRepository('CosaInstantTimelineBundle:Twittos')->getNbTwittos($entity->getId());
