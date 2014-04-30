@@ -52,7 +52,39 @@ who_we_are.text02: Ludovic Blecher is director of the Digital Innovation Press F
 who_we_are.text03: Alexandra Garcia, Senior Video Journalist, The New York Times. Ten years as visual and interactive journalist - <a href='https://twitter.com/garcia_alexndra' target='_journalist'> @garcia_alexndra</a>
 who_we_are.text04: Paula Molina, journalist, BBC correspondent, 10 years anchor and editor of a daily news Radio program in Chile - <a href='https://twitter.com/paulamolinat' target='_journalist'> @paulamolinat </a>
 who_we_are.text05: Contact: <a href="mailto:createinstant@gmail.com">createinstant@gmail.com</a>
+edit.description: Set the description here
+edit.wtf_column: Who to follow
+edit.keywords_column: Keywords
+edit.timeline_column: Timeline
+edit.back_button: back
+edit.clear_button: clear
+edit.add_expert_button: Add a source by name
+edit.add_expert_placeholder: Twitter username
+edit.add_keyword_button: Add a keyword
+edit.add_keyword_placeholder: ' ' 
+edit.save_button: Save
+edit.preview_button: Preview
+edit.publish_button: Publish
+edit.add_button: Add
+edit.location_placeholder: location
+edit.location_button: GO!
+edit.more_tweets_button: More tweets
+edit.search_help: |
+  The results of your search will be displayed here.
 
+  Drag and drop them in the next column to add their authors to your 'Who To Follow' list.
+edit.wtf_help: |
+  Your 'Whot To Follow' lists contains the sources most relevant to the subject of your !nstant.
+
+  Once added to your list, you can explain why you think they should be followed on this specific subject.
+edit.keywords_help: |
+  !nstant is all about sources and keywords. Here's the list of terms your !nstant will be built on.
+
+  Tweets by your selected sources matching those keywords will be added automatically to your !nstant.
+edit.timeline_help: |
+  This is your !nstant's Timeline.
+
+  It will update automatically with tweets from your Who To Follow sources matching your selected terms. You can also build it by drag-and-dropping tweets from your search results.
 'About Instant': 'About Instant'
 'Email confirmation': 'Email confirmation'
 'Set your email': 'Set your email'
@@ -107,19 +139,3 @@ Clear: __Clear
 'Instant saved': '__Instant saved'
 'Who to follow': '__Who to follow'
 'Click here to Embed': '__Click here to Embed'
-edit_instant.column1_blank: |
-  The results of your search will be displayed here.
-
-  Drag and drop them in the next column to add their authors to your 'Who To Follow' list.
-edit_instant.column2_blank: |
-  Your 'Whot To Follow' lists contains the experts most relevant to the subject of your !nstant.
-
-  Once added to your list, you can explain why you think they should be followed on this specific subject.
-edit_instant.column3_blank: |
-  !nstant is all about experts and keywords. Here's the list of terms your !nstant will be built on.
-
-  Tweets by your selected experts matching those keywords will be added automatically to your !nstant.
-edit_instant.column4_blank: |
-  This is your !nstant's Timeline.
-
-  It will update automatically with tweets from your Who To Follow experts matching your selected terms, but you can also build it by drag-and-dropping tweets from your search results.
