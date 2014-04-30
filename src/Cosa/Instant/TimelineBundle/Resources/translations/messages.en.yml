@@ -53,6 +53,7 @@ who_we_are.text03: Alexandra Garcia, Senior Video Journalist, The New York Times
 who_we_are.text04: Paula Molina, journalist, BBC correspondent, 10 years anchor and editor of a daily news Radio program in Chile - <a href='https://twitter.com/paulamolinat' target='_journalist'> @paulamolinat </a>
 who_we_are.text05: Contact: <a href="mailto:createinstant@gmail.com">createinstant@gmail.com</a>
 edit.description: Set the description here
+edit.search_column: Tweets
 edit.wtf_column: Who to follow
 edit.keywords_column: Keywords
 edit.timeline_column: Timeline
