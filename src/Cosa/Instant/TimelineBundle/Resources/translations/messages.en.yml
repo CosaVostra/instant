@@ -1,5 +1,59 @@
-About: __About
-'About Instant': '__About Instant'
+welcome.subtitle: Create your first !nstant by selecting trusted Twitter users, tweets and keywords related to an event.
+welcome.login_button: Sign in with twitter
+account.email: Email
+account.optin: Receive news or updates from !nstant
+account.save: Save
+account.email_already_used: Email address already used by another user
+footer.home: Home
+footer.about: About
+footer.who_we_are: Who we are
+header.logout: Logout
+home_without_instants.title: Create your first !nstant by selecting Twitter users, tweets and keywords related to the event you're covering.
+home_with_instants.title: Your !nstants
+home_with_instants.sorted_by: Sorted by
+home_with_instants.date: DATE
+home_with_instants.box: %nb_twittos% sources - created on %creation_date%
+email_confirmation.title: Please enter your email address.
+email_confirmation.subtitle: A confirmation link will be sent to you. We won't share your email address with anyone.
+email_confirmation_after.title: Your email has been sent.
+email_confirmation_after.subtitle: |
+  Please click on the link in the email from !nstant sent to confirm your email address.
+
+  Resend the email or modify your email address below.
+email_confirmation_email.subject: Email validation
+email_confirmation_email.sender: No Reply <no-reply@createinstant.com>
+email_confirmation_email.text: |
+  Hi %twitterRealName%,
+
+  Please click on the link below to confirm your email address.
+
+  %validationUrl%
+
+  Then you're ready to create your !nstants.
+
+  The !nstant Team
+about.title01: About
+about.text01: During a breaking news situation the volume of information on social media can be overwhelming for anyone. Hashtags may be ineffective and lists are not frequently updated or easily accessible. Valuable content is out there--it’s just hard to find. !nstant helps to identify experts and witnesses on the ground and to share that information on a large scale.
+about.title02: !nstant for Publishers
+about.text02: |
+  !nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.
+
+  Anyone can be a publisher on !nstant: Users display their expertise around breaking news moments. Publishers choose the most reliable voices, add their own posts, create timelines, contextualize information and share your points of view. All of this in a platform designed to work easily and quickly, and focused on the place where most users are consuming the news nowadays: on mobile. 
+about.title03: !nstant for Users
+about.text03: |
+  Find Twitter information that has been already selected and organized in a platform designed to isolate what’s important and look for valuable sources. !nstant offers quick and easy access to different curated lists around a story. Choose between specific !nstant timelines created by journalists, editors, experts and general users--without altering your regular followers. Unfollow the list after the news event--your Twitter follower list never changes.
+
+  To create an !nstant, sign in with your Twitter account at www.createinstant.com. To build your timeline, look for interesting accounts in the "Who to follow" column or through key words in the "Tweets" column. A third column serves as a final filter: making sure only relevant tweets will show up in your !nstant timeline. Your final !nstant timeline will be the sum of filtered tweets from recommended accounts and the messages specially selected by you.
+
+  As your !nstant is published, followed accounts will be notified that they have been selected as a recommended source for an event.
+who_we_are.title01: Who we are
+who_we_are.text01: !nstant was created by experienced journalists and digital entrepeneurs living in France, Spain, Chile and United States. !nstant began when the team members were all fellows at the Nieman Foundation for Journalism at Harvard.
+who_we_are.text02: Ludovic Blecher is director of the Digital Innovation Press Fund Google&AIPG - <a href='https://twitter.com/lblecher' target='_journalist'>@lblecher</a>
+who_we_are.text03: Alexandra Garcia, Senior Video Journalist, The New York Times. Ten years as visual and interactive journalist - <a href='https://twitter.com/garcia_alexndra' target='_journalist'> @garcia_alexndra</a>
+who_we_are.text04: Paula Molina, journalist, BBC correspondent, 10 years anchor and editor of a daily news Radio program in Chile - <a href='https://twitter.com/paulamolinat' target='_journalist'> @paulamolinat </a>
+who_we_are.text05: Contact: <a href="mailto:createinstant@gmail.com">createinstant@gmail.com</a>
+
+'About Instant': 'About Instant'
 'Email confirmation': 'Email confirmation'
 'Set your email': 'Set your email'
 'Please set your email': 'Please set your email'
@@ -8,8 +62,7 @@ Then: __Then
 'Check your email box and open the confirmation link': 'Check your mail box and open the confirmation link'
 'Confirmation email sent': '__Confirmation email sent'
 'An error has occured': '__An error has occured'
-'who we are': '__who we are'
-'Who we are': '__Who we are'
+'Who we are': 'Who we are'
 Skip: __Skip
 Remove: __Remove
 'Retweeted by': '__Retweeted by'

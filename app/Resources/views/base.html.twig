@@ -35,7 +35,7 @@
   
                 <div class="text">    <a href="http://twitter.com/{{ app.security.token.user.twitterUsername }}" title="{{ app.security.token.user.twitterRealname }}">      
          <img src="{{ app.security.token.user.profileImageUrl }}" width="48" height="48" class="twitter-img"></a>
-                  <a href="{{ path('account_settings') }}" class="tweet-name">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="tweet-logout">{% trans %} Logout {% endtrans %}</a>
+                  <a href="{{ path('account_settings') }}" class="tweet-name">{{app.security.token.user.twitterUsername}} ({{app.security.token.user.twitterRealname}})</a><a href="{{ path('cosa_instant_user_logout') }}" class="tweet-logout">{% trans %} header.logout {% endtrans %}</a>
                 </div>
                 <div id="email_edit"></div>
                 <span class="clearb"></span>

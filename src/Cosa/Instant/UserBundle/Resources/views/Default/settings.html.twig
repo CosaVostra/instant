@@ -6,24 +6,18 @@
     <div class="col-md-7">
       <div class="well">
         <form action="{{ path('account_settings') }}" method="post" {{ form_enctype(form) }}>
-  {# Génération du label. #}
-  {{ form_label(form.email) }}
-
-  {# Affichage des erreurs pour ce champ précis. #}
-  {{ form_errors(form.email) }}
-
-  {# Génération de l'input. #}
-  {{ form_widget(form.email, { 'attr': {'class': 'conf-contact'} }) }}
+          {% trans %} account.email {% endtrans %}
+          {{ form_errors(form.email) }}
+          {{ form_widget(form.email, { 'attr': {'class': 'conf-contact'} }) }}
           <br/>
-  {{ form_label(form.optin) }}
-  {{ form_errors(form.optin) }}
-  {{ form_widget(form.optin) }}
-
+          {% trans %} account.optin {% endtrans %}
+          {{ form_errors(form.optin) }}
+          {{ form_widget(form.optin) }}
           <br/>
-  {{ form_widget(form._token) }}
+          {{ form_widget(form._token) }}
           <br/>
           <p>
-            <button type="submit">{% trans %}Save{% endtrans %}</button>
+            <button type="submit">{% trans %} account.save {% endtrans %}</button>
             <img id="ajax-loader" src="{{ asset('images/ajax-loader.gif') }}" alt="loading..." style="margin-left: 10px; visibility: hidden;"/>
           </p>
         </form>
@@ -31,4 +25,7 @@
     </div>
   </div>
 </div>
+
+{% include "::footer.html.twig" %}
+
 {% endblock %}

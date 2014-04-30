@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-md-8" style="margin-top:50px;">
        
-        <div class="home1-text">Create your first !nstant by selecting Twitter users, tweets and keywords relating to the event you're covering.<br />
+        <div class="home1-text">{% trans %} home_without_instants.title {% endtrans %}<br />
           <span class="arrow-home1"><img src="{{ asset('images/home1-arrow.png') }}"  width="200"/></span>
         </div>
       </div>
@@ -29,9 +29,9 @@
         {% endif %}
         
   {% if app.session.get('order')  == 'desc' %}
-          <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sorted by&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'asc'}) }}">date&nbsp;▼</a></span>
+          <p class="title-upper-all"><span class="title-upper">{% trans %} home_with_instants.title {% endtrans %}</span>&nbsp;&nbsp;<span>{% trans %} home_with_instants.sorted_by {% endtrans %}&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'asc'}) }}">{% trans %} home_with_instants.date {% endtrans %}&nbsp;▼</a></span>
   {% else %}
-          <p class="title-upper-all"><span class="title-upper">Your current list</span>&nbsp;&nbsp;<span>Sorted by&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'desc'}) }}">date&nbsp;▲</a></span>
+          <p class="title-upper-all"><span class="title-upper">{% trans %} home_with_instants.title {% endtrans %}</span>&nbsp;&nbsp;<span>{% trans %} home_with_instants.sorted_by {% endtrans %}&nbsp;&nbsp;</span><span class="sorting-box"><a href="{{ path('instant_list', {'username': user.twitterUsername, 'order': 'desc'}) }}">{% trans %} home_with_instants.date {% endtrans %}&nbsp;▲</a></span>
   {% endif %}
 
 <span class="addinstant" onclick="document.location.href='{{ path('instant_new', {'username': user.twitterUsername}) }}';">
@@ -48,7 +48,7 @@
       </header>
   
       <div class="item-article">{{ entity.description }}</div>
-      <p class="description" >{{ nbTwittos[entity.id] }} experts - created on {{ entity.createdAt|date('d M Y') }}<br /></p>
+      <p class="description" >{% trans with {'%nb_twittos%': nbTwittos[entity.id], '%creation_date%': entity.createdAt|date('d M Y')} %} home_with_instants.box {% endtrans %}<br /></p>
     </div>
 
   <article>

@@ -70,15 +70,15 @@ class DefaultController extends Controller
               $translator = $this->get('translator');
               $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
               $to = $user->getEmail();
-              $subject = $translator->trans('Confirmation email subject');
-              $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
-              $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+              $subject = $translator->trans('email_confirmation_email.subject');
+              $message = $translator->trans('email_confirmation_email.text', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
+              $headers = "From: ".$translator->trans('email_confirmation_email.sender')."\r\nX-Mailer: PHP/" . phpversion();
               mail($to, $subject, $message, $headers);
               $this->get('session')->getFlashBag()->add('notice', $translator->trans('Email updated message'));
             }
             else { // E-mail address already used by another user
               $translator = $this->get('translator');
-              $this->get('session')->getFlashBag()->add('error', $translator->trans('Profile.email_already_used'));
+              $this->get('session')->getFlashBag()->add('error', $translator->trans('account.email_already_used'));
               $user->setEmail($old_email);
             }
           }
@@ -107,16 +107,17 @@ class DefaultController extends Controller
 
           if ($form->isValid() && $user->getEmail()!=''){
             $em = $this->getDoctrine()->getManager();
-            if (is_null($em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('emailCanonical' => $user->getEmail())))) {
+            $user_from_email = $em->getRepository('CosaInstantUserBundle:User')->findOneBy(array('emailCanonical' => $user->getEmail()));
+            if (is_null($user_from_email) || ($user_from_email->getId() === $user->getId())) {
               try{
                 $translator = $this->get('translator');
                 $user->setConfirmationToken(hash('sha256',$user->getUsername().$user->getEmail()));
                 $em->persist($user);
                 $em->flush();
                 $to = $user->getEmail();
-                $subject = $translator->trans('Confirmation email subject');
-                $message = $translator->trans('Confirmation email message', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
-                $headers = "From: no-reply@createinstant.com\r\nX-Mailer: PHP/" . phpversion();
+                $subject = $translator->trans('email_confirmation_email.subject');
+                $message = $translator->trans('email_confirmation_email.text', array('%twitterRealName%' => $user->getTwitterRealname(), '%validationUrl%' => $this->generateUrl('email_validation',array('token'=>$user->getConfirmationToken()),true)));
+                $headers = "From: ".$translator->trans('email_confirmation_email.sender')."\r\nX-Mailer: PHP/" . phpversion();
   
                 mail($to, $subject, $message, $headers);
                 return new JsonResponse(array('retour'=>true),200,array('Content-Type', 'application/json'));
@@ -126,7 +127,7 @@ class DefaultController extends Controller
             }
             else { // E-mail address already used by another user
               $translator = $this->get('translator');
-              $this->get('session')->getFlashBag()->add('error', $translator->trans('Profile.email_already_used'));
+              $this->get('session')->getFlashBag()->add('error', $translator->trans('account.email_already_used'));
             }
           }else{
             return new JsonResponse(array('retour'=>false),200,array('Content-Type', 'application/json'));

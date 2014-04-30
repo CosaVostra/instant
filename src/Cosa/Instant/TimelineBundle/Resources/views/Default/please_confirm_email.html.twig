@@ -11,18 +11,15 @@
     <div class="col-md-7">
   {% if app.security.token.user.email == '' or app.security.token.user.email==app.security.token.user.twitterID %}
       <div>
-          <h4>{% trans %}Please set your email{% endtrans %}</h4>
-          <span>A confirmation link will then be sent to you.</span>
+          <h4>{% trans %} email_confirmation.title {% endtrans %}</h4>
+          <span>{% trans %} email_confirmation.subtitle {% endtrans %}</span>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
       </div> 
   {% endif %}
   {% if app.security.token.user.email != '' and app.security.token.user.email!=app.security.token.user.twitterID %}
       <div>
-          <h4>Please confirm!</h4>
-          <span>Your e-mail has been set, please click on the link sent to you to confirm it.</span>
-          <br/>
-          <br/>
-          <span>You can modify your e-mail or resent the confirmation message.</span>
+          <h4>{% trans %} email_confirmation_after.title {% endtrans %}</h4>
+          <span>{{ 'email_confirmation_after.subtitle'|trans|nl2br }}</span>
     {{ render(controller('CosaInstantUserBundle:Default:setEmailTmp',{'username':app.security.token.user.twitterUsername})) }}
       </div> 
   {% endif %}
@@ -50,9 +47,9 @@
       })
       .done(function( retour ) {
         if(retour.retour){
-          var msg = $('<div class="flash-message flash-notice">{% trans %}Confirmation email sent{% endtrans %} !</div>');
+          var msg = $('<div class="flash-message flash-notice">{% trans %}Confirmation email sent{% endtrans %}!</div>');
         }else{
-          var msg = $('<div class="flash-message flash-error">{% trans %}An error has occured{% endtrans %} !</div>');
+          var msg = $('<div class="flash-message flash-error">{% trans %}An error has occured{% endtrans %}!</div>');
         }
         //$('#flash-messages').append(msg);
         $('#ajax-loader').css("visibility", "hidden");
