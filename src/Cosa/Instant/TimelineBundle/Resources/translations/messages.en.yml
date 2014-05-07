@@ -86,6 +86,12 @@ edit.timeline_help: |
   This is your !nstant's Timeline.
 
   It will update automatically with tweets from your Who To Follow sources matching your selected terms. You can also build it by drag-and-dropping tweets from your search results.
+webview.timeline: Timeline
+webview.who_to_follow: Who To Follow
+webview.instant_by: Instant by
+webview.powered_by: Powered by
+webview.facebook: Share on Facebook
+webview.twitter: Share on Twitter
 'About Instant': 'About Instant'
 'Email confirmation': 'Email confirmation'
 'Set your email': 'Set your email'

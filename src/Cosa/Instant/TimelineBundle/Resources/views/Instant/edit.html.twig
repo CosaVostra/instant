@@ -54,8 +54,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
                 
           <div id="search-adv" style="display:none;">
           <div class="sorting-wrap2">
-            <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="mixed" checked />Mixed</span>
-            <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="recent" />Recent</span>
+            <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="recent" checked />Recent</span>
             <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="popular" />Popular</span>
           </div><a href="#" onclick="$('#search-adv').slideToggle();return false;" ><span class="icon icon-search-adv-close"></span></a>
           <form>
@@ -505,7 +504,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           add_keyword($('#twitter_search').val());
         }
         $( ".twitter_result_item" ).draggable({
-          revert: true,
+          revert: false,
           appendTo: 'body',
           containment: 'window',
           scroll: false,
@@ -544,7 +543,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           $('.tweetmediajson').each(function(){$(this).css('maxHeight',$(this).css('width'));});
         });
         $( ".twitter_result_item" ).draggable({
-          revert: true,
+          revert: false,
           appendTo: 'body',
           containment: 'window',
           scroll: false,

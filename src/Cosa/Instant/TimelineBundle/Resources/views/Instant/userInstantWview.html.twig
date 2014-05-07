@@ -42,8 +42,8 @@
         <div class="navbar-collapse collapse">
           <br/> 
           {{ instant.description }}<br/><br/>
-          <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview' , {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}"><span class="icon icon-z-fb"></span>Share on Facebook</a></div><br/>
-          <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>Share on Twitter</a></div><br/>
+          <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview' , {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}"><span class="icon icon-z-fb"></span>{% trans %} webview.facebook {% endtrans %}</a></div><br/>
+          <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>{% trans %} webview.twitter {% endtrans %}</a></div><br/>
           <ul class="nav navbar-nav">
             <li><a href="../navbar/"></a></li>
             <li><a href="../navbar/"></a></li>
@@ -55,10 +55,10 @@
         </div><!--/.nav-collapse -->
       <div id="tab" class="pre-iphone-nav-full">
         <div id="tab1" class="pre-iphone-nav-tab-selected" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).attr('class', 'pre-iphone-nav-tab-selected');$('#tab2').attr('class', 'pre-iphone-nav-tab-not-selected');" >
-          {% trans %}Timeline{% endtrans %}
+          {% trans %} webview.timeline {% endtrans %}
         </div>
         <div id="tab2" class="pre-iphone-nav-tab-not-selected" onclick="$('#tweet_list2').hide();$('#whotofollow_list').show();$(this).attr('class', 'pre-iphone-nav-tab-selected');$('#tab1').attr('class', 'pre-iphone-nav-tab-not-selected');">
-          {% trans %}Who to follow{% endtrans %}
+          {% trans %} webview.who_to_follow {% endtrans %}
         </div>
         <div style="clear:both;"></div>
       </div>
@@ -89,8 +89,8 @@
 
     <div id="footer" class="navbar-fixed-bottom">
       <div class="container">
-        <p class="text-muted">Instant by <a href="http://twitter.com/{{ instant.user.twitterUsername }}" target="_blank">{{ instant.user.twitterRealname }}</a><br/>
-        Powered by <a href='http://createinstant.com' target='_blank'>Instant</a>
+        <p class="text-muted"> {% trans %} webview.instant_by {% endtrans %}&nbsp;<a href="http://twitter.com/{{ instant.user.twitterUsername }}" target="_blank">{{ instant.user.twitterRealname }}</a><br/>
+        {% trans %} webview.powered_by {% endtrans %}&nbsp;<a href='http://createinstant.com' target='_blank'>!nstant</a>
         </p>
       </div>
     </div>

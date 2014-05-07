@@ -716,9 +716,6 @@ body.menu-active div#content .menu-trigger { left: 294px; }
 
 /* Responsive */
 
-@media screen and (max-width:990px){ footer
-{display:none!important}}
-
 @media screen and (max-width:1200px){ img.home-logo
 {width:100%; }
 img.home-iphone
