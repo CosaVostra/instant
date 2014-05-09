@@ -7,7 +7,7 @@
 {% block instant_title %}
 <div class="editable-title">
   <form>
-    <h2><input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="js_cr_instant();" maxlength="40" /></h2>
+    <h2><input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="js_cr_instant();" maxlength="40" onClick="if (this.value.substr(0, 8)=='Draft - ') this.setSelectionRange(0, this.value.length);" /></h2>
     <input id="description" class="editable-title3" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" maxlength="140" placeholder="{% trans %} edit.description {% endtrans %}"/>
     <input style="visibility:hidden;" type="submit" value="{% trans %} edit.save_button{% endtrans %}" onclick="return js_cr_instant();"/>
   </form>
@@ -274,9 +274,9 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       </div>
       <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
         <a href="#" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';"><div class="button05"><span class="icon icon-start"> </span>{% trans %} edit.back_button {% endtrans %}</div></a>
-        <form action="{{ path('instant_clear', { 'instant_id': entity.id } ) }}" style="display: inline;">
-          <input id="clear_btn" type="submit" value="{% trans %} edit.clear_button {% endtrans %}" onclick="return confirm('This will erase every tweet, tweetos and keyword.\n\nAre you sure?')" style="display: none;"/>
-          <a href="#" onclick="$('#clear_btn').click();"><div class="button01"><span class="icon icon-close"></span>&nbsp;{% trans %} edit.clear_button {% endtrans %}</div></a>
+        <form style="display: inline;">
+          <input id="clear_btn" type="submit" value="{% trans %} edit.clear_button {% endtrans %}" onclick="" style="display: none;"/>
+          <a href="#" onclick="$('#twitter_result').html('');$('#search-blank').css('display', 'block');$('input:radio[name=result_type]').filter('[value=recent]').prop('checked', true);$('#Languages').val('');$('#twitter_search').val('');$('#geo_search').val('');checkLocation();searches = new Array();search_ind = false;"><div class="button01"><span class="icon icon-close"></span>&nbsp;{% trans %} edit.clear_button {% endtrans %}</div></a>
         </form>
       </div>
       <div style="height:25px; width:24%; margin-left: 1%; float:left; position:relative;">
@@ -963,7 +963,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     }
     function nextSearch()
     {
-      $('#next-search').addClass('not-clickable').removeClass('clickable');
+      //$('#next-search').addClass('not-clickable').removeClass('clickable');
       if(search_ind===false)
         return false;
       if(search_ind<(searches.length-1)){

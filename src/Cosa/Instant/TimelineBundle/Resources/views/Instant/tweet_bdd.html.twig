@@ -12,7 +12,7 @@
           <span class="tweet_name">@{{ tweet.screenName }}</span>
         <div class="tweet_text">{{ tweet.text | customlink | raw }}
           <div class="tweet_date">
-            <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" >{{ tweet.createdAt|datedelta }}</a>
+            <a href="http://twitter.com/{{ tweet.screenName }}/status/{{ tweet.twitterId }}" target="tweet" >{{ tweet.createdAt|datedelta }}</a>
           </div>
         </div>
         {% if tweet.mediaUrl!='' %}

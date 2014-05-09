@@ -16,7 +16,7 @@
       </div>
         <div class="tweet_text">{{ tweet.text | customlink | raw }}
           <div class="tweet_date">
-            <a href="http://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" >{{ tweet.created_at|date("m/d/Y H:i:s","Europe/London")|datedelta }}</a>
+            <a href="http://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target='tweet' >{{ tweet.created_at|date("m/d/Y H:i:s","Europe/London")|datedelta }}</a>
           </div>
         </div>
         {% if tweet.entities.media is defined %}
