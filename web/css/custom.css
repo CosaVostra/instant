@@ -278,7 +278,7 @@ img.logo2{ width:150px; margin-top:-20px; }
 
 .all-the-rest { overflow:hidden;}
 
-.sorting-wrap2{ width:90%; height:25px; text-align:center; border-bottom:#ccc 1px solid; display:inline-block; vertical-align: middle !important; text-transform:uppercase; font-size:10px; }
+.sorting-wrap2{ width:100%; height:25px; text-align:center; border-bottom:#ccc 1px solid; display:inline-block; vertical-align: middle !important; text-transform:uppercase; font-size:10px; }
 .sorting-box2{ display:inline-block; vertical-align: middle !important; text-transform:uppercase; font-size:10px; height:20px;}
 
 
@@ -287,9 +287,9 @@ form{ height:100%; vertical-align:middle; margin:0px; padding:0px; }
 
 .icon-search-1{ width:10%; height:25px; padding-top:4px; vertical-align:top; display:inline-block;  background-repeat:no-repeat;background-position: center;background-color:#ea651d; color:#FFFFFF; vertical-align: middle;text-align:center;margin:0px;}
 
-.icon-search-adv-1{ width:10%; height:25px; padding-top:4px;vertical-align:top; display:inline-block;  background-repeat:no-repeat;background-position: center;background-color:#ccc; color:#FFFFFF; vertical-align: middle;text-align:center; font-size:18px; margin:0px;}
+.icon-search-adv-1{ width:10%; height:25px; padding-top:4px;vertical-align:top; display:inline-block;  background-repeat:no-repeat;background-position: center;background-color:#ccc; color:#FFFFFF; vertical-align: middle;text-align:center; font-size:18px; margin:0px;cursor:pointer;}
 
-.icon-search-adv-close{ width:10%; height:25px; padding-top:4px;vertical-align:top; display:inline-block;  background-repeat:no-repeat;background-position: center;background-color:#ccc; color:#FFFFFF; vertical-align: middle;text-align:center; font-size:18px; margin:0px; }
+.icon-search-adv-close{ width:10%; height:25px; padding-top:4px;vertical-align:top; display:inline-block;  background-repeat:no-repeat;background-position: center;background-color:#ccc; color:#FFFFFF; vertical-align: middle;text-align:center; font-size:18px; margin:0px;cursor:pointer;}
 
 
 .search-button02{ width:10%; height:25px; padding:0px; vertical-align:top; display:inline-block; background-image:url(../images/search-adv.png); background-position: center; background-repeat:no-repeat; border:#ccc 2px solid; background-color:#ccc; }
@@ -318,7 +318,7 @@ select {
 
       color: #1455a2; }
 
-.geolocation-input{ width:90%; height:25px; padding:0px; vertical-align:top; display:inline-block; margin:0px;  border-bottom:#ccc 1px solid;}
+.geolocation-input{ width:80%; height:25px; padding:0px; vertical-align:top; display:inline-block; margin:0px;  border-bottom:#ccc 1px solid;}
 	 
 .geo-go { width:10%; height:25px; padding-top:4px;vertical-align:top; display:inline-block; background-color:#ccc;  vertical-align: middle;text-align:center; font-size:10px; margin:0px;}
 .geo-go a{color:#FFFFFF;}

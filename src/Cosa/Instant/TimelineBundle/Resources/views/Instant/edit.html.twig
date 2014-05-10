@@ -48,7 +48,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         <div class="search-box">
         <div style="display:inline-block; width:100%; margin:0px; padding:0px;">        
                
-          <a href="#"><div id="last-search" class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div id="next-search" class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><a href="#" onclick="$('#search-adv').slideToggle();return false;"><span class="icon icon-search-adv-1"></span></a>
+          <a href="#"><div id="last-search" class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div id="next-search" class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><span id="adv_search_toggle" class="icon icon-search-adv-1" onclick="adv_search_toggle()"></span>
         </div>
 
                 
@@ -56,7 +56,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
           <div class="sorting-wrap2">
             <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="recent" checked />Recent</span>
             <span class="sorting-box2" ><input type="radio" name="result_type" style="background:none; border:none;" value="popular" />Popular</span>
-          </div><a href="#" onclick="$('#search-adv').slideToggle();return false;" ><span class="icon icon-search-adv-close"></span></a>
+          </div>
           <form>
           <fieldset>
             <select id = "Languages">
@@ -123,7 +123,7 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
               <div style="display:inline-block; width:100%; margin:0px; padding:0px;">
               <div class="geolocation-input">
               <div id="geoloc-enabled" style="display:inline-block;"><span class="icon icon-geo" style="color:#CCCCCC"></span></div>
-              <input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %} edit.location_placeholder {% endtrans %}" onblur="checkLocation();"/><input type="submit" style="display:none" onclick="return js_geo_search();"/></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">{% trans %} edit.location_button {% endtrans %}</a></div>
+              <input type="text" id="geo_search" style="background:none; border:none;" placeholder="{% trans %} edit.location_placeholder {% endtrans %}" onblur="checkLocation();"/><input type="submit" style="display:none" onclick="return js_geo_search();"/></div><div class="geo-go"><a href="#" onClick="return js_geo_search();">{% trans %} edit.location_button {% endtrans %}</a></div><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a>
               </div> 
             </form>
             <div id="autogeo" style="display:none;"></div>
@@ -345,6 +345,17 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         $('#geo_lon').val('');
         $('#geoloc-enabled').html('<span class="icon icon-geo" style="color:#CCCCCC"></span>');
       }
+    }
+    function adv_search_toggle()
+    {
+      if ($('#search-adv').is(':visible')) {
+        $('#adv_search_toggle').removeClass('icon-search-adv-close').addClass('icon-search-adv-1');
+      }
+      else {
+        $('#adv_search_toggle').removeClass('icon-search-adv-1').addClass('icon-search-adv-close');
+      }
+      $('#search-adv').slideToggle();
+      return false;
     }
     var lastT = '0';
     function upLastT()
