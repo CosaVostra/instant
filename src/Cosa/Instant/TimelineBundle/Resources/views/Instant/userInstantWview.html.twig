@@ -40,18 +40,17 @@
           {{ instant.title }}
         </div>
         <div class="navbar-collapse collapse">
-          <br/> 
-          {{ instant.description }}<br/><br/>
-          <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview' , {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}"><span class="icon icon-z-fb"></span>{% trans %} webview.facebook {% endtrans %}</a></div><br/>
-          <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>{% trans %} webview.twitter {% endtrans %}</a></div><br/>
-          <ul class="nav navbar-nav">
-            <li><a href="../navbar/"></a></li>
-            <li><a href="../navbar/"></a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/"></a></li>
-            <li><a href="../navbar-static-top/"></a></li>
-          </ul>
+          <div id="menu-description">{{ instant.description }}</div>
+          <a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview' , {'username':instant.user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}">
+          <div class="menu-button"><span class="icon icon-z-fb"></span>&nbsp;&nbsp;{% trans %} webview.facebook {% endtrans %}</div>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id})|url_encode }}&hashtags=createinstant">
+          <div class="menu-button"><span class="icon icon-z-tw"></span>&nbsp;&nbsp;{% trans %} webview.twitter {% endtrans %}</div>
+          </a>
+          <div id="menu-copy-code">
+            {% trans %} webview.copy_paste {% endtrans %}
+            <textarea readonly style="width:100%; height: 50px; color: #555555; font-size: 80%; margin: 10px 0;" onClick="this.setSelectionRange(0, this.value.length);">&lt;iframe width='400' height='600' src='{{ app.request.schemeAndHttpHost }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id}) }}'&gt;&lt;/iframe&gt;</textarea>
+          </div>
         </div><!--/.nav-collapse -->
       <div id="tab" class="pre-iphone-nav-full">
         <div id="tab1" class="pre-iphone-nav-tab-selected" onclick="$('#whotofollow_list').hide();$('#tweet_list2').show();$(this).attr('class', 'pre-iphone-nav-tab-selected');$('#tab2').attr('class', 'pre-iphone-nav-tab-not-selected');" >

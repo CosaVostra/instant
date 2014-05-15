@@ -93,6 +93,7 @@ webview.instant_by: Instant by
 webview.powered_by: Powered by
 webview.facebook: Share on Facebook
 webview.twitter: Share on Twitter
+webview.copy_paste: Copy-paste this code to embed this !nstant in your website!
 'About Instant': 'About Instant'
 'Email confirmation': 'Email confirmation'
 'Set your email': 'Set your email'
