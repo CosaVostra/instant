@@ -227,15 +227,11 @@ img.twitter-img {
 }
 .menu-button {
   color: #FFFFFF;
-  font-size: 120%;
+  font-size: 110%;
   background-color: #666666;
   padding: 5px 20px;
   margin: 2px 0;
   cursor: pointer;
-}
-#menu-twitter-button {
-  text-align: center;
-  font-size: 120%;
 }
 .icon-z-fb:before {
   content: "l";
@@ -246,6 +242,12 @@ img.twitter-img {
 #menu-copy-code {
   padding: 5px 20px;
   background-color: #666666;
-  font-size: 120%;
+  font-size: 110%;
 }
-
+#menu-textarea {
+  width: 100%;
+  height: 50px;
+  color: #555555;
+  font-size: 90%;
+  margin: 10px 0;
+}

@@ -1,3 +1,9 @@
+webview.timeline: Timeline
+webview.who_to_follow: A quién seguir
+webview.instant_by: !nstant creado por
+webview.powered_by: Powered by
+webview.facebook: Compartir en Facebook
+webview.twitter: Compartir en Twitter
 About: __About
 'About Instant': '__About Instant'
 'Email confirmation': '__Email confirmation'

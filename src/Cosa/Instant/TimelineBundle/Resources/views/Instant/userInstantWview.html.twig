@@ -49,7 +49,7 @@
           </a>
           <div id="menu-copy-code">
             {% trans %} webview.copy_paste {% endtrans %}
-            <textarea readonly style="width:100%; height: 50px; color: #555555; font-size: 80%; margin: 10px 0;" onClick="this.setSelectionRange(0, this.value.length);">&lt;iframe width='400' height='600' src='{{ app.request.schemeAndHttpHost }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id}) }}'&gt;&lt;/iframe&gt;</textarea>
+            <textarea readonly id="menu-textarea" onClick="this.setSelectionRange(0, this.value.length);">&lt;iframe width='400' height='600' src='{{ app.request.schemeAndHttpHost }}{{ path('instant_wview_id' , {'username':instant.user.twitterUsername,'instant_id':instant.id}) }}'&gt;&lt;/iframe&gt;</textarea>
           </div>
         </div><!--/.nav-collapse -->
       <div id="tab" class="pre-iphone-nav-full">

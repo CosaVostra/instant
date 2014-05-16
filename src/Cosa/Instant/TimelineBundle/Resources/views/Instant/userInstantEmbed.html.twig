@@ -9,20 +9,18 @@
     
     <div class="col-md-6" >
         <h2>Embed code on your site</h2>
-        <textarea readonly style="width:100%; height:200px; border:#ccc 1px solid;">&lt;iframe width='400' height='600' src='{{ app.request.schemeAndHttpHost }}{{ path('instant_wview' , {'username':user.twitterUsername,'instant_title':instant.urlTitle}) }}'&gt;&lt;/iframe&gt;</textarea>
+        <textarea readonly style="width:100%; height:200px; border:#ccc 1px solid;" onClick="this.setSelectionRange(0, this.value.length);">&lt;iframe width='400' height='600' src='{{ app.request.schemeAndHttpHost }}{{ path('instant_wview_id' , {'username':user.twitterUsername,'instant_id':instant.id}) }}'&gt;&lt;/iframe&gt;</textarea>
         Just copy this code and paste it on your site or blog. See the <a href="">FAQ</a> for help on using it on wordpress or tumblr.
     </div>
 
 
     <div class="col-md-6" >
         <h2>Link to the webview from your app</h2>
-         <textarea readonly style="width:100%; height:50px; border:#ccc 1px solid;">{{ app.request.schemeAndHttpHost }}{{ path('instant_wview' , {'username':user.twitterUsername,'instant_title':instant.urlTitle}) }}</textarea>
-        Use this address to launch a webview from within your app. See the <a href="">FAQ</a> for help on using it on <a href="">IOS</a> or <a href="">ANDROID</a> apps.
-     <h2>View it on createinstant.com</h2>
-         <textarea readonly style="width:100%; height:50px; border:#ccc 1px solid;">{{ app.request.schemeAndHttpHost }}{{ path('instant_wview' , {'username':user.twitterUsername,'instant_title':instant.urlTitle}) }}</textarea>
+         <textarea readonly style="width:100%; height:50px; border:#ccc 1px solid;" onClick="this.setSelectionRange(0, this.value.length);">{{ app.request.schemeAndHttpHost }}{{ path('instant_wview_id' , {'username':user.twitterUsername,'instant_id':instant.id}) }}</textarea>
         Use this address to launch a webview from within your app. See the <a href="">FAQ</a> for help on using it on <a href="">IOS</a> or <a href="">ANDROID</a> apps.
     </div>
 
+    <div class="button-createinstant" onclick="window.open('{{ path('instant_wview_id' , {'username':user.twitterUsername,'instant_id':instant.id}) }}','_newtab');"><a>View it on createinstant.com</a></div><br/>
     <div class="button-twitter"><a href="https://twitter.com/intent/tweet?text=Stay%20informed%20on%20this%20event&url={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview_id' , {'username':user.twitterUsername,'instant_id':instant.id})|url_encode }}&hashtags=createinstant"><span class="icon icon-z-tw"></span>&nbsp;&nbsp;Share on Twitter</a></div>
     <div class="button-facebook"><a target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost|url_encode }}{{ path('instant_wview' , {'username':user.twitterUsername,'instant_title':instant.urlTitle})|url_encode }}"><span class="icon icon-z-fb"></span>&nbsp;&nbsp;Share on Facebook</a></div>   
     <div style="clear:both;"></div>

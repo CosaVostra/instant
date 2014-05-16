@@ -25,7 +25,6 @@
   overflow: auto;
   height: 400px;
   text-align: left;
-  margin-top: -400px;
   z-index: 999;
 }
 
@@ -166,4 +165,24 @@
 }
 .angle2 {
 z-index: -1;
+}
+.help_button_header_1 {
+float: right;
+width: 200px;
+margin-top: -8px;
+margin-right: 41px;
+height: 10px;
+text-align: right;
+}
+.help_button_header_2 {background-color:#cccccc; padding:5px; color:#FFFFFF; font-size:1em; display:inline-block; width:100%; vertical-align:bottom; margin-top:0px; line-height:1.2em; }
+.help_button_header_2 a{ color:#fff;padding:2px; color:#FFFFFF; display:inline-block; text-transform:uppercase; }
+.help_button_header_2:hover{ background-color:#666666; }
+.col-title-timeline {
+    background-color: #EA651D;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 5px 5px 10px;
+    text-align: left !important;
+    text-transform: uppercase;
 }

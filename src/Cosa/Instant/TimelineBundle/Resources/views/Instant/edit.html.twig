@@ -13,6 +13,11 @@
   </form>
 </div>
 {% endblock %}
+{% block help_button %}
+<div class="help_button_header_1">
+  <a id="screenshot01" href="/instant/web/images/screenshot01.jpg" data-lightbox="How to">? help</a>
+</div>
+{% endblock %}
 {% block body -%}
 <script type="text/javascript">
   var twittos = new Array();
@@ -23,7 +28,7 @@
 </script>
       <div id="fade"></div>
       <div id="popup_alert">{{ render(controller('CosaInstantTimelineBundle:Instant:alertTwittosTmp',{'id':entity.id})) }}</div>
-  <div class="container2" style="height: 90%; width:80%;   margin-left: 9%;
+  <div class="container2" style="height: 88%; width:80%;   margin-left: 9%;
 margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
 
     <div style="height:25px; width:24%; margin-left: 1%; background-color:#efefef;float:left; ">
@@ -36,19 +41,19 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       <div class="col-title">{% trans %} edit.keywords_column {% endtrans %}</div>
     </div>
     <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
-      <div class="col-title">{% trans %} edit.timeline_column {% endtrans %}</div>
+      <div class="col-title-timeline">{% trans %} edit.timeline_column {% endtrans %}</div>
     </div>
     <div style="clear:both;"></div>
 
 
 
-<div style="height: 90%;overflow:auto; width:24%; border:#ccc 1px solid; margin-left: 1%; float:left; background-color:#fff;">
+<div style="height: 94%;overflow:auto; width:24%; border:#ccc 1px solid; margin-left: 1%; float:left; background-color:#fff;">
 
 
         <div class="search-box">
         <div style="display:inline-block; width:100%; margin:0px; padding:0px;">        
                
-          <a href="#"><div id="last-search" class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div id="next-search" class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span class="icon icon-search-1"></span></a><span id="adv_search_toggle" class="icon icon-search-adv-1" onclick="adv_search_toggle()"></span>
+          <a href="#"><div id="last-search" class="icon icon-arrow-l" onclick="lastSearch();"></div></a><a href="#"><div id="next-search" class="icon icon-arrow-r" onclick="nextSearch();"></div></a><div class="search-input"><form onsubmit="return js_twitter_search(true);"><input type="text" id="twitter_search" style="background:none; border:none;"><input type="submit" style="display:none" onclick="return js_twitter_search(true);"/></form></div><a href="#"><a href="#" onclick="return js_twitter_search(true);"><span id="simple_search_button" class="icon icon-search-1"></span></a><span id="adv_search_toggle" class="icon icon-search-adv-1" onclick="adv_search_toggle()"></span>
         </div>
 
                 
@@ -155,8 +160,21 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
      <a data-lightbox="How to" href="{{ asset('images/screenshot05.jpg') }}" style="display: none;"></a> 
  
 
-<div id="twittosDroppable" style="height: 90%; overflow:auto; width:24%; margin-left: 1%; float:left; background-color:#fff;">
-      <div class="all-the-rest" style="position:relative;">
+<div id="twittosDroppable" style="height: 94%; overflow:auto; width:24%; margin-left: 1%; float:left; background-color:#fff;">
+
+      <div style="height:25px; float:left; position:relative; width: 100%;">
+        <form id="addtw">
+          <div class="add-input">
+            <input type="text" id="twittos_username" placeholder="{% trans %} edit.add_expert_placeholder {% endtrans %}" style="background:none; border:none;"/>
+            <input type="submit" value="{% trans %} edit.add_button {% endtrans %}" onClick="return js_add_twittos();" style="visibility: hidden;" />
+          </div><a href="" ><span class="button06" onClick="return js_add_twittos();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %} edit.add_button {% endtrans %}</span></a>
+        </form>
+        <div id="autotwittos"></div>
+      </div>
+
+      <div style="clear: both;"></div>
+
+      <div class="all-the-rest">
         <div id="twittos">
           {% for twitto in twittos %}
             <div class="content-box" style="z-index: 1;">
@@ -214,7 +232,18 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
       </div>
       </div>
 
-<div style="height: 90%; overflow:auto; border:#ccc 1px solid; width:24%; margin-left: 1%; float:left; background-color:#fff;"> 
+<div style="height: 94%; overflow:auto; border:#ccc 1px solid; width:24%; margin-left: 1%; float:left; background-color:#fff;"> 
+      <div style="height:25px; width:100%; float:left; ">
+        <form id="addkw">
+          <div class="add-input">
+            <input type="text" id="keyword" placeholder="{% trans %} edit.add_keyword_placeholder {% endtrans %}" style="background:none; border:none;" />
+            <input type="submit" value="{% trans %} edit.add_button {% endtrans %}" onClick="return js_add_keyword();" style="visibility: hidden;" />
+          </div><a href="" ><span class="button06" onClick="return js_add_keyword();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %} edit.add_button {% endtrans %}</span></a>
+        </form>
+      </div>
+
+      <div style="clear: both;"></div>
+
       <div id="block-keyword" class="all-the-rest block" style="position:relative;">
         <div id="keywords" style="overflow-y:auto;" class="block-content">
           {% for keyword in keywords %}
@@ -272,42 +301,6 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
         </div>
      </div>
       </div>
-      <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
-        <a href="#" onclick="document.location.href='{{ path('instant_list', { 'username':user.twitterUsername } ) }}';"><div class="button05"><span class="icon icon-start"> </span>{% trans %} edit.back_button {% endtrans %}</div></a>
-        <form style="display: inline;">
-          <input id="clear_btn" type="submit" value="{% trans %} edit.clear_button {% endtrans %}" onclick="" style="display: none;"/>
-          <a href="#" onclick="$('#twitter_result').html('');$('#search-blank').css('display', 'block');$('input:radio[name=result_type]').filter('[value=recent]').prop('checked', true);$('#Languages').val('');$('#twitter_search').val('');$('#geo_search').val('');checkLocation();searches = new Array();search_ind = false;"><div class="button01"><span class="icon icon-close"></span>&nbsp;{% trans %} edit.clear_button {% endtrans %}</div></a>
-        </form>
-      </div>
-      <div style="height:25px; width:24%; margin-left: 1%; float:left; position:relative;">
-        <a href="#" >
-          <div class="button02" onclick="$(this).hide();$('#addtw').fadeIn();$('#twittos_username').focus();return false;">
-            <span class="icon icon-plus"></span>
-            &nbsp;&nbsp;{% trans %} edit.add_expert_button {% endtrans %}
-          </div>
-        </a>
-        <form id="addtw" style="display:none;">
-          <div id="autotwittos"></div>
-          <div class="add-input">
-            <input type="text" id="twittos_username" placeholder="{% trans %} edit.add_expert_placeholder {% endtrans %}" style="background:none; border:none;"/>
-            <input type="submit" value="{% trans %} edit.add_button {% endtrans %}" onClick="return js_add_twittos();" style="visibility: hidden;" />
-          </div><a href="" ><span class="button06" onClick="return js_add_twittos();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %} edit.add_button {% endtrans %}</span></a>
-        </form>
-      </div>
-      <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
-        <a href="" >
-          <div class="button02" onclick="$(this).hide();$('#addkw').fadeIn();$('#keyword').focus();return false;">
-            <span class="icon icon-plus"></span>
-            &nbsp;&nbsp;{% trans %} edit.add_keyword_button {% endtrans %}
-          </div>
-        </a>
-        <form id="addkw" style="display:none;">
-          <div class="add-input">
-            <input type="text" id="keyword" placeholder="{% trans %} edit.add_keyword_placeholder {% endtrans %}" style="background:none; border:none;" />
-            <input type="submit" value="{% trans %} edit.add_button {% endtrans %}" onClick="return js_add_keyword();" style="visibility: hidden;" />
-          </div><a href="" ><span class="button06" onClick="return js_add_keyword();">&nbsp;&nbsp;<span class="icon icon-plus"></span>&nbsp;{% trans %} edit.add_button {% endtrans %}</span></a>
-        </form>
-      </div>
          <div style="height:25px; width:24%; margin-left: 1%; float:left; ">
         <div style="display:inline-block; width:100%;">
                 <a href="#" >
@@ -350,9 +343,13 @@ margin-right: 10%; margin-top:2%; margin-bottom:70px !important;" >
     {
       if ($('#search-adv').is(':visible')) {
         $('#adv_search_toggle').removeClass('icon-search-adv-close').addClass('icon-search-adv-1');
+        //$('#simple_search_button').css('visibility','inline');
+        //$('#simple_search_button').show();
       }
       else {
         $('#adv_search_toggle').removeClass('icon-search-adv-1').addClass('icon-search-adv-close');
+        //$('#simple_search_button').css('visibility','hidden');
+        //$('#simple_search_button').hide();
       }
       $('#search-adv').slideToggle();
       return false;
