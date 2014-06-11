@@ -86,4 +86,19 @@ class InstantRepository extends EntityRepository
                   ->getSingleScalarResult();
     }
 
+    public function getPublicList($order = 'DESC', $page = 1, $maxperpage = 24)
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('i')
+            ->from('CosaInstantTimelineBundle:Instant', 'i')
+            ->where('i.title NOT LIKE :title')
+            ->orderBy('i.updated_at', $order)
+            ->setParameter('title', 'Draft - %')
+            ->setFirstResult(($page-1) * $maxperpage)
+            ->setMaxResults($maxperpage);
+ 
+        return $q->getQuery()->getResult();
+        //return new Paginator($q);
+    }
+
 }

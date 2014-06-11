@@ -893,6 +893,7 @@ private function checkTweet($tweet_id)
         $instant->setTitle($request->request->get('title'));
         $instant->setUrlTitle(urlencode($request->request->get('title')));
         $instant->setDescription($request->request->get('description'));
+        $instant->setUpdatedAt(new \Datetime());
         try {
             $em = $this->getDoctrine()->getManager();
             $em->persist($instant);
@@ -1205,10 +1206,12 @@ private function checkTweet($tweet_id)
         if (($order === 'undefined') && $order_session)
           $order = $order_session;
         if ($order === 'date_asc') {
-          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'asc'), 24);
+          //$entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('updated_at' => 'asc'), 24);
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->getPublicList('ASC');
           $session->set('public_order', 'date_asc');
         } else {
-          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('created_at' => 'desc'), 24);
+          //$entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('updated_at' => 'desc'), 24);
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->getPublicList('DESC');
           $session->set('public_order', 'date_desc');
         }
 
