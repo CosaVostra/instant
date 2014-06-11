@@ -7,7 +7,7 @@
 {% block instant_title %}
 <div class="editable-title">
   <form>
-    <h2><input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="js_cr_instant();" maxlength="40" onClick="if (this.value.substr(0, 8)=='Draft - ') this.setSelectionRange(0, this.value.length);" /></h2>
+    <h2><input id="title" class="editable-title2" type="text" value="{{ entity.title }}" onblur="if ($('#title').val().trim() != '') js_cr_instant();" maxlength="40" onClick="if (this.value.substr(0, 8)=='Draft - ') this.setSelectionRange(0, this.value.length);" /></h2>
     <input id="description" class="editable-title3" type="text" value="{{ entity.description }}" onblur="js_cr_instant();" maxlength="140" placeholder="{% trans %} edit.description {% endtrans %}"/>
     <input style="visibility:hidden;" type="submit" value="{% trans %} edit.save_button{% endtrans %}" onclick="return js_cr_instant();"/>
   </form>

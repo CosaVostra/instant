@@ -112,5 +112,5 @@ instant_stat01:
     pattern:  /stat01
     defaults: { _controller: CosaInstantTimelineBundle:Instant:stat01 }
 public_instant_list:
-    pattern:  /public_instants/{order}
-    defaults: { _controller: CosaInstantTimelineBundle:Instant:publicInstantList, order: undefined }
+    pattern:  /public_instants/{order}/{page}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:publicInstantList, order: undefined, page: 1 }

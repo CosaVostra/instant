@@ -101,4 +101,15 @@ class InstantRepository extends EntityRepository
         //return new Paginator($q);
     }
 
+    public function getNbPublicInstant()
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('count(i)')
+            ->from('CosaInstantTimelineBundle:Instant', 'i')
+            ->where('i.title NOT LIKE :title')
+            ->setParameter('title', 'Draft - %');
+ 
+        return $q->getQuery()->getSingleScalarResult();
+    }
+
 }

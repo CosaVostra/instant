@@ -1197,9 +1197,16 @@ private function checkTweet($tweet_id)
         ));
     }
 
-    public function publicInstantListAction($order)
+    public function publicInstantListAction($order, $page)
     {
+        $maxInstants = 24;
         $em = $this->getDoctrine()->getManager();
+        $instants_count = $em->getRepository('CosaInstantTimelineBundle:Instant')->getNbPublicInstant();
+        $pagination = array(
+          'page' => $page,
+          'route' => 'public_instant_list',
+          'pages_count' => ceil($instants_count / $maxInstants),
+          'route_params' => array());
 
         $session = $this->getRequest()->getSession();
         $order_session = $session->get('public_order');
@@ -1207,11 +1214,11 @@ private function checkTweet($tweet_id)
           $order = $order_session;
         if ($order === 'date_asc') {
           //$entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('updated_at' => 'asc'), 24);
-          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->getPublicList('ASC');
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->getPublicList('ASC', $page, $maxInstants);
           $session->set('public_order', 'date_asc');
         } else {
           //$entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->findBy(array('status' => 'publish'), array('updated_at' => 'desc'), 24);
-          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->getPublicList('DESC');
+          $entities = $em->getRepository('CosaInstantTimelineBundle:Instant')->getPublicList('DESC', $page, $maxInstants);
           $session->set('public_order', 'date_desc');
         }
 
