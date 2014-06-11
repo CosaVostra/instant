@@ -1229,6 +1229,7 @@ private function checkTweet($tweet_id)
         return $this->render('CosaInstantTimelineBundle:Instant:publicInstantList.html.twig', array(
             'entities' => $entities,
             'nbTwittos' => $nbTwittos,
+            'pagination' => $pagination,
         ));
     }
 
