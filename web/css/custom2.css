@@ -186,3 +186,10 @@ text-align: right;
     text-align: left !important;
     text-transform: uppercase;
 }
+.pagination {
+    margin: 20px 0 10px 0;
+    padding-right: 30px;
+    text-align: right;
+    width: 100%;
+}
+

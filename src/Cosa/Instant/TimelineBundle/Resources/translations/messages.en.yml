@@ -4,9 +4,9 @@ account.email: Email
 account.optin: Receive news or updates from !nstant
 account.save: Save
 account.email_already_used: Email address already used by another user
-footer.home: Home
-footer.about: About
-footer.who_we_are: Who we are
+footer.home: HOME
+footer.about: ABOUT
+footer.who_we_are: WHO WE ARE
 header.logout: Logout
 home_without_instants.title: Create your first !nstant by selecting Twitter users, tweets and keywords related to the event you're covering.
 home_with_instants.title: Your !nstants

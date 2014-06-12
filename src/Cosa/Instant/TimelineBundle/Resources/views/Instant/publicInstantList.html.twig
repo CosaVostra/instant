@@ -13,7 +13,7 @@
   {% endif %}
 </p>
 
-<br /><br />
+            {% include 'CosaInstantTimelineBundle:Instant:pagination.html.twig' %}
 <div class="isotope js-isotope" data-isotope-options='{ "layoutMode": "fitRows", "itemSelector": ".item" }'>
 <!-- Twig -->      
 {% for entity in entities %}
@@ -24,7 +24,7 @@
       </header>
   
       <div class="item-article">{{ entity.description }}</div>
-      <p class="description" >{{ nbTwittos[entity.id] }} experts - created on {{ entity.createdAt|date('d M Y') }}<br /></p>
+      <p class="description" >{{ nbTwittos[entity.id] }} experts - updated on {{ entity.updatedAt|date('d M Y') }}<br /></p>
     </div>
 
   </div>
@@ -33,6 +33,7 @@
 </div>
 
           
+            {% include 'CosaInstantTimelineBundle:Instant:pagination.html.twig' %}
         </div>
         
         <div class="col-md-4">
@@ -40,7 +41,6 @@
        </div>
        
        </div>
-            {% include 'CosaInstantTimelineBundle:Instant:pagination.html.twig' %}
        </div>
 <br/>
 <br/>

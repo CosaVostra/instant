@@ -234,6 +234,7 @@ class InstantController extends Controller
         if ($editForm->isValid()) {
             if($publishForce){
                 $entity->setStatus('publish');
+                $entity->setUpdatedAt(new \Datetime());
             }
             $em->persist($entity);
             $em->flush();
@@ -256,6 +257,7 @@ class InstantController extends Controller
         }
         $instant = $this->checkInstant2($instant_id);
         $instant->setStatus('publish');
+        $instant->setUpdatedAt(new \Datetime());
         $em = $this->getDoctrine()->getManager();
         $em->persist($instant);
         $em->flush();
@@ -367,6 +369,7 @@ class InstantController extends Controller
               $message_stored = str_replace('@'.$user->getTwitterUsername(), '@JOURNALIST', $message_stored);
               $message_stored = str_replace($wviewid_url, '@WVIEW', $message_stored);
               $entity->setMessageType($message_stored);
+              $entity->setUpdatedAt(new \Datetime());
               $em->persist($entity);
               $em->flush();
             }catch(\Exception $e){
@@ -740,6 +743,7 @@ private function checkTweet($tweet_id)
     
             if (!$hasTweet) {
               $instant->addTweet($tweet);
+              $instant->setUpdatedAt(new \Datetime());
               try {
                   $em->persist($instant);
                   $em->flush();
@@ -832,9 +836,11 @@ private function checkTweet($tweet_id)
             $keyword = new Keyword();
             $keyword->setKeyword($keywordToAdd); 
             $keyword->setInstant($instant);
+            $instant->setUpdatedAt(new \Datetime());
 
             try {
                 $em->persist($keyword);
+                $em->persist($instant);
                 $em->flush();
             } catch(\Exception $e) {
                 return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
@@ -988,9 +994,11 @@ private function checkTweet($tweet_id)
         $twittos->setUser($tuser);
         $twittos->setInstant($instant);
         $twittos->setAlerted(0);
+        $instant->setUpdatedAt(new \Datetime());
         try {
             $em = $this->getDoctrine()->getManager();
             $em->persist($twittos);
+            $em->persist($instant);
             $em->flush();
         } catch(\Exception $e) {
             return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
@@ -1067,7 +1075,9 @@ private function checkTweet($tweet_id)
             }
         } else {
             try {
+                $instant->setUpdatedAt(new \Datetime());
                 $em->persist($twittos);
+                $em->persist($instant);
                 $em->flush();
             } catch(\Exception $e) {
                 return new JsonResponse(array('retour'=>false,'msg'=>$e->getMessage()),200,array('Content-Type', 'application/json'));
@@ -1111,6 +1121,7 @@ private function checkTweet($tweet_id)
 
         if (!$hasTweet) {
             $instant->addTweet($tweet);
+            $instant->setUpdatedAt(new \Datetime());
             try {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($instant);
@@ -1128,6 +1139,7 @@ private function checkTweet($tweet_id)
           $tweet = $this->checkTweet($tweet_id);
           $instant = $this->checkInstant2($instant_id);
           $instant->removeTweet($tweet);
+          $instant->setUpdatedAt(new \Datetime());
           $em = $this->getDoctrine()->getManager();
           $em->persist($instant);
           $em->flush();
