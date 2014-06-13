@@ -14,6 +14,10 @@ who_we_are:
     pattern:  /who_we_are
     defaults: { _controller: CosaInstantTimelineBundle:Default:whoWeAre }
 
+public_instant_list:
+    pattern:  /public_instants/{order}/{page}
+    defaults: { _controller: CosaInstantTimelineBundle:Instant:publicInstantList, order: undefined, page: 1 }
+
 set_email_tmp:
     pattern:  /set_email_tmp
     defaults: { _controller: CosaInstantUserBundle:Default:setEmailTmp }

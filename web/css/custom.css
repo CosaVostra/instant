@@ -690,6 +690,9 @@ body.menu-active div#content .menu-trigger { left: 294px; }
 .button-twitter-home {background:#28a9e0; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; width:220px; margin-right:1%; vertical-align:bottom; margin-top:20px; line-height:2em; cursor:pointer; }
 .button-twitter-home a{ padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; text-transform:uppercase; }
 .button-twitter-home:hover{ background:#ccc; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; }
+.button-publicinstants-home {background:#ea651d; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; width:280px; margin-right:1%; vertical-align:bottom; margin-top:20px; line-height:2em; cursor:pointer; }
+.button-publicinstants-home a{ padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; text-transform:uppercase; }
+.button-publicinstants-home:hover{ background:#ccc; padding:5px; color:#FFFFFF; font-size:1.1em; display:inline-block; }
 
 .addinstant-list { height: 248px; color:#75d1b3; font-size:2.5em; display:inline-block;vertical-align:middle; line-height:1.5em; float:right; text-align:center; }
 .addinstant-list a{ color:#75d1b3;padding-top:50px; font-size:1.1em; display:inline-block; text-transform:uppercase; }
@@ -898,3 +901,4 @@ select { background-position: 95% 5px; /*Position of the background-image*/ }
 .button04 { width:100%;font-size:9px;margin-top:5px; }
 
 }
+

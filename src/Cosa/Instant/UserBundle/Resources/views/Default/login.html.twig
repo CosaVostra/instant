@@ -31,6 +31,8 @@
 
   {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
 <span class="button-twitter-home" style="float:left;" onclick="document.location.href='{{ path('connect_twitter')}}'"><a href="#"><span class="icon icon-z-tw" style="padding-top:2px;"></span>&nbsp;&nbsp;{% trans %} welcome.login_button {% endtrans %}</a></span>
+<span class="home-text" style="float:left; margin: 28px 15px;"> or </span>
+<span class="button-publicinstants-home" style="float:left;" onclick="document.location.href='{{ path('public_instant_list')}}'"><a href="#">&nbsp;&nbsp;{% trans %} welcome.publicinstants_button {% endtrans %}</a></span>
   {% else %}
     welcome {{app.security.token.user}}
     <a href="{{ path('cosa_instant_user_logout') }}">{% trans %}Logout{% endtrans %}</a>
