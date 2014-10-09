@@ -15,8 +15,12 @@
 {% endblock %}
 {% block help_button %}
 <div class="help_button_header_1">
-  <a id="screenshot01" href="/instant/web/images/screenshot01.jpg" data-lightbox="How to">? help</a>
+  <a href="{{ asset('images/screenshot01.jpg') }}" data-lightbox="How to 0">? help</a>
 </div>
+     <a data-lightbox="How to 0" href="{{ asset('images/screenshot02.jpg') }}" style="display: none;"></a> 
+     <a data-lightbox="How to 0" href="{{ asset('images/screenshot03.jpg') }}" style="display: none;"></a> 
+     <a data-lightbox="How to 0" href="{{ asset('images/screenshot04.jpg') }}" style="display: none;"></a> 
+     <a data-lightbox="How to 0" href="{{ asset('images/screenshot05.jpg') }}" style="display: none;"></a> 
 {% endblock %}
 {% block body -%}
 <script type="text/javascript">
