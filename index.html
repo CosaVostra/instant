@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>Instant by CosaVostra</title>
+    <meta name="description" content="Instant : !nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Instant</title>
   </head>
 
   <body>
-    <div id="container">
-      <div class="inner">
 
-        <header>
-          <h1>Instant</h1>
-          <h2>!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.</h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/CosaVostra/instant">View on GitHub</a>
+
+          <h1 id="project_title">Instant</h1>
+          <h2 id="project_tagline">!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/CosaVostra/instant/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/CosaVostra/instant/tarball/master">Download this project as a tar.gz file</a>
+            </section>
         </header>
+    </div>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/CosaVostra/instant/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/CosaVostra/instant/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/CosaVostra/instant" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <p><img src="http://www.createinstant.com/images/logo2.png" alt="Image of Instant"></p>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="http://www.createinstant.com/images/logo2.png" alt="Image of Instant"></p>
 
 <h1>
 <a id="nstant-" class="anchor" href="#nstant-" aria-hidden="true"><span class="octicon octicon-link"></span></a>!nstant ?</h1>
@@ -83,19 +83,21 @@
 <h1>
 <a id="install-notes-and-guide" class="anchor" href="#install-notes-and-guide" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install notes and guide</h1>
 
+<p>This should allow you to create a fresh install of !nstant on your server. !nstant runs on Symfony 2.1, the 140Dev library for accessing the Twitter Streaming API, and uses a standard up-to-date MySQL database.</p>
+
 <h2>
 <a id="symfony" class="anchor" href="#symfony" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symfony</h2>
 
 <ul>
-<li><p>[ ] Execute : <code>cp app/config/parameters.yml.dist app/config/parameters.yml</code></p></li>
-<li><p>[ ] Execute : <code>cp app/config/config.yml.dist app/config/config.yml</code></p></li>
-<li><p>[ ] Edit app/config/parameters.yml as well as app/config/config.yml</p></li>
-<li><p>[ ] Execute : <code>php composer.phar install</code></p></li>
-<li><p>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second <code>param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed)"</code></p></li>
-<li><p>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 108) =&gt; add the following lines : 
+<li><p>Execute : <code>cp app/config/parameters.yml.dist app/config/parameters.yml</code></p></li>
+<li><p>Execute : <code>cp app/config/config.yml.dist app/config/config.yml</code></p></li>
+<li><p>Edit app/config/parameters.yml as well as app/config/config.yml</p></li>
+<li><p>Execute : <code>php composer.phar install</code></p></li>
+<li><p>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second <code>param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed)"</code></p></li>
+<li><p>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 108) =&gt; add the following lines : 
 <code>$user-&gt;setLoginCount($user-&gt;getLoginCount()+1);
 $this-&gt;userProvider-&gt;updateUser($user);</code></p></li>
-<li><p>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</p></li>
+<li><p>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</p></li>
 </ul>
 
 <pre><code>91:            return new TwitterUserToken($accessToken['user_id'], null, array('ROLE_TWITTER_USER'));
@@ -106,7 +108,7 @@ $this-&gt;userProvider-&gt;updateUser($user);</code></p></li>
 </code></pre>
 
 <ul>
-<li>[ ] Execute : <code>app/console doctrine:schema:create</code>
+<li>Execute : <code>app/console doctrine:schema:create</code>
 </li>
 </ul>
 
@@ -117,49 +119,42 @@ $this-&gt;userProvider-&gt;updateUser($user);</code></p></li>
 (you might have to run <code>rm -rf app/cache/*</code> )</li>
 </ul>
 
-<p>II) Chapitre 140dev (Framework pour Twitter Streaming API) :</p>
+<h2>
+<a id="140dev-twitter-streaming-api-framework" class="anchor" href="#140dev-twitter-streaming-api-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>140dev (Twitter Streaming API Framework)</h2>
 
-<p>II-1 Executer : cp 140dev/db/140dev_config.php.dist 140dev/db/140dev_config.php
-Editer le 140dev/db/140dev_config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs</p>
+<ul>
+<li><p>Execute : <code>cp 140dev/db/140dev_config.php.dist 140dev/db/140dev_config.php</code></p></li>
+<li><p>Edit file <code>140dev/db/140dev_config.php</code> with your Twitter app info as well as the logs email address</p></li>
+<li><p>Execute : <code>cp 140dev/db/db_config.php.dist 140dev/db/db_config.php</code></p></li>
+<li><p>Edit file <code>140dev/db/db_config.php</code> and specify your DB parameters</p></li>
+<li><p>Create a table called <strong>json_cache</strong> (you'll find the code in the file <code>140dev/db/mysql_database_schema.sql</code>)</p></li>
+<li><p>Create a recurring job to run the PHP script <code>140dev/db/garbage_tweet.php</code> to clean the Tweet table of "orphan" tweets (for instance it will remove duplicate RTs). The recurrence could be hourly.</p></li>
+</ul>
 
-<p>II-2 Executer : cp 140dev/db/db_config.php.dist 140dev/db/db_config.php
-Editer le 140dev/db/db_config.php; spécifier le paramétrage de la base de données</p>
+<h2>
+<a id="mysql" class="anchor" href="#mysql" aria-hidden="true"><span class="octicon octicon-link"></span></a>MySQL</h2>
 
-<p>II-3 Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)</p>
-
-<p>II-4 Planifier le script php 140dev/db/garbage_tweet.php qui nettoie la table Tweet des tweet "orphelins" (ils sont nombreux car Twitter nous envoie tous les RT des tweets de nos twittos). A planifier toutes les heures par exemple.</p>
-
-<p>III) Chapitre MySQL</p>
-
-<p>III-1 Créer la procédure et le trigger permettant d'alimenter les instant avec les tweets qui arrivent de la streaming API : le code à lancer se trouve dans trigger.sql</p>
-
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ul>
+<li>Create the process and the trigger to receive, sort and feed the !nstants with the tweets arriving through the Twitter Streaming API. The code to launch on a regular basis is in <code>trigger.sql</code>
+</li>
+</ul>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>!nstant was developed by <a href="http://www.cosavostra.com">CosaVostra</a> and <a href="http://www.createinstant.com">createInstant.com</a> is hosted on <a href="http://www.pilotsystems.net/">Pilot Systems</a>.</p>
+      </section>
+    </div>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Instant maintained by <a href="https://github.com/CosaVostra">CosaVostra</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
-
-        <footer>
-          Instant is maintained by <a href="https://github.com/CosaVostra">CosaVostra</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-                  <script type="text/javascript">
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -170,7 +165,6 @@ Editer le 140dev/db/db_config.php; spécifier le paramétrage de la base de donn
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
+
   </body>
 </html>
