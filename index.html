@@ -43,6 +43,55 @@ $ git checkout gh-pages
 
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
 
+<h1>
+<a id="install-notes-and-guide" class="anchor" href="#install-notes-and-guide" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install notes and guide</h1>
+
+<h2>
+<a id="symfony" class="anchor" href="#symfony" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symfony</h2>
+
+<ol>
+<li>Execute : cp app/config/parameters.yml.dist app/config/parameters.yml</li>
+<li>Execute : cp app/config/config.yml.dist app/config/config.yml</li>
+<li>Edit app/config/parameters.yml as well as app/config/config.yml</li>
+<li>Execute : php composer.phar install</li>
+<li>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed);"</li>
+<li>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php 'line 108) =&gt; add the following lines : 
+| $user-&gt;setLoginCount($user-&gt;getLoginCount()+1);
+| $this-&gt;userProvider-&gt;updateUser($user);</li>
+<li>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</li>
+</ol>
+
+<pre><code>91:            return new TwitterUserToken($accessToken['user_id'], null, array('ROLE_TWITTER_USER'));
+92:        }
+93:
+94:        try {
+95:            $user = $this-&gt;userProvider-&gt;loadUserByUsername($accessToken['user_id']);
+</code></pre>
+
+<ol>
+<li>Execute : app/console doctrine:schema:create</li>
+</ol>
+
+<p>(optionnel)
+I-101 Executer en root : chmod -R 777 app/cache/ app/logs/
+Peut-etre sera-t-il necessaire de faire rm -rf app/cache/*</p>
+
+<p>II) Chapitre 140dev (Framework pour Twitter Streaming API) :</p>
+
+<p>II-1 Executer : cp 140dev/db/140dev_config.php.dist 140dev/db/140dev_config.php
+Editer le 140dev/db/140dev_config.php; spécifier les données de l'appli Twitter ainsi que l'adresse email où seront envoyés les logs</p>
+
+<p>II-2 Executer : cp 140dev/db/db_config.php.dist 140dev/db/db_config.php
+Editer le 140dev/db/db_config.php; spécifier le paramétrage de la base de données</p>
+
+<p>II-3 Créer la table json_cache (code dans le fichier 140dev/db/mysql_database_schema.sql)</p>
+
+<p>II-4 Planifier le script php 140dev/db/garbage_tweet.php qui nettoie la table Tweet des tweet "orphelins" (ils sont nombreux car Twitter nous envoie tous les RT des tweets de nos twittos). A planifier toutes les heures par exemple.</p>
+
+<p>III) Chapitre MySQL</p>
+
+<p>III-1 Créer la procédure et le trigger permettant d'alimenter les instant avec les tweets qui arrivent de la streaming API : le code à lancer se trouve dans trigger.sql</p>
+
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
 
