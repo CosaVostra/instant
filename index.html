@@ -1,44 +1,59 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <meta name="description" content="Instant : !nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Instant by CosaVostra</title>
+    <title>Instant</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>Instant</h1>
-        <h2>!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.</h2>
-        <a href="https://github.com/CosaVostra/instant" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/CosaVostra/instant">View on GitHub</a>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+          <h1 id="project_title">Instant</h1>
+          <h2 id="project_tagline">!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/CosaVostra/instant/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/CosaVostra/instant/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="http://www.createinstant.com/images/logo2.png" alt="Image of Instant"></p>
+
+<p><strong>Why</strong> </p>
+
+<blockquote>
+<p>During a breaking news situation, the volume of information on social media can be overwhelming for anyone. Hashtags may be ineffective and lists are not frequently updated or easily accessible. Valuable content is out there - it’s just <strong>hard to find</strong>. </p>
+
+<h2>
+<a id="nstant-helps-you-identify-experts-and-witnesses-on-the-ground-and-to-share-that-information-on-a-large-scale" class="anchor" href="#nstant-helps-you-identify-experts-and-witnesses-on-the-ground-and-to-share-that-information-on-a-large-scale" aria-hidden="true"><span class="octicon octicon-link"></span></a>!nstant helps you identify experts and witnesses on the ground and to share that information on a large scale.</h2>
+</blockquote>
+
+<p><strong>!nstant for Publishers</strong></p>
+
+<p>!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.</p>
+
+<p>Anyone can be a publisher on !nstant: Users display their expertise around breaking news moments. Publishers choose the most reliable voices, add their own posts, create timelines, contextualize information and share your points of view. All of this in a platform designed to work easily and quickly, and focused on the place where most users are consuming the news nowadays: on mobile. 
+!nstant for Users</p>
+
+<p>Find Twitter information that has been already selected and organized in a platform designed to isolate what’s important and look for valuable sources. !nstant offers quick and easy access to different curated lists around a story. Choose between specific !nstant timelines created by journalists, editors, experts and general users--without altering your regular followers. Unfollow the list after the news event--your Twitter follower list never changes.</p>
+
+<p>To create an !nstant, sign in with your Twitter account at <a href="http://www.createinstant.com">www.createinstant.com</a>. To build your timeline, look for interesting accounts in the "Who to follow" column or through key words in the "Tweets" column. A third column serves as a final filter: making sure only relevant tweets will show up in your !nstant timeline. Your final !nstant timeline will be the sum of filtered tweets from recommended accounts and the messages specially selected by you.</p>
+
+<p>As your !nstant is published, followed accounts will be notified that they have been selected as a recommended source for an event.</p>
 
 <h1>
 <a id="install-notes-and-guide" class="anchor" href="#install-notes-and-guide" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install notes and guide</h1>
@@ -68,8 +83,6 @@ $ git checkout gh-pages
 <ol>
 <li>Execute : app/console doctrine:schema:create</li>
 </ol>
-
-<p><img src="http://www.createinstant.com/images/logo2.png" alt="Image of Instant"></p>
 
 <p>(optionnel)
 I-101 Executer en root : chmod -R 777 app/cache/ app/logs/
@@ -110,26 +123,18 @@ Editer le 140dev/db/db_config.php; spécifier le paramétrage de la base de donn
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
 <p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/CosaVostra/instant/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/CosaVostra/instant/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/CosaVostra/instant"></a> is maintained by <a href="https://github.com/CosaVostra">CosaVostra</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
     </div>
 
-            <script type="text/javascript">
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Instant maintained by <a href="https://github.com/CosaVostra">CosaVostra</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -139,6 +144,7 @@ Editer le 140dev/db/db_config.php; spécifier le paramétrage de la base de donn
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
