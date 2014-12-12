@@ -57,8 +57,8 @@
 
 <p>Anyone can be a publisher on !nstant: Users display their expertise around breaking news moments. Publishers choose the most reliable voices, add their own posts, create timelines, contextualize information and share their points of view. All of this in a platform designed to work easily and quickly, and focused on the place where most users are consuming the news nowadays: on mobile. </p>
 
-<h2>
-<a id="nstant-for-users" class="anchor" href="#nstant-for-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>!nstant for Users</h2>
+<h3>
+<a id="nstant-for-users" class="anchor" href="#nstant-for-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>!nstant for Users</h3>
 
 <p>Find Twitter information that has been already selected and organised in a platform designed to isolate what’s important and look for valuable sources. !nstant offers quick and easy access to different curated lists around a story. Choose between specific !nstant timelines created by journalists, editors, experts and general users - without altering your regular followers. Unfollow the list after the news event - your Twitter follower list never changes.</p>
 
@@ -66,8 +66,8 @@
 
 <p>As your !nstant is published, followed accounts will be notified that they have been selected as a recommended source for an event.</p>
 
-<h2>
-<a id="whos-behind-nstant" class="anchor" href="#whos-behind-nstant" aria-hidden="true"><span class="octicon octicon-link"></span></a>Who's behind !nstant?</h2>
+<h3>
+<a id="whos-behind-nstant" class="anchor" href="#whos-behind-nstant" aria-hidden="true"><span class="octicon octicon-link"></span></a>Who's behind !nstant?</h3>
 
 <p>!nstant was created by experienced journalists and digital entrepreneurs living in France, Spain, Chile and United States. !nstant began when the team members were all fellows at the <strong>Nieman Foundation for Journalism at Harvard</strong>.</p>
 
@@ -89,8 +89,8 @@
 
 <p>This should allow you to create a fresh install of !nstant on your server. !nstant runs on Symfony 2.1, the 140Dev library for accessing the Twitter Streaming API, and uses a standard up-to-date MySQL database.</p>
 
-<h2>
-<a id="symfony" class="anchor" href="#symfony" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symfony</h2>
+<h3>
+<a id="symfony" class="anchor" href="#symfony" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symfony</h3>
 
 <ul>
 <li><p>Execute : <code>cp app/config/parameters.yml.dist app/config/parameters.yml</code></p></li>
@@ -123,8 +123,8 @@ $this-&gt;userProvider-&gt;updateUser($user);</code></p></li>
 (you might have to run <code>rm -rf app/cache/*</code> )</li>
 </ul>
 
-<h2>
-<a id="140dev-twitter-streaming-api-framework" class="anchor" href="#140dev-twitter-streaming-api-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>140dev (Twitter Streaming API Framework)</h2>
+<h3>
+<a id="140dev-twitter-streaming-api-framework" class="anchor" href="#140dev-twitter-streaming-api-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>140dev (Twitter Streaming API Framework)</h3>
 
 <ul>
 <li><p>Execute : <code>cp 140dev/db/140dev_config.php.dist 140dev/db/140dev_config.php</code></p></li>
@@ -135,8 +135,8 @@ $this-&gt;userProvider-&gt;updateUser($user);</code></p></li>
 <li><p>Create a recurring job to run the PHP script <code>140dev/db/garbage_tweet.php</code> to clean the Tweet table of "orphan" tweets (for instance it will remove duplicate RTs). The recurrence could be hourly.</p></li>
 </ul>
 
-<h2>
-<a id="mysql" class="anchor" href="#mysql" aria-hidden="true"><span class="octicon octicon-link"></span></a>MySQL</h2>
+<h3>
+<a id="mysql" class="anchor" href="#mysql" aria-hidden="true"><span class="octicon octicon-link"></span></a>MySQL</h3>
 
 <ul>
 <li>Create the process and the trigger to receive, sort and feed the !nstants with the tweets arriving through the Twitter Streaming API. The code to launch on a regular basis is in <code>trigger.sql</code>
