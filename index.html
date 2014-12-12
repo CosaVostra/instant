@@ -41,6 +41,8 @@
 <h3>
 <a id="nstant-helps-you-identify-experts-and-witnesses-on-the-ground-and-share-that-information-on-a-large-scale" class="anchor" href="#nstant-helps-you-identify-experts-and-witnesses-on-the-ground-and-share-that-information-on-a-large-scale" aria-hidden="true"><span class="octicon octicon-link"></span></a>!nstant helps you identify experts and witnesses on the ground and share that information on a large scale.</h3>
 
+<p>Test our live demo now on </p>
+
 <h2>
 <a id="nstant-for-publishers" class="anchor" href="#nstant-for-publishers" aria-hidden="true"><span class="octicon octicon-link"></span></a>!nstant for Publishers</h2>
 
@@ -61,17 +63,17 @@
 <h2>
 <a id="symfony" class="anchor" href="#symfony" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symfony</h2>
 
-<ol>
-<li>Execute : cp app/config/parameters.yml.dist app/config/parameters.yml</li>
-<li>Execute : cp app/config/config.yml.dist app/config/config.yml</li>
-<li>Edit app/config/parameters.yml as well as app/config/config.yml</li>
-<li>Execute : php composer.phar install</li>
-<li>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed);"</li>
-<li>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php 'line 108) =&gt; add the following lines : 
+<ul>
+<li>[ ] Execute : cp app/config/parameters.yml.dist app/config/parameters.yml</li>
+<li>[ ] Execute : cp app/config/config.yml.dist app/config/config.yml</li>
+<li>[ ] Edit app/config/parameters.yml as well as app/config/config.yml</li>
+<li>[ ] Execute : php composer.phar install</li>
+<li>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed);"</li>
+<li>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php 'line 108) =&gt; add the following lines : 
 | $user-&gt;setLoginCount($user-&gt;getLoginCount()+1);
 | $this-&gt;userProvider-&gt;updateUser($user);</li>
-<li>Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</li>
-</ol>
+<li>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</li>
+</ul>
 
 <pre><code>91:            return new TwitterUserToken($accessToken['user_id'], null, array('ROLE_TWITTER_USER'));
 92:        }
@@ -80,13 +82,16 @@
 95:            $user = $this-&gt;userProvider-&gt;loadUserByUsername($accessToken['user_id']);
 </code></pre>
 
-<ol>
-<li>Execute : app/console doctrine:schema:create</li>
-</ol>
+<ul>
+<li>[ ] Execute : app/console doctrine:schema:create</li>
+</ul>
 
-<p>(optionnel)
-I-101 Executer en root : chmod -R 777 app/cache/ app/logs/
-Peut-etre sera-t-il necessaire de faire rm -rf app/cache/*</p>
+<p>(optional)</p>
+
+<ul>
+<li>[ ] Execute the root 'command' : chmod -R 777 app/cache/ app/logs/
+(you might have to run <code>rm -rf app/cache/*</code> )</li>
+</ul>
 
 <p>II) Chapitre 140dev (Framework pour Twitter Streaming API) :</p>
 
