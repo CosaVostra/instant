@@ -64,15 +64,15 @@
 <a id="symfony" class="anchor" href="#symfony" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symfony</h2>
 
 <ul>
-<li>[ ] Execute : cp app/config/parameters.yml.dist app/config/parameters.yml</li>
-<li>[ ] Execute : cp app/config/config.yml.dist app/config/config.yml</li>
-<li>[ ] Edit app/config/parameters.yml as well as app/config/config.yml</li>
-<li>[ ] Execute : php composer.phar install</li>
-<li>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed);"</li>
-<li>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php 'line 108) =&gt; add the following lines : 
-| $user-&gt;setLoginCount($user-&gt;getLoginCount()+1);
-| $this-&gt;userProvider-&gt;updateUser($user);</li>
-<li>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</li>
+<li><p>[ ] Execute : <code>cp app/config/parameters.yml.dist app/config/parameters.yml</code></p></li>
+<li><p>[ ] Execute : <code>cp app/config/config.yml.dist app/config/config.yml</code></p></li>
+<li><p>[ ] Edit app/config/parameters.yml as well as app/config/config.yml</p></li>
+<li><p>[ ] Execute : <code>php composer.phar install</code></p></li>
+<li><p>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) =&gt; delete second <code>param (null) -&gt; "throw new AuthenticationException($failed-&gt;getMessage(), $failed-&gt;getCode(), $failed)"</code></p></li>
+<li><p>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 108) =&gt; add the following lines : 
+<code>$user-&gt;setLoginCount($user-&gt;getLoginCount()+1);
+$this-&gt;userProvider-&gt;updateUser($user);</code></p></li>
+<li><p>[ ] Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) =&gt; replace $accessToken['screen_name'] by $accessToken['user_id'] :</p></li>
 </ul>
 
 <pre><code>91:            return new TwitterUserToken($accessToken['user_id'], null, array('ROLE_TWITTER_USER'));
@@ -83,13 +83,14 @@
 </code></pre>
 
 <ul>
-<li>[ ] Execute : app/console doctrine:schema:create</li>
+<li>[ ] Execute : <code>app/console doctrine:schema:create</code>
+</li>
 </ul>
 
 <p>(optional)</p>
 
 <ul>
-<li>[ ] Execute the root 'command' : chmod -R 777 app/cache/ app/logs/
+<li>[ ] Execute the root command : <code>chmod -R 777 app/cache/ app/logs/</code>
 (you might have to run <code>rm -rf app/cache/*</code> )</li>
 </ul>
 
