@@ -1,174 +1,97 @@
-Symfony Standard Edition
-========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+![Image of Instant](http://www.createinstant.com/images/logo2.png)
 
-1) Installing the Standard Edition
-----------------------------------
+### Why we created !nstant?
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+During a breaking news situation, the volume of information on social media can be overwhelming for anyone. Hashtags may be ineffective and lists are not frequently updated or easily accessible. Valuable content is out there - it’s just **hard to find**. 
 
-### Use Composer (*recommended*)
+!nstant helps you identify experts and witnesses on the ground and share that information on a large scale. | 
+------------ | 
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+**To understand and play with !nstant, [test ouf live demo](http://www.createinstant.com) now !** 
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+### !nstant for Publishers
 
-    curl -s http://getcomposer.org/installer | php
+!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.
 
-Then, use the `create-project` command to generate a new Symfony application:
+Anyone can be a publisher on !nstant: Users display their expertise around breaking news moments. Publishers choose the most reliable voices, add their own posts, create timelines, contextualize information and share their points of view. All of this in a platform designed to work easily and quickly, and focused on the place where most users are consuming the news nowadays: on mobile. 
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+### !nstant for Users
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+Find Twitter information that has been already selected and organised in a platform designed to isolate what’s important and look for valuable sources. !nstant offers quick and easy access to different curated lists around a story. Choose between specific !nstant timelines created by journalists, editors, experts and general users - without altering your regular followers. Unfollow the list after the news event - your Twitter follower list never changes.
 
-### Download an Archive File
+To create an !nstant, sign in with your Twitter account at [createinstant.com](http://www.createinstant.com). To build your timeline, look for interesting accounts in the "Who to follow" column or through key words in the "Tweets" column. A third column serves as a final filter: making sure only relevant tweets will show up in your !nstant timeline. Your final !nstant timeline will be the sum of filtered tweets from recommended accounts and the messages specially selected by you.
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
+As your !nstant is published, followed accounts will be notified that they have been selected as a recommended source for an event.
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+### Who's behind !nstant?
 
-    php composer.phar install
+!nstant was created by experienced journalists and digital entrepreneurs living in France, Spain, Chile and United States. !nstant began when the team members were all fellows at the **Nieman Foundation for Journalism at Harvard**.
+* Ludovic Blecher is director of the Digital Innovation Press Fund Google&AIPG - [@lblecher](http://twitter.com/lblecher)
+* Alexandra Garcia, Senior Video Journalist, The New York Times. Ten years as visual and interactive journalist - [@garcia_alexndra](http://twitter.com/garcia_alexndra)
+* Paula Molina, journalist, BBC correspondent, 10 years anchor and editor of a daily news Radio program at Radio Cooperativa, Chile - [@paulamolinat](http://twitter.com/paulamolinat)
+* Borja Echevarría, former Deputy Managing Editor at EL PAÍS and soon Vice President, Digital, for Univision News - [@borjaechevarria](http://twitter.com/borjaechevarria)
 
-2) Checking your System Configuration
--------------------------------------
+Contact: [createinstant@gmail.com](createinstant@gmail.com)
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+### Browse public !nstants 
 
-Execute the `check.php` script from the command line:
+Here are the last public !nstants created on the platform : **[browse the latest public !nstants](http://createinstant.com/public_instants)**
 
-    php app/check.php
 
-Access the `config.php` script from a browser:
+# Install notes and guide
 
-    http://localhost/path/to/symfony/app/web/config.php
+This should allow you to create a fresh install of !nstant on your server. !nstant runs on Symfony 2.1, the 140Dev library for accessing the Twitter Streaming API, and uses a standard up-to-date MySQL database.
 
-If you get any warnings or recommendations, fix them before moving on.
+### Symfony
 
-3) Browsing the Demo Application
---------------------------------
+* Execute : `cp app/config/parameters.yml.dist app/config/parameters.yml`
 
-Congratulations! You're now ready to use Symfony.
+* Execute : `cp app/config/config.yml.dist app/config/config.yml`
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
+* Edit app/config/parameters.yml as well as app/config/config.yml
 
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
+* Execute : `php composer.phar install`
 
-To see a real-live Symfony page in action, access the following page:
+* Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) => delete second `param (null) -> "throw new AuthenticationException($failed->getMessage(), $failed->getCode(), $failed)"`
 
-    web/app_dev.php/demo/hello/Fabien
+* Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 108) => add the following lines : 
+` $user->setLoginCount($user->getLoginCount()+1);
+$this->userProvider->updateUser($user);`
 
-4) Getting started with Symfony
--------------------------------
+* Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (lines 91 and 95) => replace $accessToken['screen_name'] by $accessToken['user_id'] :
+```
+91:            return new TwitterUserToken($accessToken['user_id'], null, array('ROLE_TWITTER_USER'));
+92:        }
+93:
+94:        try {
+95:            $user = $this->userProvider->loadUserByUsername($accessToken['user_id']);
+```
+* Execute : `app/console doctrine:schema:create`
 
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
+(optional)
+- [ ] Execute the root command : `chmod -R 777 app/cache/ app/logs/`
+(you might have to run `rm -rf app/cache/*` )
 
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
+### 140dev (Twitter Streaming API Framework)
 
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
+* Execute : `cp 140dev/db/140dev_config.php.dist 140dev/db/140dev_config.php`
 
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
+* Edit file `140dev/db/140dev_config.php` with your Twitter app info as well as the logs email address
 
-  * delete the `src/Acme` directory;
+* Execute : `cp 140dev/db/db_config.php.dist 140dev/db/db_config.php`
 
-  * remove the routing entries referencing AcmeBundle in
-    `app/config/routing_dev.yml`;
+* Edit file `140dev/db/db_config.php` and specify your DB parameters
 
-  * remove the AcmeBundle from the registered bundles in `app/AppKernel.php`;
+* Create a table called **json_cache** (you'll find the code in the file `140dev/db/mysql_database_schema.sql`)
 
-  * remove the `web/bundles/acmedemo` directory;
+* Create a recurring job to run the PHP script `140dev/db/garbage_tweet.php` to clean the Tweet table of "orphan" tweets (for instance it will remove duplicate RTs). The recurrence could be hourly.
 
-  * remove the `security.providers`, `security.firewalls.login` and
-    `security.firewalls.secured_area` entries in the `security.yml` file or
-    tweak the security configuration to fit your needs.
+### MySQL
 
-What's inside?
----------------
+* Create the process and the trigger to receive, sort and feed the !nstants with the tweets arriving through the Twitter Streaming API. The code to launch on a regular basis is in `trigger.sql`
 
-The Symfony Standard Edition is configured with the following defaults:
+### Authors and Contributors
 
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * [**JMSSecurityExtraBundle**][13] - Allows security to be added via
-    annotations
-
-  * [**JMSDiExtraBundle**][14] - Adds more powerful dependency injection
-    features
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][15] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.2/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.2/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.2/index.html
-[6]:  http://symfony.com/doc/2.2/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.2/book/doctrine.html
-[8]:  http://symfony.com/doc/2.2/book/templating.html
-[9]:  http://symfony.com/doc/2.2/book/security.html
-[10]: http://symfony.com/doc/2.2/cookbook/email.html
-[11]: http://symfony.com/doc/2.2/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.2/cookbook/assetic/asset_management.html
-[13]: http://jmsyst.com/bundles/JMSSecurityExtraBundle/master
-[14]: http://jmsyst.com/bundles/JMSDiExtraBundle/master
-[15]: http://symfony.com/doc/2.2/bundles/SensioGeneratorBundle/index.html
+!nstant was developed by [CosaVostra](http://www.cosavostra.com) and [createInstant.com](http://www.createinstant.com) is hosted on [Pilot Systems](http://www.pilotsystems.net/).
