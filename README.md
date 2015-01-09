@@ -1,6 +1,7 @@
 
-
 ![Image of Instant](http://www.createinstant.com/images/logo2.png)
+!nstant allows newsroom reporters and editors to do what they do best: curate valuable content and relevant voices. On !nstant, timelines and temporary follow lists are easy to create and easy to find.
+
 
 ### Why we created !nstant?
 
