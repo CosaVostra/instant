@@ -12,7 +12,7 @@ During a breaking news situation, the volume of information on social media can 
 !nstant helps you identify experts and witnesses on the ground and share that information on a large scale. | 
 ------------ | 
 
-**To understand and play with !nstant, [test ouf live demo](http://www.createinstant.com) now !** 
+**To understand and play with !nstant, [test our live demo](http://www.createinstant.com) now !** 
 
 ### !nstant for Publishers
 
