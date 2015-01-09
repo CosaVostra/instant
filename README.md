@@ -57,7 +57,7 @@ This should allow you to create a fresh install of !nstant on your server. !nsta
 
 * Execute : `php composer.phar install`
 
-* Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) => delete second `param (null) -> "throw new AuthenticationException($failed->getMessage(), $failed->getCode(), $failed)"`
+* Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 77) => delete second param (null) `throw new AuthenticationException($failed->getMessage(), $failed->getCode(), $failed)`
 
 * Edit vendor/friendsofsymfony/twitter-bundle/FOS/TwitterBundle/Security/Authentication/Provider/TwitterProvider.php (line 108) => add the following lines : 
 ` $user->setLoginCount($user->getLoginCount()+1);
